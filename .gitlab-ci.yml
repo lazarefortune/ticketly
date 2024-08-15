@@ -1,26 +1,28 @@
 image: php:8.1-cli
+
 stages:
   - setup
+  - test
   - deploy_beta
   - deploy
+
 cache:
   paths:
     - vendor/
     - node_modules/
+
 setup:
   stage: setup
   script:
     - apt-get update -yqq
-    - apt-get install -yqq git unzip libpq-dev postgresql-client zlib1g-dev
-      libzip-dev
+    - apt-get install -yqq git unzip libpq-dev postgresql-client zlib1g-dev libzip-dev
     - docker-php-ext-install pdo pdo_pgsql zip
     - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar install --prefer-dist --no-ansi --no-interaction
-      --no-scripts
+    - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
+
 test:
   stage: test
-  script:
-    - php bin/phpunit
+
 deploy_beta:
   stage: deploy_beta
   script:
@@ -35,19 +37,15 @@ deploy_beta:
     - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta
-      && composer2 install --prefer-dist --no-ansi --no-interaction
-      --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta
-      && php bin/console doctrine:migrations:migrate --no-interaction"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta
-      && php bin/console cache:clear"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta
-      && npm install"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta
-      && npm run build"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && composer2 install --prefer-dist --no-ansi --no-interaction --no-scripts"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && npm install"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && npm run build"
+
   only:
     - beta
+
 deploy:
   stage: deploy
   script:
@@ -61,17 +59,10 @@ deploy:
     - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd
-      public_html/ticketly && composer2 install --no-dev --prefer-dist --no-ansi
-      --no-interaction --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd
-      public_html/ticketly && php bin/console doctrine:migrations:migrate
-      --no-interaction"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd
-      public_html/ticketly && php bin/console cache:clear"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd
-      public_html/ticketly && pnpm install"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd
-      public_html/ticketly && pnpm run build"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && composer2 install --no-dev --prefer-dist --no-ansi --no-interaction --no-scripts"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && pnpm install"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && pnpm run build"
   only:
     - main
