@@ -22,6 +22,8 @@ setup:
 
 test:
   stage: test
+  script: # do nothing
+    - echo "Testing..."
 
 deploy_beta:
   stage: deploy_beta
