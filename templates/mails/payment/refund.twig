@@ -1,0 +1,32 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ ticket.name }},
+
+        Nous vous informons que votre demande de remboursement a bien été prise en compte.
+        Vous trouverez ci-dessous le détail de votre demande :
+
+        - **Numéro de ticket** : {{ ticket.ticketNumber }}
+        - **Événement** : {{ ticket.event.name }}
+        - **Montant** : {{ ticket.payment.amount|price_format }}
+        - **Date de l'achat ** : {{ ticket.buyAt|date('d/m/Y H:i') }}
+        - **Date de remboursement** : {{ ticket.payment.updatedAt|date('d/m/Y H:i') }}
+        - **Moyen de paiement** : {{ ticket.payment.paymentMethod }}
+        - **Statut** : {{ ticket.payment.status }}
+
+        Vous recevrez le remboursement sur le moyen de paiement utilisé lors de l'achat dans un délai de 5 jours ouvrés.
+
+        Votre ticket a été annulé et ne sera plus valable pour l'événement.
+
+        Nous vous remercions pour votre confiance et restons à votre disposition pour toute information complémentaire.
+
+    {% endapply %}
+
+    {{ e.signature(app_name) }}
+
+{% endblock %}

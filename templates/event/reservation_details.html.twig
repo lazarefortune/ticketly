@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block body %}
+    {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
+
+    <div class="container-box bg-white pb-20">
+        {{ form_start(confirmReservationForm) }}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+            <div class="stack-large">
+                <div class="stack">
+                    <h2 class="h4">Informations de contact</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-2 md:col-span-1">
+                            {{ form_row(confirmReservationForm.name) }}
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            {{ form_row(confirmReservationForm.phoneNumber) }}
+                        </div>
+                        <div class="col-span-2">
+                            {{ form_row(confirmReservationForm.email) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="stack">
+                    <h2 class="h4">Paiement</h2>
+                    <div>
+                        {{ form_row(confirmReservationForm.paymentMethod) }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Payez {{ reservation.totalAmount|price_format }}</button>
+            </div>
+            <div class="stack order-first md:order-last">
+                <h2 class="h4">Résumé de la commande</h2>
+                <div class="bg-primary-50 border-l-4 border-primary-400 p-4">
+                    <p class="text-primary-700">Vous avez jusqu'à {{ reservation.expiresAt|date('H:i') }} pour finaliser votre paiement.</p>
+                </div>
+                <div class="stack p-4 md:p-6 bg-gray-50 shadow-md rounded">
+                    <div>
+                        <p class="uppercase mb-2">{{ event.name }}</p>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            {{ icon('calendar') }}
+                            <span>{{ event_duration(event.startDate, event.endDate) }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-500">
+                            {{ icon('map-pin') }}
+                            <span>{{ event.location }}</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-200 pt-4">
+                        <p class="text-slate-500">Prix: {{ event.price|price_format }}</p>
+                        <div class="flex justify-between">
+                            <p class="text-slate-500">Quantité: {{ reservation.quantity }}</p>
+                            <p>{{ reservation.subTotal|price_format }}</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-200 pt-4">
+                        <div class="flex justify-between">
+                            <p class="text-slate-500">Sous-total</p>
+                            <p>{{ reservation.subTotal|price_format }}</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p class="text-slate-500">Frais de service</p>
+                            <p>{{ reservation.serviceCharge|price_format }}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between border-t border-slate-200 pt-4">
+                        <p class="text-lg font-medium">Total</p>
+                        <p class="text-lg font-medium">{{ reservation.totalAmount|price_format }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(confirmReservationForm) }}
+    </div>
+
+{% endblock %}

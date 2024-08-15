@@ -1,0 +1,77 @@
+<aside class="sidebar -translate-x-full lg:translate-x-0" id="sidebar">
+    <div class="text-left text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+        Logo here
+    </div>
+    <nav class="sidebar--nav">
+        <div>
+            <div class="sidebar--nav-title">
+                Menu Principal
+            </div>
+            <ul class="flex flex-col gap-1">
+                <li>
+                    <a href="{{ path('admin_home') }}"
+                       class="sidebar--nav-item {{ menu_active('admin_home') }}">
+                        {{ icon('home') }}
+                        Dashboard
+                    </a>
+                </li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li>
+                        <a href="{{ path('admin_users_index') }}"
+                           class="sidebar--nav-item {{ menu_active('admin_user') }}">
+                            {{ icon('users') }}
+                            Clients
+                        </a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('app_home') }}" class="sidebar--nav-item">
+                        {{ icon('app-window' ) }}
+                        Site public
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="sidebar--nav-title">
+                Gestion & Services
+            </div>
+            <ul class="flex flex-col gap-1">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('admin_transaction_index') }}"
+                           class="sidebar--nav-item {{ menu_active('admin_transaction') }}">
+                            {{ icon('wallet') }}
+                            Finances
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_event_index') }}"
+                           class="sidebar--nav-item {{ menu_active('admin_event') }}">
+                            {{ icon('calendar-days') }}
+                            Évènements
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_ticket_index') }}"
+                           class="sidebar--nav-item {{ menu_active('admin_ticket') }}">
+                            {{ icon('ticket') }}
+                            Tickets
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_contact_index') }}"
+                           class="sidebar--nav-item {{ menu_active('admin_contact_') }}">
+                            {{ icon('message-circle-question' ) }}
+                            Réclamations
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</aside>
+
+<div class="fixed inset-0 z-[35] hidden bg-slate-500/50 backdrop-blur-[2px]" id="sidebar-backdrop"></div>
+
+<spotlight-bar target=".sidebar--nav a" trigger-id="spotlight--trigger"></spotlight-bar>

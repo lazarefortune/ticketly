@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+    <div class="hero relative container-box w-full">
+            <h2 class="h1 reveal text-primary-700">Ton endroit et moment préféré</h2>
+
+            <!-- image mosaïque -->
+
+
+
+        <div class="max-h-96 overflow-hidden">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-1 h-full">
+                <!-- Première colonne -->
+                <div class="grid grid-rows-3 gap-1 h-full">
+                    <div class="row-span-1 h-40">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                    </div>
+                    <div class="row-span-2 h-60">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                    </div>
+                </div>
+                <!-- Deuxième colonne -->
+                <div class="grid grid-rows-3 gap-1 h-full">
+                    <div class="row-span-2 h-60">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                    </div>
+                    <div class="row-span-1 h-40">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                    </div>
+                </div>
+                <!-- Troisième colonne -->
+                <div class="grid grid-rows-3 gap-1 h-full">
+                    <div class="row-span-1 h-32">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                    </div>
+                    <div class="row-span-2 h-64">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                    </div>
+                </div>
+                <!-- Quatrième colonne -->
+                <div class="grid grid-rows-3 gap-1 h-full">
+                    <div class="row-span-2 h-64">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                    </div>
+                    <div class="row-span-1 h-32">
+                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div>
+            <h1 class="h1">Évènements à venir</h1>
+            <ul>
+                {% for event in eventsToCome %}
+                <li>
+                    <a href="{{ path('app_event_show', {slug: event.slug}) }}">{{ event.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+
+
+
+
+        {#            <div class="mt-10 w-full reveal flex gap-1 overflow-auto" data-delay=".4">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
+{#            </div>#}
+
+{#        <div class="hero__body">#}
+{#            <div class="hero__hello reveal">Ton endroit et moment préféré</div>#}
+{#            <div class="hero__name reveal" data-delay=".2">#}
+{#                LJ BetweenUS#}
+{#            </div>#}
+{#            <div class="hero__job reveal" data-delay=".3">#}
+{#                Coucou, c'est nous !#}
+{#            </div>#}
+{#            <div class="hero__cta mt-10 reveal" data-delay=".4">#}
+{#                <a href="" class="btn-lg btn-primary">#}
+{#                    Nos évènements#}
+{#                </a>#}
+{#                <a href="{{ path('app_contact') }}" class="btn-lg btn-outline-primary">#}
+{#                    Nous contacter#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="hero__img reveal" data-delay=".4">#}
+{#            <img src="{{ asset('images/construction.svg') }}">#}
+{#        </div>#}
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,68 @@
+vich_uploader:
+    db_driver: orm
+    metadata:
+        type: attribute
+
+    mappings:
+        avatar_images:
+            uri_prefix: '%avatar_images%'
+            upload_destination: '%kernel.project_dir%/public%avatar_images%'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_update: true
+            delete_on_remove: true
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'
+    #        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        attachments:
+            uri_prefix: /uploads/attachments
+            upload_destination: '%kernel.project_dir%/public/uploads/attachments'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            directory_namer:
+                service: Vich\UploaderBundle\Naming\CurrentDateTimeDirectoryNamer
+                options:
+                    date_time_format: 'Y/m'
+                    date_time_property: createdAt
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        event_images:
+            uri_prefix: /event_images
+            upload_destination: '%kernel.project_dir%/public/event_images'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_update: true
+            delete_on_remove: true
+
+        ticket_qr_codes:
+            uri_prefix: /tickets/qr-codes
+            upload_destination: '%kernel.project_dir%/public/tickets/qr-codes'
+            namer:
+                service: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        icons:
+            uri_prefix: /uploads/icons
+            upload_destination: '%kernel.project_dir%/public/uploads/icons'
+            namer:
+                service: Vich\UploaderBundle\Naming\PropertyNamer
+                options: { property: 'slug' }
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        sources:
+            upload_destination: '%kernel.project_dir%/downloads/sources'
+            namer:
+                service: Vich\UploaderBundle\Naming\PropertyNamer
+                options: { property: 'slug' }
+            directory_namer:
+                service: Vich\UploaderBundle\Naming\CurrentDateTimeDirectoryNamer
+                options:
+                    date_time_format: 'Y/m'
+                    date_time_property: createdAt
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

@@ -1,0 +1,63 @@
+{{ form_start(form) }}
+
+<div class="stack-large">
+    <div class="stack">
+        <h6 class="h3">
+            Informations basiques
+        </h6>
+        <div class="stack ">
+            {{ form_row(form.name) }}
+            {{ form_row(form.slug) }}
+            {{ form_row(form.description) }}
+        </div>
+        <div>
+            {{ form_row(form.isActive, { 'label': 'En ligne ?' }) }}
+        </div>
+    </div>
+
+    <div class="stack">
+        <h6 class="h3">
+            Calendrier
+        </h6>
+        <div class="stack ">
+            <div class="grid2">
+                {{ form_row(form.startDate) }}
+                {{ form_row(form.endDate) }}
+            </div>
+            <div class="grid2">
+                {{ form_row(form.endSaleDate) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="stack">
+        <h6 class="h3">
+            Personnalisation
+        </h6>
+        <div class="stack ">
+            <div class="grid2">
+                {{ form_row(form.price) }}
+                {{ form_row(form.maxSpace) }}
+            </div>
+            <address-autocomplete input-selector=".address-input">
+                {{ form_row(form.location, { attr : { 'class': 'address-input' } }) }}
+            </address-autocomplete>
+        </div>
+
+        {% if entity.image %}
+            <img src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.slug }}-logo" class="w-24 h-auto">
+        {% endif %}
+        {{ form_row(form.imageFile) }}
+
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-md btn-primary">
+            {{ icon('save') }}
+            <span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

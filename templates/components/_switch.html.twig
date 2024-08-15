@@ -1,0 +1,6 @@
+<label for="{{ form.vars.id }}" class="switch-container">
+    <input type="checkbox" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" class="switch-input peer"
+           {% if checked %}checked{% endif %}/>
+    <div class="switch-slider"></div>
+    <span class="switch-label">{{ label }}</span>
+</label>

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block body %}
+
+    <div class="container-box bg-slate-100">
+        <div class="min-h-screen">
+
+            <div class="flex flex-col gap-4 max-w-3xl mx-auto py-40">
+                <div class="stack text-center border shadow rounded-xl bg-white p-10">
+                    <h1 class="h3 mx-auto text-center">{{ event.name }}</h1>
+                    <div class="flex items-center gap-2 justify-center text-muted">
+                        {{ icon('calendar') }}
+                        <span>
+                            {% if event.startDate|date('d/m/Y') == event.endDate|date('d/m/Y') %}
+                                Le {{ event.startDate|date('d/m/Y à H:i') }} - {{ event.endDate|date('H:i') }}
+                            {% else %}
+                                Du {{ event.startDate|date('d/m/Y à H:i') }} au {{ event.endDate|date('d/m/Y à H:i') }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 justify-center text-muted">
+                        {{ icon('map-pin') }}
+                        <span>{{ event.location }}</span>
+                    </div>
+                    <div class="flex -space-x-2 overflow-hidden mx-auto">
+                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="">
+                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                    </div>
+                    <!--
+                    <div class="flex items-center gap-2 justify-center text-muted">
+                        {{ icon('circle-dollar-sign') }}
+                        <span>{{ event.price|price_format }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 justify-center text-muted">
+                        {{ icon('users') }}
+                        <span>{{ event.remainingSpaces }} places disponibles</span>
+                    </div>
+                    -->
+                    <div class="mx-auto flex gap-4 mt-4">
+                        <a href="" class="btn btn-secondary">Voir plus</a>
+                        <a href="{{ path('app_event_buy_ticket', {slug: event.slug}) }}" class="btn btn-primary">S'inscrire</a>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+
+            {#            <h1 class="h1">{{ event.name }}</h1>#}
+            {#            <p class="text-muted">{{ event.description }}</p>#}
+            {#            <p class="text-muted">{{ event.startDate|date('d/m/Y') }} - {{ event.endDate|date('d/m/Y') }}</p>#}
+            {#            <p class="text-muted">{{ event.location }}</p>#}
+            {#            <p class="text-muted">{{ event.price|price_format }}</p>#}
+            {#            <p class="text-muted">{{ event.remainingSpaces }} places disponibles sur {{ event.maxSpace }}</p>#}
+            {#            <p class="text-muted">Créé {{ event.createdAt|ago }}</p>#}
+
+            {#            {% if not event.isFull %}#}
+            {#                <a href="{{ path('app_event_buy_ticket', {slug: event.slug}) }}" class="btn btn-primary">S'inscrire</a>#}
+            {#            {% endif %}#}
+        </div>
+    </div>
+
+{% endblock %}

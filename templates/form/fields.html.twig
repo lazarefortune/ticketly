@@ -1,0 +1,93 @@
+{% extends 'form_div_layout.html.twig' %}
+
+
+{% block switch_row %}
+    {% include 'components/_switch.html.twig' %}
+{% endblock %}
+
+{% block captcha_row %}
+    <div class="">
+        <puzzle-challenge
+            width="{{ attr.width }}" height="{{ attr.height }}"
+            piece-width="{{ attr.pieceWidth }}" piece-height="{{ attr.pieceHeight }}"
+            src="{{ attr.src }}"
+        >
+                {{ form_widget(form.challenge, {value: challenge}) }}
+                {{ form_widget(form.answer) }}
+        </puzzle-challenge>
+        <span class="text-xs">{{ form_help(form) }}</span>
+        {% if form.parent.vars.errors|length > 0 %}
+            <div class="form-error">
+                {{ form_errors(form.parent) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block money_widget %}
+    <div class="relative rounded-md shadow-sm">
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+        <span class="text-gray-500 sm:text-md">
+            {{ form.vars.currency|default('€') }}
+        </span>
+        </div>
+        <input type="text"
+                {{ block('widget_attributes') }}
+               value="{{ form.vars.value }}"
+               placeholder="0.00">
+    </div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="flex flex-col gap-1">
+        {{ form_label(form, null, { 'label_attr': {'class': 'label'} }) }}
+        {{ form_widget(form) }}
+        {% if form.vars.errors %}
+            <div class="form-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+ {% block choice_widget_expanded %}
+     <div {{ block('widget_container_attributes') }}>
+         {% for child in form %}
+             <div class="flex items-center space-x-2">
+                 {{ form_widget(child) }}
+                 {{ form_label(child) }}
+             </div>
+         {% endfor %}
+     </div>
+ {% endblock %}
+
+{% block choice_multiple_row %}
+    {% set container_attributes = block('widget_container_attributes')|spaceless %}
+    {% set widget_attributes = block('widget_attributes')|spaceless %}
+    {% include 'components/_choice_multiple.html.twig' with {'container_attributes': container_attributes, 'widget_attributes': widget_attributes} %}
+{% endblock %}
+
+{% block slot_choice_row %}
+    {{ form_label(form) }}
+    <div {{ block('widget_container_attributes') }} class="w-full mt-1.5">
+        <ul class="flex flex-wrap gap-3">
+            {% for child in form %}
+                <li class="w-full sm:w-1/3 lg:w-1/4">
+                    <input type="radio" id="{{ child.vars.id }}" value="{{ child.vars.value }}" class="hidden peer"
+                           {% if child.vars.checked %}checked{% endif %}
+                           name="{{ full_name }}"
+                            {{ block('widget_attributes') }}
+                    >
+                    <label for="{{ child.vars.id }}"
+                           class="flex items-center justify-between w-full px-5 py-2 text-slate-900 bg-white dark:text-white dark:bg-slate-900 border-2
+                           border-slate-100 dark:border-slate-800 rounded cursor-pointer peer-checked:border-primary-600 hover:bg-primary-50 hover:text-primary-700
+                           dark:hover:text-white dark:hover:bg-slate-800
+                           peer-checked:text-primary-700 dark:peer-checked:text-white dark:peer-checked:bg-slate-800 dark:peer-checked:border-slate-500 transition duration-200 ease-in-out">
+                        <span class="text-base mx-auto">{{ child.vars.label }}</span>
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+

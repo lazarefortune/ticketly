@@ -1,0 +1,169 @@
+{% extends 'admin/base.html.twig' %}
+
+{% import 'admin/appointment/macros.twig' as element %}
+
+{% block body %}
+
+    <div class="mx-auto max-w-6xl">
+        <div class="max-lg:hidden">
+            <a class="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+                                      data-headlessui-state="" href="{{ path('admin_event_index') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+                     data-slot="icon" class="size-4 fill-zinc-400 dark:fill-zinc-500">
+                    <path fill-rule="evenodd"
+                          d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                Évènements
+            </a>
+        </div>
+        <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-6">
+                <div class="w-32 shrink-0"><img class="aspect-[3/2] rounded-lg shadow" src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.slug }}-logo"></div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <h1
+                                class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+                            {{ event.name }}
+                        </h1>
+                        {% if event.isExpired %}
+                            <span
+                                    class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-red-400/20 text-red-700 group-data-[hover]:bg-red-400/30 dark:bg-red-400/10 dark:text-red-300 dark:group-data-[hover]:bg-red-400/15">
+                                Ventes terminées
+                            </span>
+                        {% else %}
+                            <span
+                                    class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">
+                                En vente
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="mt-2 text-sm/6 text-zinc-500">
+                        <div class="flex items-center">
+                            {{ icon('calendar') }}
+                            <span class="ml-2">{{ event_duration(event.startDate, event.endDate) }}</span>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            {{ icon('map-pin') }}
+                            <span class="ml-2">{{ event.location }}</span>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            {{ icon('coins') }}
+                            <span class="ml-2">{{ event.price|price_format }}</span>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            {{ icon('users') }}
+                            <span class="ml-2">{{ event.maxSpace }} place(s)</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-red-500">
+                            {{ icon('calendar-x-2') }}
+                            <span class="ml-2">Fin des ventes : {{ event.endSaleDate|format_datetime('medium', 'short', locale='fr') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <a href="{{ path('admin_event_edit', {id: event.id}) }}"
+                   class="btn-light">
+                    Modifier
+                </a>
+                <a href="{{ path('admin_event_show', {id: event.id}) }}"
+                   class="btn-primary">
+                    Consulter
+                </a>
+
+            </div>
+        </div>
+        <div class="mt-8 grid gap-8 sm:grid-cols-3">
+            <div>
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total revenue</div>
+                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ totalAmountIncome|price_format }}</div>
+            </div>
+            <div>
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Tickets vendus</div>
+                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ nbTickets }}/{{ event.maxSpace }} </div>
+            </div>
+            <div>
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Réservations</div>
+                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ nbReservations }}</div>
+            </div>
+        </div>
+        <h2 class="mt-12 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">Réservations récentes</h2>
+        <div class="flow-root">
+            <div class="mt-4 [--gutter:theme(spacing.6)] lg:[--gutter:theme(spacing.10)] -mx-[--gutter] overflow-x-auto whitespace-nowrap">
+                <div class="inline-block min-w-full align-middle sm:px-[--gutter]">
+                    <table class="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">
+                        <thead class="text-zinc-500 dark:text-zinc-400">
+                        <tr class="">
+                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                N° de réservation
+                            </th>
+                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                Date d'achat
+                            </th>
+                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                Ticket(s)
+                            </th>
+                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                Client
+                            </th>
+                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                Moyen de paiement
+                            </th>
+                            <th class="text-right border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                Montant
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reservation in reservations %}
+                        <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+                            <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="0"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.reservationNumber }}
+                            </td>
+                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.buyAt|format_datetime('medium', 'short', locale='fr') }}
+                            </td>
+                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.quantity }}
+                            </td>
+                            <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.name }}
+                            </td>
+                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.payment.paymentMethod }}
+                            </td>
+                            <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
+                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
+                                   href=""></a>
+                                {{ reservation.totalAmount|price_format }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+/public/uploads/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+.idea
+.vscode
+
+# public uploads files
+/public/uploads/avatars/*
+!/public/uploads/avatars/default.jpg
+public/uploads/images/realisations/*
+!/public/uploads/images/realisations/default.jpg
+
+# download files
+/downloads/*
+
+.DS_Store
+assets/.DS_Store
+
+.htaccess
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

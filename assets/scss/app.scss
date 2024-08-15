@@ -1,0 +1,44 @@
+@import "tools/typography";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "libs/flatpickr";
+
+/* Tools */
+@import "tools/reset";
+@import "tools/layout";
+@import "tools/animations";
+
+/* Modules */
+@import "modules/homepage";
+@import "modules/themeswitcher";
+@import "modules/footer";
+@import "modules/accordion";
+@import "modules/alert";
+@import "modules/badge";
+@import "modules/card";
+@import "modules/dropdown";
+@import "modules/switch";
+@import "modules/button";
+@import "modules/form";
+@import "modules/reveal";
+@import "modules/header";
+@import "modules/scroll-top";
+@import "modules/notification";
+@import "modules/nav-tabs";
+@import "modules/modal";
+@import "modules/scrollbar";
+@import "modules/pagination";
+@import "modules/chapters";
+@import "modules/breadcrumb";
+@import "modules/captcha";
+@import "modules/content";
+
+/* Libs */
+
+
+/* Pages */
+@import "pages/course";
+@import "pages/formation";
