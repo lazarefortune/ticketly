@@ -29,6 +29,8 @@ yarn-error.log
 /public/uploads/avatars/*
 !/public/uploads/avatars/default.jpg
 public/uploads/images/realisations/*
+public/tickets/*
+public/event_images/*
 !/public/uploads/images/realisations/default.jpg
 
 # download files
