@@ -2,7 +2,6 @@ image: php:8.1-cli
 
 stages:
   - setup
-  - test
   - deploy_beta
   - deploy
 
