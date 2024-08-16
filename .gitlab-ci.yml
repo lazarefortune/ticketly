@@ -22,8 +22,8 @@ setup:
 
 test:
   stage: test
-  script: # do nothing
-    - echo "Testing..."
+  script:
+    - php bin/phpunit
 
 deploy_beta:
   stage: deploy_beta
@@ -62,7 +62,7 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && composer2 install --no-dev --prefer-dist --no-ansi --no-interaction --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && php bin/console d:m:m --no-interaction"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && php bin/console cache:clear"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && pnpm install"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/ticketly && pnpm run build"

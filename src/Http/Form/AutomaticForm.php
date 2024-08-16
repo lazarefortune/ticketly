@@ -111,7 +111,6 @@ class AutomaticForm extends AbstractType
                 }
                 $builder->add( $name, self::NAMES[$name], $options );
             } elseif ( array_key_exists( $type->getName(), self::TYPES ) ) {
-                dump($type->getName());
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
                     'label' => $name,
