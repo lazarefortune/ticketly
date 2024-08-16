@@ -10,10 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'app:minute-cron', description: 'Commande de nettoyage minutieux')]
 class MinuteCronCommand extends Command
 {
-    protected static $defaultName = 'app:minute-cron';
 
     public function __construct(
         private readonly EntityManagerInterface $em,
@@ -37,7 +38,7 @@ class MinuteCronCommand extends Command
 
     public function cron( SymfonyStyle $io, InputInterface $input, OutputInterface $output ) : void
     {
-        $io->success( 'Daily cron executed' );
+        $io->success( 'Cron minutieux' );
     }
 
     /**
