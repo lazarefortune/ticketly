@@ -31,9 +31,9 @@
             {{ icon('user') }}
             Profil
         </a>
-        <a href="#tickets" data-tab-id="appointments">
-            {{ icon('calendar') }}
-            Mes tickets
+        <a href="#reservations" data-tab-id="appointments">
+            {{ icon('qr-code') }}
+            Réservations
         </a>
     </nav-tabs>
 
@@ -184,12 +184,39 @@
             </div>
         </div>
 
-        <div id="tickets">
+        <div id="reservations">
             <div class="stack">
-                <h3 class="h3">Mes tickets</h3>
+                <h3 class="h3">Mes réservations</h3>
 
                 <div class="card card-padding">
-                    <p class="text-muted">Vous n'avez pas de tickets ? découvrez nos évènements pour commencer </p>
+                    {% if reservations %}
+                        <table class="table-auto w-full">
+                            <thead>
+                            <tr>
+                                <th class="text-left">Date</th>
+                                <th class="text-left">Évènement</th>
+                                <th class="text-left">Lieu</th>
+                                <th class="text-left">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for reservation in reservations %}
+                                <tr>
+                                    <td>{{ reservation.event.startDate|date('d/m/Y H:i') }}</td>
+                                    <td>{{ reservation.event.name }}</td>
+                                    <td>{{ reservation.event.location }}</td>
+                                    <td>
+                                        <a href="{{ path('app_event_reservation_show', {'reservationNumber': reservation.reservationNumber}) }}"
+                                           class="text-red-800 underline">
+                                            Consulter
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    <p class="text-muted">Vous n'avez pas de réservations ? découvrez nos évènements pour commencer </p>
 
                     <div class="mt-6">
                         <a href="" class="btn-md btn-primary flex gap-3">
@@ -197,6 +224,7 @@
                             Découvrir les évènements
                         </a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

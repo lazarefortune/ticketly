@@ -17,7 +17,7 @@ class ReservationCleanupService
 
     public function cleanupExpiredReservations(): int
     {
-        $reservations = $this->em->getRepository(Reservation::class)->findBy(['status' => 'pending']);
+        $reservations = $this->em->getRepository(Reservation::class)->findBy(['status' => Reservation::STATUS_PENDING]);
 
         $count = 0;
         foreach ($reservations as $reservation) {

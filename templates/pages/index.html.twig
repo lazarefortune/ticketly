@@ -4,103 +4,63 @@
 
 {% block body %}
 
-    <div class="hero relative container-box w-full">
-            <h2 class="h1 reveal text-primary-700">Ton endroit et moment préféré</h2>
+    <div class="container-box">
+        <h1 class="text-2xl/6 font-semibold mt-5 text-center">Événements à venir</h1>
+        <ul class="my-5 max-w-3xl mx-auto space-y-6 min-h-[50vh]">
+            {% for row in eventsToCome %}
+                <li class="bg-white dark:bg-zinc-950/90 rounded-lg border border-zinc-100 shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex max-sm:flex-col flex-row gap-6 py-6">
+                            <div class="w-32 shrink-0">
+                                <a href="{{ path('app_event_show', {slug: row.slug}) }}">
+                                    <img src="{{ vich_uploader_asset(row, 'imageFile') }}" alt="{{ row.slug }}-logo"
+                                         class="aspect-[3/2] rounded-lg shadow">
+                                </a>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="text-base/6 font-medium">
+                                    <a data-headlessui-state="" href="{{ path('app_event_show', {slug: row.slug}) }}">
+                                        {{ row.name }}
+                                    </a>
+                                </div>
+                                <div class="text-xs/6 text-zinc-500">
+                                    <span>{{ event_duration(row.startDate, row.endDate) }}</span>
+                                </div>
+                                <div class="text-xs/6 text-zinc-600">
+                                    {{ row.location }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            {% if row.isExpired %}
+                                <span class="max-sm:hidden inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-red-400/20 text-red-700 group-data-[hover]:bg-red-400/30 dark:bg-red-400/10 dark:text-red-300 dark:group-data-[hover]:bg-red-400/15">Hors vente</span>
+                            {% else %}
+                                <span class="max-sm:hidden inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">En vente</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between mt-4">
+                        <div class="text-xs/6 text-zinc-600">
+                            Plus que {{ row.startDate|countdown('days') }} pour vous inscrire
+                        </div>
+                        <div class="text-xs/6 text-zinc-600">
+                            <span>{{ row.price|price_format }}</span>
+                        </div>
+                        <div class="text-xs/6 text-red-600">
+                            <span>Plus que {{ row.getRemainingSpaces }} places disponibles</span>/{{ row.maxSpace }}
+                        </div>
 
-            <!-- image mosaïque -->
-
-
-
-        <div class="max-h-96 overflow-hidden">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-1 h-full">
-                <!-- Première colonne -->
-                <div class="grid grid-rows-3 gap-1 h-full">
-                    <div class="row-span-1 h-40">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                        <div class="flex items-center gap-4 mt-4">
+                            <a href="{{ path('app_event_show', {slug: row.slug}) }}" class="text-xs/6 text-primary-600 hover:text-primary-700 dark:text-lime-300 dark:hover:text-lime-400
+                            border border-primary-600 hover:border-primary-700 hover:bg-primary-50 rounded px-3 py-1.5">Voir
+                                l'événement</a>
+                        </div>
                     </div>
-                    <div class="row-span-2 h-60">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                    </div>
-                </div>
-                <!-- Deuxième colonne -->
-                <div class="grid grid-rows-3 gap-1 h-full">
-                    <div class="row-span-2 h-60">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                    </div>
-                    <div class="row-span-1 h-40">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                    </div>
-                </div>
-                <!-- Troisième colonne -->
-                <div class="grid grid-rows-3 gap-1 h-full">
-                    <div class="row-span-1 h-32">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                    </div>
-                    <div class="row-span-2 h-64">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                    </div>
-                </div>
-                <!-- Quatrième colonne -->
-                <div class="grid grid-rows-3 gap-1 h-full">
-                    <div class="row-span-2 h-64">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                    </div>
-                    <div class="row-span-1 h-32">
-                        <img class="w-full h-full object-cover rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div>
-            <h1 class="h1">Évènements à venir</h1>
-            <ul>
-                {% for event in eventsToCome %}
-                <li>
-                    <a href="{{ path('app_event_show', {slug: event.slug}) }}">{{ event.name }}</a>
                 </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-
-
-
-
-
-
-        {#            <div class="mt-10 w-full reveal flex gap-1 overflow-auto" data-delay=".4">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#                <img src="{{ asset('images/fete.jpg') }}" class="w-40 h-full">#}
-{#            </div>#}
-
-{#        <div class="hero__body">#}
-{#            <div class="hero__hello reveal">Ton endroit et moment préféré</div>#}
-{#            <div class="hero__name reveal" data-delay=".2">#}
-{#                LJ BetweenUS#}
-{#            </div>#}
-{#            <div class="hero__job reveal" data-delay=".3">#}
-{#                Coucou, c'est nous !#}
-{#            </div>#}
-{#            <div class="hero__cta mt-10 reveal" data-delay=".4">#}
-{#                <a href="" class="btn-lg btn-primary">#}
-{#                    Nos évènements#}
-{#                </a>#}
-{#                <a href="{{ path('app_contact') }}" class="btn-lg btn-outline-primary">#}
-{#                    Nous contacter#}
-{#                </a>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="hero__img reveal" data-delay=".4">#}
-{#            <img src="{{ asset('images/construction.svg') }}">#}
-{#        </div>#}
+            {% endfor %}
+        </ul>
     </div>
+
 
 {% endblock %}
 

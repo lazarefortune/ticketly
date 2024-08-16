@@ -3,6 +3,7 @@
 namespace App\Http\Controller;
 
 use App\Domain\Appointment\Service\AppointmentService;
+use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\History\Service\HistoryService;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
@@ -26,7 +27,8 @@ class AccountController extends AbstractController
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly AppointmentService          $appointmentService,
-        private readonly HistoryService              $historyService
+        private readonly HistoryService              $historyService,
+        private readonly ReservationRepository       $reservationRepository,
     )
     {
     }
@@ -58,8 +60,7 @@ class AccountController extends AbstractController
         // Check if user request email change
         $requestEmailChange = $this->profileService->getLatestValidEmailVerification( $user );
 
-        // get user's appointments
-        $appointments = $this->appointmentService->getUserAppointments( $user );
+        $reservations = $this->reservationRepository->findBy( ['email' => $user->getEmail()], ['createdAt' => 'DESC'] );
 
         // get user's watchlist
         $watchlist = $this->historyService->getLastWatchedContent( $user );
@@ -69,7 +70,7 @@ class AccountController extends AbstractController
             'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
-            'appointments' => $appointments,
+            'reservations' => $reservations,
             'invoices' => array(),
             'watchlist' => $watchlist,
         ] );
