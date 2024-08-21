@@ -47,7 +47,7 @@ module.exports = {
                 'md': '0 2px 4px #d8e1e8',
             },
             fontSize: {
-                'base': '0.938rem', // 15px
+                // 'base': '0.938rem', // 15px
             },
             colors: {
                 'light-orange': '#ffc576',

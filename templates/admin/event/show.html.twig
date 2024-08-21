@@ -1,13 +1,11 @@
 {% extends 'admin/base.html.twig' %}
 
-{% import 'admin/appointment/macros.twig' as element %}
-
 {% block body %}
 
-    <div class="mx-auto max-w-6xl">
+    <div class="mx-auto">
         <div class="max-lg:hidden">
             <a class="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
-                                      data-headlessui-state="" href="{{ path('admin_event_index') }}">
+                                      href="{{ path('admin_event_index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
                      data-slot="icon" class="size-4 fill-zinc-400 dark:fill-zinc-500">
                     <path fill-rule="evenodd"
@@ -62,16 +60,15 @@
                     </div>
                 </div>
             </div>
-            <div class="flex gap-4">
+            <div class="flex justify-around items-end gap-4">
                 <a href="{{ path('admin_event_edit', {id: event.id}) }}"
-                   class="btn-light">
+                   class="btn btn-outline">
                     Modifier
                 </a>
                 <a href="{{ path('admin_event_show', {id: event.id}) }}"
-                   class="btn-primary">
+                   class="btn btn-primary">
                     Consulter
                 </a>
-
             </div>
         </div>
         <div class="mt-8 grid gap-8 sm:grid-cols-3">
@@ -92,77 +89,49 @@
             </div>
         </div>
         <h2 class="mt-12 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">Réservations récentes</h2>
-        <div class="flow-root">
-            <div class="mt-4 [--gutter:theme(spacing.6)] lg:[--gutter:theme(spacing.10)] -mx-[--gutter] overflow-x-auto whitespace-nowrap">
-                <div class="inline-block min-w-full align-middle sm:px-[--gutter]">
-                    <table class="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">
-                        <thead class="text-zinc-500 dark:text-zinc-400">
-                        <tr class="">
-                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                N° de réservation
-                            </th>
-                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                Date d'achat
-                            </th>
-                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                Ticket(s)
-                            </th>
-                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                Client
-                            </th>
-                            <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                Moyen de paiement
-                            </th>
-                            <th class="text-right border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
-                                Montant
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for reservation in reservations %}
-                        <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
-                            <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="0"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.reservationNumber }}
-                            </td>
-                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.buyAt|format_datetime('medium', 'short', locale='fr') }}
-                            </td>
-                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.quantity }}
-                            </td>
-                            <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.name }}
-                            </td>
-                            <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.payment.paymentMethod }}
-                            </td>
-                            <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
-                                <a data-row-link="true" aria-label="Order #3000" tabindex="-1"
-                                   class="absolute inset-0 focus:outline-none" data-headlessui-state=""
-                                   href=""></a>
-                                {{ reservation.totalAmount|price_format }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="table-wrapper">
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>N° de réservation</th>
+                        <th>Date d'achat</th>
+                        <th>Ticket(s)</th>
+                        <th>Client</th>
+                        <th>Moyen de paiement</th>
+                        <th>Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.reservationNumber }}
+                    </td>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.buyAt|format_datetime('medium', 'short', locale='fr') }}
+                    </td>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.quantity }}
+                    </td>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.name }}
+                    </td>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.payment.paymentMethod }}
+                    </td>
+                    <td>
+                        <a class="table-cell-link" href=""></a>
+                        {{ reservation.totalAmount|price_format }}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 

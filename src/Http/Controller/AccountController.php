@@ -12,6 +12,7 @@ use App\Domain\Profile\Form\DeleteAccountForm;
 use App\Domain\Profile\Form\UserUpdateForm;
 use App\Domain\Profile\Service\DeleteAccountService;
 use App\Domain\Profile\Service\ProfileService;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,8 +27,6 @@ class AccountController extends AbstractController
         private readonly ProfileService              $profileService,
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly AppointmentService          $appointmentService,
-        private readonly HistoryService              $historyService,
         private readonly ReservationRepository       $reservationRepository,
     )
     {
@@ -62,9 +61,6 @@ class AccountController extends AbstractController
 
         $reservations = $this->reservationRepository->findBy( ['email' => $user->getEmail()], ['createdAt' => 'DESC'] );
 
-        // get user's watchlist
-        $watchlist = $this->historyService->getLastWatchedContent( $user );
-
         return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
             'formPassword' => $formPassword->createView(),
@@ -72,7 +68,6 @@ class AccountController extends AbstractController
             'requestEmailChange' => $requestEmailChange,
             'reservations' => $reservations,
             'invoices' => array(),
-            'watchlist' => $watchlist,
         ] );
     }
 
@@ -110,8 +105,14 @@ class AccountController extends AbstractController
 
         $form->handleRequest( $request );
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $this->profileService->updatePassword( $user, $form->get( 'password' )->getData() );
+            // Verify current password
+            $data = $form->getData();
+            if ( !$this->passwordHasher->isPasswordValid( $user, $data['currentPassword'] ) ) {
+                $form->get( 'currentPassword' )->addError( new FormError( 'Mot de passe actuel invalide' ) );
+                return [$form, null];
+            }
 
+            $this->profileService->updatePassword( $user, $data['newPassword'] );
             $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
             return [$form, $this->redirectToRoute( 'app_profile' )];
         }

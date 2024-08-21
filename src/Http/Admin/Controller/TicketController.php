@@ -29,6 +29,7 @@ class TicketController extends AbstractController
     {
 
         $tickets = $ticketRepository->findAll();
+//        $tickets = [];
         return $this->render('admin/ticket/tickets.html.twig', [
             'tickets' => $tickets,
         ]);

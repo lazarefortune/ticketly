@@ -35,6 +35,7 @@ class UserUpdateForm extends AbstractType
                     'class' => 'label'
                 ]
             ] )
+            /*
             ->add( 'dateOfBirthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
@@ -47,13 +48,17 @@ class UserUpdateForm extends AbstractType
                 ],
                 'required' => false,
             ] )
+            */
+            /*
             ->add( 'avatarFile', FileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ]
-            ] );
+            ] )
+            */
+        ;
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void

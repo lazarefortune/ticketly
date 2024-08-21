@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Prestations{% endblock %}
+{% block title %} Réclamations {% endblock %}
 
 {% block body %}
     <div class="dashboard-page-header">
@@ -27,40 +27,26 @@
         <table class="table">
                 <thead>
                 <tr>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Objet
-                    </th>
-                    <th>
-                    </th>
+                    <th>Date</th>
+                    <th>Email</th>
+                    <th>Objet</th>
+                    <th><!-- Actions --></th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if contacts is empty %}
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="4">
                             Aucune donnée disponible
                         </td>
-                        <td></td>
                     </tr>
                 {% endif %}
                 {% for contact in contacts %}
                     <tr>
-                        <td>
-                            {{ contact.createdAt|date('d/m/Y') }} à {{ contact.createdAt|date('H:i') }}
-                        </td>
-                        <td>
-                            {{ contact.email }}
-                        </td>
-                        <td>
-                            {{ contact.subject|truncate(50) }}
-                        </td>
-                        <td></td>
+                        <td>{{ contact.createdAt|format_datetime('medium', 'short', locale='fr') }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.subject|truncate(50) }}</td>
+                        <td><!-- Actions --></td>
                     </tr>
                 {% endfor %}
                 </tbody>

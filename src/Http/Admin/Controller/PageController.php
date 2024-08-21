@@ -3,9 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Account\Service\UserService;
-use App\Domain\Course\CourseService;
 use App\Http\Controller\AbstractController;
-use App\Infrastructure\Youtube\YoutubeService;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +27,7 @@ class PageController extends AbstractController
     /**
      * @throws InvalidArgumentException
      */
-    #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
+    #[Route( '/', name: 'home', methods: ['GET'] )]
     public function index() : Response
     {
         $cache = new FilesystemAdapter();

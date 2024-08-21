@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Évènements {% endblock %}
+{% block title %} Tickets {% endblock %}
 
 {% block body %}
 
@@ -28,51 +28,37 @@
         <table class="table">
             <thead>
             <tr>
-                <th>
-                    Numéro
-                </th>
-                <th>
-                    Évènement
-                </th>
-                <th>
-                    Date d'achat
-                </th>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Actions
-                </th>
+                <th>Numéro</th>
+                <th>Évènement</th>
+                <th>Date d'achat</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {% if tickets is empty %}
                 <tr>
-                    <td colspan="7" class="text-center">
-                        Aucune donnée disponible
-                    </td>
+                    <td colspan="5">Aucune donnée disponible</td>
                 </tr>
             {% endif %}
             {% for ticket in tickets %}
                 <tr>
                     <td>
+                        <a href="" class="table-cell-link"></a>
                         {{ ticket.ticketNumber }}
                     </td>
                     <td>
+                        <a href="" class="table-cell-link"></a>
                         {{ ticket.event.name }}
                     </td>
-                    <td>
-                        {{ ticket.buyAt|date('d/m/Y H:i') }}
-                    </td>
-                    <td>
-                        {{ ticket.reservation.email }}
-                    </td>
-                    <td>
-
-                    </td>
+                    <td>{{ ticket.buyAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ ticket.reservation.email }}</td>
+                    <td><!-- Actions --></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
 {% endblock %}
+

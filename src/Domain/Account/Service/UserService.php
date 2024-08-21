@@ -11,7 +11,6 @@ class UserService
 
     public function __construct(
         private readonly UserRepository           $userRepository,
-        private readonly AppointmentRepository    $appointmentRepository,
     )
     {
     }
@@ -53,15 +52,4 @@ class UserService
         return $this->userRepository->searchClientByNameAndEmail( $query );
     }
 
-    public function getClientAppointments( User $client, int $limit = null )
-    {
-        return $this->appointmentRepository->createQueryBuilder( 'b' )
-            ->where( 'b.client = :client' )
-            ->setParameter( 'client', $client )
-            ->orderBy( 'b.date', 'DESC' )
-            ->addOrderBy( 'b.startTime', 'DESC' )
-            ->setMaxResults( $limit )
-            ->getQuery()
-            ->getResult();
-    }
 }

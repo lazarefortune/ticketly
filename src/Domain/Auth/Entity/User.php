@@ -2,9 +2,7 @@
 
 namespace App\Domain\Auth\Entity;
 
-use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Repository\UserRepository;
-use App\Domain\Payment\Entity\Transaction;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -65,14 +63,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::DATE_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $deletedAt = null;
 
-    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Appointment::class, orphanRemoval: true )]
-    private Collection $appointments;
-
     #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
     private Collection $emailVerifications;
-
-    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Transaction::class, orphanRemoval: true )]
-    private Collection $transactions;
 
     #[ORM\Column]
     private ?bool $cgu = null;
@@ -308,36 +300,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Appointment>
-     */
-    public function getAppointments() : Collection
-    {
-        return $this->appointments;
-    }
-
-    public function addAppointment( Appointment $appointment ) : self
-    {
-        if ( !$this->appointments->contains( $appointment ) ) {
-            $this->appointments->add( $appointment );
-            $appointment->setClient( $this );
-        }
-
-        return $this;
-    }
-
-    public function removeAppointment( Appointment $appointment ) : self
-    {
-        if ( $this->appointments->removeElement( $appointment ) ) {
-            // set the owning side to null (unless already changed)
-            if ( $appointment->getClient() === $this ) {
-                $appointment->setClient( null );
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, EmailVerification>
      */
     public function getEmailVerifications() : Collection
@@ -375,33 +337,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCgu( bool $cgu ) : static
     {
         $this->cgu = $cgu;
-
-        return $this;
-    }
-
-    public function getTransactions() : Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction( Transaction $transaction ) : static
-    {
-        if ( !$this->transactions->contains( $transaction ) ) {
-            $this->transactions[] = $transaction;
-            $transaction->setClient( $this );
-        }
-
-        return $this;
-    }
-
-    public function removeTransaction( Transaction $transaction ) : static
-    {
-        if ( $this->transactions->removeElement( $transaction ) ) {
-            // set the owning side to null (unless already changed)
-            if ( $transaction->getClient() === $this ) {
-                $transaction->setClient( null );
-            }
-        }
 
         return $this;
     }

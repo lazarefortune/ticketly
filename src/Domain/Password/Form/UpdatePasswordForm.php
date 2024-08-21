@@ -12,28 +12,25 @@ class UpdatePasswordForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
-                'invalid_message' => 'Les mots de passe doivent être identiques.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options' => [
-                    'label' => false,
-                    'attr' => [
-                        'placeholder' => 'Nouveau mot de passe',
-                        'class' => 'form-input-md',
+            ->add( 'currentPassword', PasswordType::class,
+                [
+                    'label' => 'Mot de passe actuel',
+                    'label_attr' => [
+                        'class' => 'label'
                     ],
-                ],
-                'second_options' => [
-                    'label' => false,
                     'attr' => [
-                        'placeholder' => 'Confirmer le nouveau mot de passe',
-                        'class' => 'form-input-md',
+                        'class' => 'input'
+                    ]
+                ] )
+            ->add( 'newPassword', PasswordType::class,
+                [
+                    'label' => 'Nouveau mot de passe',
+                    'label_attr' => [
+                        'class' => 'label'
                     ],
-                ],
-            ] );
+                    'attr' => [
+                        'class' => 'input'
+                    ]
+                ] );
     }
 }

@@ -9,19 +9,23 @@
   [type='month'],
   [type='search'],
   [type='tel'],
-  [type='file'],
+  //[type='file'],
   [type='time'],
   [type='week'],
   [multiple],
   textarea,
   select {
-    @apply relative block w-full appearance-none rounded
-    px-2.5 py-1.5 text-[16px] sm:py-1.5 sm:px-3 sm:text-base
-    border-2 border-slate-300
-    focus:border-primary-600 focus:ring-0
-    dark:focus:border-primary-300 dark:focus:ring-primary-800 dark:focus:ring-offset-primary-800
-    text-slate-900 placeholder:text-slate-500 dark:text-white dark:border-slate-800 dark:placeholder-gray-400 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark];
+    @apply block w-full appearance-none rounded-md border-0 px-3 h-10 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300
+    placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm md:leading-6;
 
+    /*
+    //@apply relative block w-full appearance-none rounded
+    //px-2.5 py-1.5 text-[16px] sm:py-1.5 sm:px-3 sm:text-base
+    //border border-slate-300
+    //focus:border-primary-600 focus:ring-0
+    //dark:focus:border-primary-300 dark:focus:ring-primary-800 dark:focus:ring-offset-primary-800
+    //text-slate-900 placeholder:text-slate-500 dark:text-white dark:border-slate-800 dark:placeholder-gray-400 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark];
+    */
     //focus:border-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-1 focus:ring-offset-primary-200
 
     //@apply block w-full rounded border border-slate-300 p-3 text-base text-slate-900 placeholder-slate-300
@@ -29,6 +33,11 @@
     //dark:text-white dark:border-slate-800 dark:bg-slate-900 dark:placeholder-gray-400
     //  dark:focus:border-primary-300 dark:focus:ring-primary-800 dark:focus:ring-offset-primary-800
     //;
+  }
+
+  input[type='file'] {
+  // input file style like primary button
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-base text-gray-600 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:text-white dark:hover:bg-primary-600;
   }
 
   // ↓ import here
@@ -43,7 +52,7 @@
 }
 
 .label {
-  @apply block text-base text-slate-500 dark:text-slate-200 mb-0.5;
+  @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
 }
 
 .invalid-feedback {
@@ -63,5 +72,5 @@
 }
 
 //select {
-//  @apply block w-full rounded border-2 border-gray-300 text-base text-gray-900 p-3 focus:border-primary-900;
+//  @apply block w-full rounded border-2 border-gray-300 p-3 text-base text-gray-900 focus:border-primary-900;
 //}
