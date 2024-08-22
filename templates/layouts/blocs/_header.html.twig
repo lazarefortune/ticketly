@@ -2,23 +2,11 @@
     <!-- Logo à gauche -->
     <div class="flex items-center">
         <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__menu__link">
-            LJ BetweenUS
+            TicketLy
         </a>
-        <ul class="hidden lg:flex ml-5 lg:space-x-6">
-            <li>
-                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
-                    {{ icon('calendar-days') }}
-                    <span>Évènements</span>
-                </a>
-            </li>
-        </ul>
     </div>
 
-
     <div class="flex items-center lg:hidden gap-2">
-        {% if app.user %}
-            <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
-        {% endif %}
         <!-- Hamburger à droite -->
         <button id="hamburger" class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white">
             <span class="sr-only">Ouvrir le menu</span>
@@ -34,22 +22,30 @@
         <ul class="container-box mt-10">
             {% if app.user %}
                 <li>
-                    <a href="{{ path('app_profile') }}"
-                       class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
-                        <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
-                        <span>{{ app.user.fullname }}</span>
+                    <div
+                       class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                        <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-10 h-10 rounded-full">
+                        <span class="text-nowrap overflow-hidden text-slate-900 dark:text-white">
+                            {{ app.user.fullname }}</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="{{ path('app_account_profile') }}"
+                       class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                        {{ icon('user', 20) }}
+                        <span>Gérer le compte</span>
                     </a>
                 </li>
             {% else %}
                 <li class="mb-3">
                     <a href="{{ path('app_register') }}" class="btn-primary w-full">
-                        {{ icon('user-plus') }}
+                        {{ icon('user-plus', 20) }}
                         Inscription
                     </a>
                 </li>
                <li>
                    <a href="{{ path('app_login') }}" class="btn-light w-full">
-                       {{ icon('user') }}
+                       {{ icon('user', 20) }}
                        Connexion
                    </a>
                </li>
@@ -57,33 +53,33 @@
 
             {% if is_granted('ROLE_ADMIN') %}
             <li>
-                <a href="{{ path('admin_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
-                    {{ icon('shield') }}
-                    <span>Espace Admin</span>
+                <a href="{{ path('admin_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                    {{ icon('shield', 20) }}
+                    <span>Administration</span>
                 </a>
             </li>
             {% endif %}
             {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
                 <li>
-                    <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
-                        {{ icon('monitor-x') }}
+                    <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                        {{ icon('monitor-x', 20) }}
                         Arrêter le switch
                     </a>
                 </li>
             {% endif %}
+            {% if app.user %}
             <li>
-                <a href=""  class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
-                    {{ icon('youtube') }}
-                    <span>Évènements</span>
+                <a href=""  class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-0">
+                    {{ icon('calendar-days', 20) }}
+                    <span>Mes évènements</span>
                 </a>
             </li>
-            {% if app.user %}
-                <li>
-                    <a href="{{ path('app_logout') }}" class="btn-light w-full mt-4">
-                        {{ icon('log-out') }}
-                        Déconnexion
-                    </a>
-                </li>
+            <li>
+                <a href="{{ path('app_logout') }}" class="btn btn-md btn-light-danger2 w-full mt-10">
+                    {{ icon('log-out', 20) }}
+                    Se déconnecter
+                </a>
+            </li>
             {% endif %}
         </ul>
     </div>
@@ -96,7 +92,7 @@
                     bg-white hover:bg-primary-100 hover:text-primary-900
                     dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
                     aria-controls="dropdown-user">
-                    <img class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                    <img class="h-8 w-8 rounded-full flex items-center justify-center bg-primary-100 text-primary-900
                     dark:bg-dark-soft-2 dark:text-white" src="{{ app.user|avatar }}"
                          alt="{{ app.user.fullname }} avatar">
                     <div class="flex-col hidden md:flex text-start w-44 text-nowrap overflow-hidden">
@@ -112,16 +108,16 @@
               pointer-events-none p-2">
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('admin_home') }}"
-                       class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
                             hover:bg-primary-100 hover:text-primary-900
                             dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
                         {{ icon('shield' ) }}
-                        <span>Espace Admin</span>
+                        <span>Administration</span>
                     </a>
                 {% endif %}
                 {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}"
-                       class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
                             hover:bg-primary-100 hover:text-primary-900
                             dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
                         {{ icon('monitor-x') }}
@@ -129,15 +125,15 @@
 
                     </a>
                 {% endif %}
-                <a href="{{ path('app_profile') }}"
-                   class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                <a href="{{ path('app_account_profile') }}"
+                   class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
                             hover:bg-primary-100 hover:text-primary-900
-                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white {{ menu_active('app_account') }}">
+                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white {{ menu_active('app_account_profile') }}">
                     {{ icon('user' ) }}
-                    <span>Mon compte</span>
+                    <span>Gérer le compte</span>
                 </a>
                 <a href="{{ path('app_logout') }}"
-                   class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                   class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
                             hover:bg-primary-100 hover:text-primary-900
                             dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
                     {{ icon('log-out' ) }}

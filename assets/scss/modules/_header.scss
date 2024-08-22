@@ -45,7 +45,7 @@
 }
 
 .header__menu__link {
-  @apply flex items-center gap-1 text-base text-slate-900 hover:text-primary-900 dark:text-white dark:hover:text-primary-300 text-nowrap;
+  @apply flex items-center gap-1 text-2xl text-primary-800 font-medium font-hanken-grotesk hover:text-primary-900 dark:text-white dark:hover:text-primary-300 text-nowrap;
 }
 
 .header__nav {

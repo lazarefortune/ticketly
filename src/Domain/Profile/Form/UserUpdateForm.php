@@ -49,15 +49,14 @@ class UserUpdateForm extends AbstractType
                 'required' => false,
             ] )
             */
-            /*
             ->add( 'avatarFile', FileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
-                'label_attr' => [
-                    'class' => 'label'
+                'attr' => [
+                    'accept' => 'image/*',
+                    'class' => 'hidden'
                 ]
             ] )
-            */
         ;
     }
 

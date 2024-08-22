@@ -19,7 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/mon-compte' )]
+#[Route( '/mon-compte', name: 'account_' )]
 #[IsGranted( 'ROLE_USER' )]
 class AccountController extends AbstractController
 {
@@ -44,12 +44,6 @@ class AccountController extends AbstractController
             return $response;
         }
 
-        [$formPassword, $response] = $this->createFormPassword( $request );
-
-        if ( $response ) {
-            return $response;
-        }
-
         [$formDeleteAccount, $response] = $this->createFormDeleteAccount( $request );
 
         if ( $response ) {
@@ -63,11 +57,24 @@ class AccountController extends AbstractController
 
         return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
-            'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
             'reservations' => $reservations,
             'invoices' => array(),
+        ] );
+    }
+
+    #[Route( '/changer-mot-de-passe', name: 'change_password' )]
+    public function changePassword( Request $request ) : Response
+    {
+        [$formPassword, $response] = $this->createFormPassword( $request );
+
+        if ( $response ) {
+            return $response;
+        }
+
+        return $this->render('account/change-password.html.twig',[
+            'formPassword' => $formPassword->createView(),
         ] );
     }
 
@@ -84,12 +91,11 @@ class AccountController extends AbstractController
 
                 if ( $data->email !== $user->getEmail() ) {
                     $this->addFlash( 'success', 'Vous allez recevoir un email pour confirmer votre nouvelle adresse email' );
-                    return [$form, $this->redirectToRoute( 'app_profile' )];
                 } else {
                     $this->addFlash( 'success', 'Informations mises à jour avec succès' );
                 }
 
-                return [$form, $this->redirectToRoute( 'app_profile' )];
+                return [$form, $this->redirectToRoute( 'app_account_profile' )];
             }
         } catch ( TooManyEmailChangeException ) {
             $this->addFlash( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau' );
@@ -114,7 +120,7 @@ class AccountController extends AbstractController
 
             $this->profileService->updatePassword( $user, $data['newPassword'] );
             $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
-            return [$form, $this->redirectToRoute( 'app_profile' )];
+            return [$form, $this->redirectToRoute( 'app_account_profile' )];
         }
 
         return [$form, null];

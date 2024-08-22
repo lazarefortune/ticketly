@@ -27,8 +27,8 @@
 
 // Variantes de boutons
 .btn-primary {
-  @apply bg-primary-600 text-white border-primary-600
-  hover:bg-primary-700 hover:text-white hover:border-primary-700
+  @apply bg-primary-900 text-white border-primary-900
+  hover:bg-primary-800 hover:text-white hover:border-primary-800
   disabled:bg-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed
   ;
 }
