@@ -38,15 +38,15 @@
                 </li>
             {% else %}
                 <li class="mb-3">
-                    <a href="{{ path('app_register') }}" class="btn-primary w-full">
+                    <a href="{{ path('app_register') }}" class="btn btn-md btn-primary w-full">
                         {{ icon('user-plus', 20) }}
-                        Inscription
+                        Créer un compte
                     </a>
                 </li>
                <li>
-                   <a href="{{ path('app_login') }}" class="btn-light w-full">
+                   <a href="{{ path('app_login') }}" class="btn btn-md w-full">
                        {{ icon('user', 20) }}
-                       Connexion
+                       Se connecter
                    </a>
                </li>
             {% endif %}
@@ -100,55 +100,55 @@
                     </div>
                 </button>
                 <div id="dropdown-user"
-             class="absolute right-0 top-[68px] w-64
-              bg-white
-              dark:bg-dark-soft
-              border border-slate-200 dark:border-slate-700 shadow rounded-md
-              opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible
-              pointer-events-none p-2">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('admin_home') }}"
-                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
-                            hover:bg-primary-100 hover:text-primary-900
-                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
-                        {{ icon('shield' ) }}
-                        <span>Administration</span>
-                    </a>
-                {% endif %}
-                {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                    <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}"
-                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
-                            hover:bg-primary-100 hover:text-primary-900
-                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
-                        {{ icon('monitor-x') }}
-                        <span>Arrêter le switch</span>
+                 class="absolute right-0 top-[68px] w-64
+                  bg-white
+                  dark:bg-dark-soft
+                  border border-slate-200 dark:border-slate-700 shadow rounded-md
+                  opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible
+                  pointer-events-none p-2">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin_home') }}"
+                           class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
+                                hover:bg-primary-100 hover:text-primary-900
+                                dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                            {{ icon('shield' ) }}
+                            <span>Administration</span>
+                        </a>
+                    {% endif %}
+                    {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}"
+                           class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
+                                hover:bg-primary-100 hover:text-primary-900
+                                dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                            {{ icon('monitor-x') }}
+                            <span>Arrêter le switch</span>
 
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_account_profile') }}"
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
+                                hover:bg-primary-100 hover:text-primary-900
+                                dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white {{ menu_active('app_account_profile') }}">
+                        {{ icon('user' ) }}
+                        <span>Gérer le compte</span>
                     </a>
-                {% endif %}
-                <a href="{{ path('app_account_profile') }}"
-                   class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
-                            hover:bg-primary-100 hover:text-primary-900
-                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white {{ menu_active('app_account_profile') }}">
-                    {{ icon('user' ) }}
-                    <span>Gérer le compte</span>
-                </a>
-                <a href="{{ path('app_logout') }}"
-                   class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
-                            hover:bg-primary-100 hover:text-primary-900
-                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
-                    {{ icon('log-out' ) }}
-                    <span>Déconnexion</span>
-                </a>
-        </div>
+                    <a href="{{ path('app_logout') }}"
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
+                                hover:bg-primary-100 hover:text-primary-900
+                                dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                        {{ icon('log-out' ) }}
+                        <span>Déconnexion</span>
+                    </a>
+            </div>
             {% else %}
-            <a href="{{ path('app_register') }}" class="header__menu__link">
-                {{ icon('user-plus') }}
-                <span>Inscription</span>
-            </a>
-            <span class="text-muted">·</span>
-            <a href="{{ path('app_login') }}" class="header__menu__link">
-                <span>Connexion</span>
-            </a>
+                <a href="{{ path('app_register') }}" class="header__menu__link">
+                    {{ icon('user-plus') }}
+                    <span>Inscription</span>
+                </a>
+                <span class="text-muted">·</span>
+                <a href="{{ path('app_login') }}" class="header__menu__link">
+                    <span>Connexion</span>
+                </a>
             {% endif %}
         </li>
     </ul>
