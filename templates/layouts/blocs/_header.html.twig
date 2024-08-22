@@ -88,15 +88,15 @@
         <li class="flex items-center gap-1 relative">
             {% if app.user %}
                 <button
-                    class="dropdown-user-button flex items-center p-2 gap-2
+                    class="dropdown-user-button flex items-center p-2 md:px-4 md:py-2 gap-2
                     bg-white hover:bg-primary-100 hover:text-primary-900
                     dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
                     aria-controls="dropdown-user">
                     <img class="h-8 w-8 rounded-full flex items-center justify-center bg-primary-100 text-primary-900
                     dark:bg-dark-soft-2 dark:text-white" src="{{ app.user|avatar }}"
                          alt="{{ app.user.fullname }} avatar">
-                    <div class="flex-col hidden md:flex text-start w-44 text-nowrap overflow-hidden">
-                        <span>{{ app.user.fullname }}</span>
+                    <div class="flex-col hidden md:flex text-start max-w-44 text-nowrap overflow-hidden">
+                        <span class="text-sm">{{ app.user.fullname }}</span>
                     </div>
                 </button>
                 <div id="dropdown-user"

@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block auth_body %}
+
+
     <div class="mb-4">
 
         <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2 reveal">
             <span class="text-primary-900 dark:text-primary-900">{{ app_name }}</span>
         </h1>
         <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">
-            Il n'est jamais trop tard pour rejoindre la communauté
+            Bienvenue sur TicketLy, la plateforme de gestion de tickets.
         </p>
     </div>
 
@@ -84,10 +86,14 @@
         </div>
     </div>
 
-    {{ form_row(registrationForm.captcha) }}
+    <div class="flex items-center justify-between">
+        <div class="mx-auto">
+            {{ form_row(registrationForm.captcha) }}
+        </div>
+    </div>
 
     <button type="submit"
-            class="btn-primary w-full">
+            class="btn btn-primary w-full">
         Créer mon compte
     </button>
     <p class="text-base font-light text-gray-500">

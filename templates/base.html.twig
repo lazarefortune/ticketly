@@ -55,47 +55,7 @@
 
         {% block body %}{% endblock %}
 
-        <footer class="footer container-box">
-            <div class="footer__bio col-span-full md:col-span-2">
-                <div class="footer__title">A propos</div>
-                <p class="text-muted">
-                    Nous sommes ....
-                </p>
-                <ul class="list-unstyled flex gap-2 mt-3">
-                    <li>
-                        <a href="" class="text-muted" target="_blank">
-                            {{ icon('youtube') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-span-full md:col-span-1">
-                <div class="footer__title mt-6 md:mt-0">Nous contacter</div>
-                <p class="text-muted">
-                    Vous avez une question, une suggestion ou une demande ? N'hésitez pas à nous contacter
-                    sur les réseaux sociaux, par mail ou via le formulaire de contact.
-                </p>
-                <ul class="list-unstyled flex gap-2 mt-3">
-                    <li>
-                        <a href="{{ path('app_contact') }}" class="text-muted">
-                            {{ icon('send') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="text-muted" target="_blank">
-                            {{ icon('mail') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="text-muted" target="_blank">
-                            {{ icon('instagram') }}
-                        </a>
-                    </li>
-                </ul>
-                <div class="footer__title mt-6">Thème</div>
-                <theme-switcher></theme-switcher>
-            </div>
-        </footer>
+        {% include 'layouts/blocs/_footer.html.twig' %}
     </div>
 
     <scroll-top class="scroll-top" hidden="hidden">
