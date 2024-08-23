@@ -24,19 +24,13 @@
 
         </div>
         <div class="flex items-center gap-3">
-            <theme-switcher></theme-switcher>
+            <theme-switcher class="mr-2"></theme-switcher>
             <div class="relative">
                 <!-- user info -->
                 <button id="user-button"
                         class="user--dropdown-button border border-slate-200 dark:border-slate-800">
-                    <img class="h-8 w-8 rounded" src="{{ app.user|avatar }}"
+                    <img class="h-10 w-10 rounded" src="{{ app.user|avatar }}"
                          alt="{{ app.user.fullname }}">
-                    <div class="flex-col hidden md:flex text-start w-44">
-                        <span class="text-sm">{{ app.user.fullname }}</span>
-                        <span class="text-xs text-slate-500 overflow-hidden whitespace-nowrap">
-                                        {{ app.user.email|truncate(20) }}
-                                    </span>
-                    </div>
                 </button>
                 <div id="user-dropdown"
                      class="user--dropdown">

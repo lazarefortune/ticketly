@@ -45,7 +45,7 @@
 }
 
 .header__menu__link {
-  @apply flex items-center gap-1 text-sm text-slate-900 font-medium hover:text-primary-700 hover:underline
+  @apply flex items-center gap-1 text-sm text-slate-900 font-medium hover:text-primary-700
   dark:text-white dark:hover:text-primary-300 text-nowrap;
 }
 

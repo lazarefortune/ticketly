@@ -142,3 +142,28 @@ h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 .h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
   @apply font-plusJakartaSans text-slate-900 dark:text-white;
 }
+
+.underline-hover-effect {
+    display: inline-block;
+    //padding-bottom: 0.25em;
+    position: relative;
+    transition: color 0.3s ease-in-out 0s;
+}
+
+.underline-hover-effect::before {
+  content: '';
+  position: absolute;
+  //left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
+}
+
+.underline-hover-effect:hover::before {
+  width: 100%;
+  left: 0;
+  right: auto;
+}

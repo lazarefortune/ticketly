@@ -40,7 +40,7 @@
                     {{ row.id }}
                 </td>
                 <td>
-                    <img class="h-8 w-8 rounded" src="{{ row|avatar }}"
+                    <img class="h-8 w-8 rounded-full" src="{{ row|avatar }}"
                          alt="{{ row.fullname }}">
                 </td>
                 <td class="capitalize">
@@ -53,7 +53,7 @@
                     {{ row.createdAt|date_age }}
                 </td>
                 <td>
-                    <span class="table-item-row">
+                    <span class="flex items-center gap-1">
                         {% if row.isVerified %}
                             {{ icon('badge-check', 17) }}
                             Vérifié

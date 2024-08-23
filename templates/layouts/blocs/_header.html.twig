@@ -87,6 +87,10 @@
     <ul class="header-side hidden lg:flex">
         <li class="flex items-center gap-1 relative">
             {% if app.user %}
+                <a href="" class="header__menu__link mr-4">
+                    {{ icon('calendar-days') }}
+                    <span class="underline-hover-effect">Mes évènements</span>
+                </a>
                 <button
                     class="dropdown-user-button flex items-center p-2 md:px-4 md:py-2 gap-2
                     bg-white hover:bg-primary-100 hover:text-primary-900
@@ -141,13 +145,13 @@
                     </a>
             </div>
             {% else %}
-                <a href="{{ path('app_register') }}" class="header__menu__link">
+                <a href="{{ path('app_register') }}" class="btn btn-sm btn-primary">
                     {{ icon('user-plus') }}
-                    <span>Inscription</span>
+                    <span>Créer un compte</span>
                 </a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" class="header__menu__link">
-                    <span>Connexion</span>
+                <a href="{{ path('app_login') }}" class="btn btn-sm">
+                    <span>Se connecter</span>
                 </a>
             {% endif %}
         </li>

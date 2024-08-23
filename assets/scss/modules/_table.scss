@@ -36,3 +36,7 @@ table.table {
     @apply text-left md:text-center;
   }
 }
+
+.table-sortable-item {
+    @apply flex items-center gap-1 text-zinc-500 hover:text-zinc-900 dark:text-white dark:hover:text-white;
+}
