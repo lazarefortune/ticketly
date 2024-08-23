@@ -24,7 +24,7 @@
                 <li>
                     <div
                        class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
-                        <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-10 h-10 rounded-full">
+                        <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-10 h-10 rounded-full object-cover">
                         <span class="text-nowrap overflow-hidden text-slate-900 dark:text-white">
                             {{ app.user.fullname }}</span>
                     </div>
@@ -96,7 +96,7 @@
                     bg-white hover:bg-primary-100 hover:text-primary-900
                     dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
                     aria-controls="dropdown-user">
-                    <img class="h-8 w-8 rounded-full flex items-center justify-center bg-primary-100 text-primary-900
+                    <img class="h-8 w-8 rounded-full object-cover flex items-center justify-center bg-primary-100 text-primary-900
                     dark:bg-dark-soft-2 dark:text-white" src="{{ app.user|avatar }}"
                          alt="{{ app.user.fullname }} avatar">
                     <div class="flex-col hidden md:flex text-start max-w-44 text-nowrap overflow-hidden">
