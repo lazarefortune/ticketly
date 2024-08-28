@@ -19,9 +19,15 @@ class RegistrationForm extends AbstractType
         $builder
             ->add( 'email', TextType::class, [
                 'label' => 'Email',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] )
             ->add( 'fullname', TextType::class, [
-                'label' => 'Nom complet',
+                'label' => 'Nom',
+                'label_attr' => [
+                    'class' => 'label',
+                ]
             ] )
             ->add( 'agreeTerms', CheckboxType::class, [
                 'constraints' => [
@@ -31,11 +37,18 @@ class RegistrationForm extends AbstractType
                 ],
                 'label' => false,
             ] )
-            ->add('captcha', CaptchaType::class, [
-                'mapped' => false
-            ])
+//            ->add('captcha', CaptchaType::class, [
+//                'mapped' => false
+//            ])
             ->add( 'plainPassword', PasswordType::class, [
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'password-verifier'
+                ],
+                'label' => 'Mot de passe',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] );
     }
 

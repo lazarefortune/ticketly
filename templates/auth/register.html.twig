@@ -1,107 +1,125 @@
-{% extends 'auth/base_auth.html.twig' %}
+{% extends 'blank.html.twig' %}
 
-{% block title %}
-    Inscription
-{% endblock %}
+{% block body %}
 
-{% block auth_body %}
-
-
-    <div class="mb-4">
-
-        <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2 reveal">
-            <span class="text-primary-900 dark:text-primary-900">{{ app_name }}</span>
-        </h1>
-        <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">
-            Bienvenue sur TicketLy, la plateforme de gestion de tickets.
-        </p>
-    </div>
-
-    {{ form_start(registrationForm, {
-        attr: {
-            class: 'space-y-4 md:space-y-6 reveal',
-            'data-delay': '.4'
-        }
-    }) }}
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger">{{ flash_error }}</div>
-    {% endfor %}
-
-    {{ form_row(registrationForm.fullname, {
-        label: 'Nom',
-        label_attr: {
-            class: 'label'
-        },
-        attr: {
-            'class': 'flex-1 form-input-lg'
-        }
-    }) }}
-
-    {{ form_row(registrationForm.email, {
-        label: 'E-mail',
-        label_attr: {
-            class: 'label'
-        },
-        'attr': {
-            'class': 'form-input-lg',
-        }
-    }) }}
-
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Mot de passe',
-        label_attr: {
-            class: 'label'
-        },
-        'attr': {
-            'class': 'form-input-lg',
-        }
-    }) }}
-
-    <div class="flex justify-between flex-col">
-        <div class="flex items-start">
-            <div class="flex items-center h-5">
-                {{ form_widget(registrationForm.agreeTerms, {
-                    'id': 'agreeTerms',
-                    'attr': {
-                        'class': 'form-checkbox-md'
-                    }
-                }) }}
+    <div class="min-h-screen w-full justify-center grid grid-cols-8">
+        <div class="hidden lg:flex p-8 2xl:p-20 col-span-5 flex-col justify-between w-full min-h-screen auth-image">
+            <div class="flex justify-between flex-col gap-4">
+                <div>
+                    <a href="{{ path('app_home') }}" class="text-2xl text-white hover:text-white-soft font-bold leading-tight tracking-tight md:text-3xl mb-2 reveal">
+                        {{ app_name }}
+                    </a>
+                </div>
             </div>
-            <div class="ml-3 text-base">
-                <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
-                    J'accepte les <a href="{{ path('app_cgu') }}"
-                                     class="link"
-                                     target="_blank">conditions
-                        d'utilisation</a>
-                </label>
+            <div class="">
+                <p class="text-xl text-white reveal mb-4" data-delay=".2">
+                    TicketLy nous a permis de gérer nos événements de manière efficace. Nous avons pu vendre plus de tickets et
+                    gérer les inscriptions de manière plus simple.
+                </p>
+                <p class="text-sm font-medium text-white reveal" data-delay=".4">
+                    — Lazare Fortune, CEO de TicketLy
+                </p>
             </div>
         </div>
-        <div class="form-error">
-            {{ form_errors(registrationForm.agreeTerms) }}
+        <div class="col-span-full lg:col-span-3 w-full min-h-screen px-4 py-4">
+            <div class="flex justify-center items-center h-full">
+                <!-- content -->
+                {{ form_start(registrationForm) }}
+                <div class="w-full max-w-md grid grid-cols-3 gap-3">
+                    <div class="col-span-full">
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Créer votre histoire</h2>
+                        <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">Retrouvez tous vos événements en un seul endroit.
+                           <br> Ne manquez plus aucun événement.</p>
+                    </div>
+                    <div class="col-span-full">
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        {% for flash_error in app.flashes('verify_email_error') %}
+                            <div class="alert alert-danger">{{ flash_error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-span-full">
+                        {{ form_row(registrationForm.fullname) }}
+                    </div>
+
+                    <div class="col-span-full">
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+
+                    <div class="col-span-full">
+                        {{ form_row(registrationForm.plainPassword) }}
+                    </div>
+
+                    <div class="password-criteria hidden col-span-full grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                        <div id="password_verifier_length" class="flex gap-2 items-center text-red-800 dark:text-gray-300">
+                            <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
+                            <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
+                            <span class="text-sm">6 caractères minimum</span>
+                        </div>
+                        <div id="password_verifier_lowercase" class="flex gap-2 items-center text-green-700 dark:text-gray-300">
+                            <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
+                            <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
+                            <span class="text-sm">1 lettre majuscule</span>
+                        </div>
+                        <div id="password_verifier_number" class="flex gap-2 items-center text-gray-500 dark:text-gray-300">
+                            <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
+                            <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
+                            <span class="text-sm">1 chiffre</span>
+                        </div>
+                        <div id="password_verifier_special" class="flex gap-2 items-center text-gray-500 dark:text-gray-300">
+                            <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
+                            <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
+                            <span class="text-sm">1 caractère spécial</span>
+                        </div>
+                    </div>
+
+                    <div class="col-span-full flex justify-between flex-col">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    {{ form_widget(registrationForm.agreeTerms, {
+                                        'id': 'agreeTerms',
+                                        'attr': {
+                                            'class': 'form-checkbox-md'
+                                        }
+                                    }) }}
+                                </div>
+                                <div class="ml-3 text-sm font-medium leading-6 text-slate-500 dark:text-slate-200">
+                                    <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
+                                        J'accepte les <a href="{{ path('app_cgu') }}"
+                                                         class="link"
+                                                         target="_blank">conditions
+                                            d'utilisation</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-error">
+                                {{ form_errors(registrationForm.agreeTerms) }}
+                            </div>
+                        </div>
+
+{#                    <div class="col-span-full">#}
+{#                        {{ form_row(registrationForm.captcha) }}#}
+{#                    </div>#}
+
+                    <div class="col-span-full mt-4">
+                        <button type="submit"
+                                class="btn btn-md btn-primary w-full">
+                            Créer mon compte
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border border-gray-100 dark:border-gray-700 my-6"></div>
+
+                <p class="text-sm text-center text-gray-500 dark:text-gray-400">
+                    Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="link">Connectez-vous</a>
+                </p>
+
+                {{ form_end(registrationForm) }}
+            </div>
         </div>
     </div>
-
-    <div class="flex items-center justify-between">
-        <div class="mx-auto">
-            {{ form_row(registrationForm.captcha) }}
-        </div>
-    </div>
-
-    <button type="submit"
-            class="btn btn-md btn-primary w-full">
-        Créer mon compte
-    </button>
-    <p class="text-base font-light text-gray-500">
-        <span>Vous avez déjà un compte ?</span>
-        <a href="{{ path('app_login') }}"
-           class="font-medium text-primary-600 dark:text-primary-500">
-            Connectez-vous
-        </a>
-    </p>
-    {{ form_end(registrationForm) }}
 {% endblock %}

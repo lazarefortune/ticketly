@@ -1,0 +1,42 @@
+.auth-image {
+    background: url(../../../public/images/auth/event3.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 0;
+
+    /* Pseudo-élément pour l'ombre en haut à gauche */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(
+                        to bottom right,
+                        rgba(0, 0, 0, 1) 0%, /* Commence avec une ombre */
+                        rgba(0, 0, 0, 0) 40%   /* Devient transparent vers le milieu */
+        );
+    }
+
+    /* Pseudo-élément pour l'ombre en bas */
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%; /* Ajustez cette hauteur en fonction de l'ombre que vous souhaitez */
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 0.5), /* Ombre au bas */
+                        rgba(0, 0, 0, 0)    /* Transparent vers le haut */
+        );
+    }
+}
