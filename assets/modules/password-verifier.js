@@ -41,13 +41,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Afficher la div des critères lors du focus sur le champ de mot de passe
     passwordInput.addEventListener('focus', () => {
-        criteriaDiv.classList.remove('hidden');
+        criteriaDiv.classList.remove('opacity-0', 'max-h-0');
+        criteriaDiv.classList.add('opacity-100', 'max-h-[1000px]');
         updateCriteria();  // Assurer que l'affichage est correct dès le focus
     });
 
     // Cacher la div des critères lorsque le champ de mot de passe perd le focus
     passwordInput.addEventListener('blur', () => {
-        criteriaDiv.classList.add('hidden');
+        criteriaDiv.classList.remove('opacity-100', 'max-h-[1000px]');
+        criteriaDiv.classList.add('opacity-0', 'max-h-0');
     });
 
     // Ajouter un écouteur d'événements pour la saisie

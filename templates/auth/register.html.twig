@@ -53,7 +53,7 @@
                         {{ form_row(registrationForm.plainPassword) }}
                     </div>
 
-                    <div class="password-criteria hidden col-span-full grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div class="password-criteria col-span-full grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 opacity-0 max-h-0 transition-all duration-300 ease-in-out overflow-hidden">
                         <div id="password_verifier_length" class="flex gap-2 items-center text-red-800 dark:text-gray-300">
                             <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
                             <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
