@@ -26,11 +26,7 @@ class ForgotPasswordForm extends AbstractType
                     new Email( [
                         'message' => 'Veuillez saisir une adresse email valide',
                     ] ),
-                ],
-                'attr' => [
-                    'placeholder' => 'Votre adresse email',
-                    'class' => 'form-input-lg',
-                ],
+                ]
             ] );
     }
 }

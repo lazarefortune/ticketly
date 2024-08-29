@@ -1,70 +1,93 @@
-{% extends 'auth/base_auth.html.twig' %}
+{% extends 'blank.html.twig' %}
 
-{% block title %}Se connecter{% endblock %}
+{% block title 'Connexion' %}
 
-{% block auth_body %}
+{% block body %}
 
-    <div class="text-left ">
-        <h1 class="text-3xl font-bold text-primary-900 reveal">
-            Hey,
-        </h1>
-        <p class="mt-1 text-base text-slate-400 reveal" data-delay=".2">
-            Content de te revoir !
-        </p>
-    </div>
-    <form class="space-y-4 md:space-y-6 reveal" data-delay=".4" action="#" method="post">
+    <div class="min-h-screen w-full justify-center grid grid-cols-8">
+        <div class="col-span-full lg:col-span-3 w-full min-h-screen px-4 py-4">
+            <div class="flex justify-center items-center h-full">
+                <!-- content -->
+                <form action="#" method="post">
+                    <div class="w-full max-w-md grid grid-cols-3 gap-3">
+                        <div class="col-span-full text-center mb-4">
+                            <a href="{{ path('app_home') }}" class="block lg:hidden text-2xl text-gray-800 dark:text-gray-100 font-bold leading-tight tracking-tight md:text-3xl reveal">
+                                {{ app_name }}
+                            </a>
+                        </div>
+                        <div class="col-span-full">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Connectez-vous</h2>
+                            <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">Retrouvez tous vos événements en un seul endroit.
+                                <br> Ne manquez plus aucun événement.</p>
+                        </div>
+                        <div class="col-span-full">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+                            {% if error %}
+                                <div class="alert alert-danger text-center">
+                                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                                </div>
+                            {% endif %}
+                        </div>
 
-        {% if error %}
-            <div class="alert alert-danger text-center">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <div class="col-span-full">
+                            <label for="email" class="label">E-mail</label>
+                            <input type="email" name="email" id="email" value="{{ last_username }}"
+                                   required>
+                        </div>
+
+                        <div class="col-span-full">
+                            <label for="password" class="label">Mot de passe</label>
+                            <input type="password" name="password" id="password" class="form-input-lg" autocomplete="current-password"
+                                   required>
+                            <p class="mt-2">
+                                <a href="{{ path('app_forgot_password') }}"
+                                   class="link text-slate-900 text-sm">
+                                    Vous avez oublié votre mot de passe ?
+                                </a>
+                            </p>
+                        </div>
+
+                        <div class="col-span-full mt-4">
+                            <button type="submit"
+                                    class="btn btn-md btn-primary w-full">
+                                Se connecter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-100 dark:border-gray-700 my-6"></div>
+
+                    <p class="text-sm text-center text-gray-500 dark:text-gray-400">
+                        Vous n'avez pas de compte ?
+                    </p>
+
+                    <a href="{{ path('app_register') }}" class="btn btn-outline w-full mt-4">
+                        Créer un compte
+                    </a>
+                </form>
+
             </div>
-        {% endif %}
-
-        <div class="space-y-1">
-            <label for="email" class="label">E-mail</label>
-            <input type="email" name="email" id="email" value="{{ last_username }}"
-                   required="" class="form-input-lg">
         </div>
-        <div class="space-y-1">
-            <label for="password" class="label">
-                Mot de passe
-            </label>
-            <input type="password" name="password" id="password" class="form-input-lg"
-                   autocomplete="current-password"
-                   required="">
-            <p class="mt-2">
-                <a href="{{ path('app_forgot_password') }}"
-                   class="text-sm font-medium text-primary-600 dark:text-primary-500">
-                    Vous avez oublié votre mot de passe ?
-                </a>
-            </p>
+        <div class="hidden lg:flex p-8 2xl:p-20 col-span-5 flex-col justify-between w-full min-h-screen auth-image-login">
+            <div class="flex justify-between flex-col gap-4">
+                <div class="flex justify-end">
+                    <a href="{{ path('app_home') }}" class="text-2xl text-white hover:text-white-soft font-bold leading-tight tracking-tight md:text-3xl mb-2 reveal">
+                        {{ app_name }}
+                    </a>
+                </div>
+            </div>
+            <div class="">
+                <p class="text-xl text-white reveal mb-4" data-delay=".2">
+                    TicketLy nous a permis de gérer nos événements de manière efficace. Nous avons pu vendre plus de tickets et
+                    gérer les inscriptions de manière plus simple.
+                </p>
+                <p class="text-sm font-medium text-white reveal" data-delay=".4">
+                    — Lazare Fortune, CEO de TicketLy
+                </p>
+            </div>
         </div>
-
-        <div class="flex items-center justify-between">
-            <label for="remember_me" class="flex items-center">
-                <input id="remember_me" type="checkbox"
-                       class="form-checkbox-md"
-                       name="remember_me">
-                <span class="ml-2 text-base text-gray-600 dark:text-gray-400">Se souvenir de moi</span>
-            </label>
-        </div>
-
-        <button type="submit"
-                class="btn btn-md btn-primary py-4">
-            Se connecter
-        </button>
-
-        <p class="text-base font-light text-gray-500 dark:text-gray-400">
-            Vous n'êtes pas encore membre ?
-            <a href="{{ path('app_register') }}"
-               class="font-medium text-primary-600 dark:text-primary-500">
-                Inscrivez-vous
-            </a>
-        </p>
-    </form>
-
+    </div>
 {% endblock %}
