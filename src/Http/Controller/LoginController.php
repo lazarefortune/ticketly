@@ -87,8 +87,8 @@ class LoginController extends AbstractController
             $newPassword = $form->get( 'password' )->getData();
             $this->passwordService->resetPassword( $user, $newPassword );
 
-            $this->addFlash( 'success', 'Votre mot de passe a bien été modifié' );
-            return $this->render( 'pages/message.html.twig' );
+            $this->addFlash( 'success', 'Mot de passe modifié avec succès, vous pouvez vous connecter' );
+            return $this->redirectToRoute( 'app_login' );
         }
 
         return $this->render( 'auth/reset-password.html.twig', [

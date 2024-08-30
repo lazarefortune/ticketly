@@ -78,3 +78,7 @@
 //select {
 //  @apply block w-full rounded border-2 border-gray-300 p-3 text-base text-gray-900 focus:border-primary-900;
 //}
+
+.password-toggle {
+  @apply absolute inset-y-0 right-0 flex items-center pr-3;
+}

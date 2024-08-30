@@ -38,6 +38,7 @@ import './modules/header.js'
 import './modules/hamburger.js'
 import './modules/dropdown.js'
 import './modules/password-verifier.js'
+import './modules/password-toggle.js'
 import {registerHeaderBehavior} from "./modules/header";
 import {YoutubePlayer} from "./elements/player/YoutubePlayer";
 import {TimeCountdown} from "./elements/TimeCountdown";

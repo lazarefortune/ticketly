@@ -7,7 +7,7 @@
     <div class="min-h-screen w-full justify-center grid grid-cols-8">
         <div class="hidden lg:flex p-8 2xl:p-20 col-span-5 flex-col justify-between w-full min-h-screen auth-image">
             <div class="flex justify-between flex-col gap-4">
-                <div>
+                <div class="flex justify-start">
                     <a href="{{ path('app_home') }}" class="text-2xl text-white hover:text-white-soft font-bold leading-tight tracking-tight md:text-3xl mb-2 reveal">
                         {{ app_name }}
                     </a>
@@ -26,16 +26,16 @@
         <div class="col-span-full lg:col-span-3 w-full min-h-screen px-4 py-4">
             <div class="flex justify-center items-center h-full">
                 <!-- content -->
-                {{ form_start(registrationForm) }}
+                {{ form_start(registrationForm, { 'attr': {'class': 'reveal'} }) }}
                 <div class="w-full max-w-md grid grid-cols-3 gap-3">
-                    <div class="col-span-full text-center mb-4">
-                        <a href="{{ path('app_home') }}" class="block lg:hidden text-2xl text-gray-800 dark:text-gray-100 font-bold leading-tight tracking-tight md:text-3xl reveal">
+                    <div class="col-span-full mb-4">
+                        <a href="{{ path('app_home') }}" class="block animate-fade-in-left font-hanken-grotesk lg:hidden text-3xl text-gray-800 dark:text-gray-100 font-bold leading-tight tracking-tight">
                             {{ app_name }}
                         </a>
                     </div>
                     <div class="col-span-full">
                         <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Créer votre histoire</h2>
-                        <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">Retrouvez tous vos événements en un seul endroit.
+                        <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".1">Retrouvez tous vos événements en un seul endroit.
                            <br> Ne manquez plus aucun événement.</p>
                     </div>
                     <div class="col-span-full">
@@ -57,10 +57,24 @@
                     </div>
 
                     <div class="col-span-full">
-                        {{ form_row(registrationForm.plainPassword) }}
+                        <div class="flex flex-col gap-1">
+                            {{ form_label(registrationForm.plainPassword) }}
+                            <div class="relative">
+                                {{ form_widget(registrationForm.plainPassword, { 'attr': {'autocomplete': 'new-password'} }) }}
+                                <div class="password-toggle">
+                                    <button type="button" class="password-toggle-button" aria-label="Toggle password visibility">
+                                        <span class="password-toggle-icon">
+                                            <span class="icon-eye">{{ icon('eye', 16) }}</span>
+                                            <span class="icon-eye-off hidden">{{ icon('eye-off', 16) }}</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
                     </div>
 
-                    <div class="password-criteria col-span-full grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 opacity-0 max-h-0 transition-all duration-300 ease-in-out overflow-hidden">
+                    <div class="password-criteria col-span-full grid grid-cols-1 md:grid-cols-2 gap-3 mb-1 opacity-0 max-h-0 transition-all duration-300 ease-in-out overflow-hidden">
                         <div id="password_verifier_length" class="flex gap-2 items-center text-red-800 dark:text-gray-300">
                             <span class="password_verifier_icon_check hidden">{{ icon('check', 16) }}</span>
                             <span class="password_verifier_icon_x">{{ icon('x', 16) }}</span>
@@ -122,8 +136,10 @@
                 <div class="border border-gray-100 dark:border-gray-700 my-6"></div>
 
                 <p class="text-sm text-center text-gray-500 dark:text-gray-400">
-                    Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="link">Connectez-vous</a>
+                    Vous avez déjà un compte ?
                 </p>
+
+                <a href="{{ path('app_login') }}" class="btn btn-outline w-full mt-4" >Connectez-vous</a>
 
                 {{ form_end(registrationForm) }}
             </div>
