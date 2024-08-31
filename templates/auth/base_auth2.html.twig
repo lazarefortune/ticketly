@@ -1,15 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends 'blank.html.twig' %}
 
 {% block body %}
 
-    <div class="min-h-screen flex flex-col items-center justify-center">
-        <div class="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4
-        shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-            <div class="md:max-w-md w-full px-4 py-4">
-                {% block auth_body %}{% endblock %}
+    <div class="min-h-screen w-full justify-center grid grid-cols-6">
+        <div class="hidden md:flex p-8 col-span-2 flex-col justify-between w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-50">
+            <div class="flex justify-between flex-col gap-4">
+                <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2 reveal">
+                    <span class="text-primary-900 dark:text-primary-900">{{ app_name }}</span>
+                </h1>
+                <div class="flex flex-col gap-6">
+                    <div class="flex">
+                        <div>
+                            <div class="border bg-white rounded-md p-3 text-primary-900 dark:text-primary-900">
+                                {{ icon('users', 18) }}
+                            </div>
+                        </div>
+                        <div class="ml-4 flex flex-col justify-center gap-1">
+                            <h2 class="text-base font-semibold text-zinc-900">Vos informations</h2>
+                            <p class="text-sm text-gray-500">Entrez votre email et votre mot de passe.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                            <div class="border  rounded-md p-3 text-zinc-500 bg-zinc-100 dark:text-primary-900">
+                                {{ icon('mail', 18) }}
+                            </div>
+                        </div>
+                        <div class="ml-4 flex flex-col justify-center gap-1">
+                            <h2 class="text-base font-semibold text-zinc-500">Vérification de l'email</h2>
+                            <p class="text-sm text-gray-400">Entrez le code de vérification envoyé à votre email.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                            <div class="border  rounded-md p-3 text-zinc-500 bg-zinc-100 dark:text-primary-900">
+                                {{ icon('rocket', 18) }}
+                            </div>
+                        </div>
+                        <div class="ml-4 flex flex-col justify-center gap-1">
+                            <h2 class="text-base font-semibold text-zinc-500">Confirmation</h2>
+                            <p class="text-sm text-gray-400">Votre compte a été créé avec succès.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="hidden md:h-full bg-[#000842] rounded-xl lg:p-12 p-8">
-                <img src="https://readymadeui.com/signin-image.webp" class="w-full h-full object-contain" alt="login-image" />
+            <div class="flex flex-row justify-between">
+                <a class="flex items-center gap-2 text-zinc-900 dark:text-gray-300" href="{{ path('app_home') }}">
+                    {{ icon('arrow-left', 18) }}
+                    Accueil
+                </a>
+                <a class="flex items-center gap-2 text-zinc-900 dark:text-gray-300" href="{{ path('app_login') }}">
+                    Se connecter
+                </a>
+            </div>
+        </div>
+        <div class="col-span-full md:col-span-4 w-full min-h-screen px-4 py-4">
+            <div class="flex justify-center items-center h-full">
+                <div class="w-full max-w-md">
+                    {% block auth_body %}{% endblock %}
+                </div>
             </div>
         </div>
     </div>

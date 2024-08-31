@@ -65,7 +65,7 @@
 
 // Boutons spécifiques
 .btn-icon {
-  @apply inline-flex items-center justify-center rounded-full p-2 text-xl
+  @apply cursor-pointer inline-flex items-center justify-center rounded-full p-2 text-xl
   text-gray-600 hover:bg-primary-200/30 hover:text-primary-600;
 }
 

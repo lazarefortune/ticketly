@@ -31,7 +31,7 @@
                 <input type="search" placeholder="Rechercher un évènement" class="placeholder-slate-300">
             </div>
         </div>
-        <a href="{{ path(prefix ~ '_new') }}" class="btn-primary">
+        <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">
             {{ icon('plus') }}
             Créer un évènement
         </a>
@@ -44,21 +44,32 @@
             <div class="flex items-center justify-between">
                 <div class="flex gap-6 py-6">
                     <div class="w-32 shrink-0">
+                        {% if row.image %}
                         <a href="{{ path(prefix ~ '_show', {id: row.id}) }}">
                             <img src="{{ vich_uploader_asset(row, 'imageFile') }}" alt="{{ row.slug }}-logo"
-                                 class="aspect-[3/2] rounded-lg shadow">
+                                 class="aspect-[3/2] rounded-lg shadow object-cover w-32 h-24">
                         </a>
+                        {% else %}
+                        <div class="aspect-[3/2] bg-zinc-950/10 dark:bg-white/10 rounded-lg shadow w-32 h-24">
+                            <div class="flex items-center justify-center h-full text-zinc-500 dark:text-white">
+                                <svg class="w-8 h-8" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                          d="M10 12a2 2 0 100-4 2 2 0 000 4Zm0 2a4 4 0 100-8 4 4 0 000 8Zm0 2a6 6 0 100-12 6 6 0 000 12Zm-7-2a1 1 0 100-2 1 1 0 000 2Zm14 0a1 1 0 100-2 1 1 0 000 2Zm-14-2a3 3 0 100-6 3 3 0 000 6Zm14 0a3 3 0 100-6 3 3 0 000 6Zm-7-6a1 1 0 100-2 1 1 0 000 2Zm-7 0a1 1 0 100-2 1 1 0 000 2Zm14 0a1 1 0 100-2 1 1 0 000 2Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="space-y-1.5">
-                        <div class="text-base/6 font-semibold">
+                        <div class="text-base font-semibold">
                             <a data-headlessui-state="" href="{{ path(prefix ~ '_show', {id: row.id}) }}">
                                 {{ row.name }}
                             </a>
                         </div>
-                        <div class="text-xs/6 text-zinc-500">
+                        <div class="text-sm text-zinc-500">
                             {{ event_duration(row.startDate, row.endDate) }}
                         </div>
-                        <div class="text-xs/6 text-zinc-600">
+                        <div class="text-sm text-zinc-600">
                             {{ row.location }}
                         </div>
                     </div>

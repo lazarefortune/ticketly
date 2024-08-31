@@ -99,6 +99,20 @@ class EventController extends AbstractController
         ] );
     }
 
+    #[Route( '/preview/{slug<[a-z0-9A-Z\-]+>}', name: 'preview', methods: ['GET', 'POST'] )]
+    public function preview( Event $event, string $slug, Request $request, SessionInterface $session ) : Response
+    {
+        if ( $event->getSlug() !== $slug ) {
+            return $this->redirectToRoute( 'event_show', [
+                'slug' => $event->getSlug(),
+            ], 301 );
+        }
+
+        return $this->render( 'event/preview.html.twig', [
+            'event' => $event
+        ] );
+    }
+
     #[Route( '/{slug<[a-z0-9A-Z\-]+>}/reservation/{reservationNumber}', name: 'reservation', methods: ['GET', 'POST'] )]
     public function reservationDetails( Request $request, Event $event, string $reservationNumber, SessionInterface $session ) : Response
     {
