@@ -62,14 +62,12 @@ class EventController extends AbstractController
         $ticketForm->handleRequest( $request );
 
         if ( $ticketForm->isSubmitted() && $ticketForm->isValid() ) {
-            $quantity = $ticketForm->get( 'quantity' )->getData();
+            $quantity = (int)$ticketForm->get( 'quantity' )->getData()[ 'incremental' ];
             $remainingSpaces = $event->getRemainingSpaces();
 
             if ( $quantity > $remainingSpaces ) {
-                return $this->json( [
-                    'error' => 'Il n\'y a pas assez de places disponibles.',
-                ],
-                    Response::HTTP_BAD_REQUEST );
+                $this->addFlash( 'danger', 'Il n\'y a pas assez de places disponibles.' );
+                return $this->redirectToRoute( 'app_event_show', ['slug' => $event->getSlug()] );
             }
 
             $unitPrice = $event->getPrice();

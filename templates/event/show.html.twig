@@ -3,104 +3,113 @@
 {% block title %}{{ event.name }}{% endblock %}
 
 {% block body %}
-
     {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-    <div class="container-box bg-white">
-        <div class="mx-auto">
-            <div class="stack mt-4">
-                <p class="flex items-center gap-2 text-muted mx-auto">
+    <div class="container-box">
+        <!-- Event image with overlay -->
+        <div class="relative max-w-6xl mx-auto">
+            <img src="{{ event|event_image }}"
+                 alt="Image de l'événement {{ event.name }}" class="w-full h-64 md:h-96 object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-center p-4 md:p-8">
+                <h1 class="text-lg md:text-4xl text-white font-bold max-w-5xl mx-auto">
+                    {{ event.name }}</h1>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto mt-8 mb-16">
+            <!-- Event Details -->
+            <div class="mb-8">
+                <p class="text-muted text-center mb-4">
                     {{ event.startDate|format_datetime('full', 'none', locale='fr') }}
                 </p>
-                <h1 class="text-2xl text-center uppercase font-bold">{{ event.name }}</h1>
-                <p>{{ event.description }}</p>
-                <div class="text-center">
-                    <a href="#tickets" class="btn btn-primary mt-4">Acheter des billets</a>
-                </div>
-                <div class="mt-4 max-w-96 mx-auto">
-                    <img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}-image" class="w-full mx-auto">
-                </div>
+                <p class="mb-4 text-lg">{{ event.description }}</p>
             </div>
 
-            <div class="mt-8">
-                <h1 class="text-2xl font-bold">Heure et lieu</h1>
-                <div class="stack mt-4">
-                    <p class="text-muted flex items-center gap-2">
+            <!-- Event Date and Location -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">Heure et lieu</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-2">
                         {{ icon('calendar') }}
-                        <span>{{ event_duration(event.startDate, event.endDate) }}</span>
-                    </p>
-                    <p class="text-muted flex items-center gap-2">
-                        {{ icon('map-pin') }}
-                        <span>{{ event.location }}</span>
-                    </p>
+                        <span class="text-muted">{{ event_duration(event.startDate, event.endDate) }}</span>
+                    </div>
+                    {% if event.location %}
+                        <div class="flex items-center gap-2">
+                            {{ icon('map-pin') }}
+                            <span class="text-muted">{{ event.location }}</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
-            <div class="mt-8" id="tickets">
-                <h1 class="text-2xl font-bold">Billets</h1>
-                <div class="stack my-4">
-                    {% if event.isExpired %}
-                        <div class="mt-4 text-center p-4 bg-red-100 rounded">
-                            <p class="text-red-800">Les ventes pour cet événement sont terminées.</p>
-                            <a href="" class="btn btn-primary mt-4">Voir les prochains événements</a>
-                        </div>
-                    {% else %}
-                        {{ form_start(ticketForm) }}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-b border-slate-300 py-7">
-                            <div class="stack">
-                                <div>
-                                    <p class="text-sm text-slate-500">Type de billet</p>
-                                    <p class="mt-2 text-lg uppercase">{{ event.name }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-slate-500">Fin de la vente</p>
-                                    <p class="mt-2">{{ event.endSaleDate|format_datetime('medium', 'short', locale='fr') }}</p>
+            <!-- Tickets Section -->
+            <div id="tickets" class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-4">Billets</h2>
+                {% if event.isExpired %}
+                    <div class="text-center p-4 bg-red-100 rounded">
+                        <p class="text-red-800">Les ventes pour cet événement sont terminées.</p>
+                        <a href="#" class="btn btn-primary mt-4">Voir les prochains événements</a>
+                    </div>
+                {% else %}
+                    {{ form_start(ticketForm) }}
+                    <div class="border-t border-b border-slate-300 py-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Ticket Type and Sale End Date -->
+                            <div>
+                                <p class="text-sm text-slate-500">Type de billet</p>
+                                <p class="mt-2 text-lg uppercase">{{ event.name }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500">Fin de la vente</p>
+                                <p class="mt-2">{{ event.endSaleDate|format_datetime('medium', 'short', locale='fr') }}</p>
+                            </div>
+                            <!-- Ticket Price and Quantity -->
+                            <div>
+                                <p class="text-sm text-slate-500">Prix</p>
+                                <p class="mt-2 text-lg">{{ event.price|price_format }}</p>
+                                <p class="text-slate-400">+0.80 € de frais de service</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-sm text-slate-500 mb-2">Quantité</p>
+                                <div class="flex items-center">
+                                    {{ form_row(ticketForm.quantity) }}
                                 </div>
                             </div>
-                            <div class="stack grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <p class="text-sm text-slate-500">Prix</p>
-                                    <p class="mt-2 text-lg">{{ event.price|price_format }}</p>
-                                    <p class="text-slate-400">+0.80 € de frais de service</p>
-                                </div>
-                                <div class="flex flex-col">
-                                    <p class="text-sm text-slate-500">Quantité</p>
-                                    <div class="mt-2">
-                                        {{ form_widget(ticketForm.quantity) }}
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <!-- total -->
-                        <div class="mt-5 flex justify-between lg:max-w-80 lg:ml-auto">
-                            <div id="totalBlock" class="w-full flex flex-col gap-2 mt-4">
-                                <div id="subtotalBlock" class="justify-between text-xl items-center gap-2 hidden">
-                                    <p class="text-sm lg:text-lg">Sous-total</p>
-                                    <p class="text-sm lg:text-lg" id="subtotalPrice">0,00 €</p>
-                                </div>
-                                <div id="serviceFeeBlock" class="border-b border-slate-200 pb-2 justify-between text-xl items-center gap-2 hidden">
-                                    <p class="text-sm lg:text-lg">Frais de service</p>
-                                    <p class="text-sm lg:text-lg" id="serviceFee">0,00 €</p>
-                                </div>
-                                <div class="flex justify-between text-3xl items-center gap-2">
-                                    <p class="text-xl">Total</p>
-                                    <p class="text-xl" id="totalPrice">0,00 €</p>
-                                </div>
-                                <button type="submit" id="submitButton" class="btn btn-primary mt-5" disabled>Passer la commande</button>
-                            </div>
-                        </div>
-                        {{ form_end(ticketForm) }}
-                    {% endif %}
+                    </div>
 
-
-                </div>
+                    <!-- Total Section -->
+                    <div class="mt-6 flex flex-col lg:max-w-80 lg:ml-auto">
+                        <div id="totalBlock" class="w-full flex flex-col gap-2 mt-4">
+                            <div id="subtotalBlock" class="flex justify-between text-xl items-center gap-2 hidden">
+                                <p class="text-sm lg:text-lg">Sous-total</p>
+                                <p class="text-sm lg:text-lg" id="subtotalPrice">0,00 €</p>
+                            </div>
+                            <div id="serviceFeeBlock" class="border-b border-slate-200 pb-2 flex justify-between text-xl items-center gap-2 hidden">
+                                <p class="text-sm lg:text-lg">Frais de service</p>
+                                <p class="text-sm lg:text-lg" id="serviceFee">0,00 €</p>
+                            </div>
+                            <div class="flex justify-between text-3xl items-center gap-2">
+                                <p class="text-xl">Total</p>
+                                <p class="text-xl" id="totalPrice">0,00 €</p>
+                            </div>
+                            <button type="submit" id="submitButton" class="btn btn-primary mt-5" disabled>Passer la commande</button>
+                        </div>
+                    </div>
+                    {{ form_end(ticketForm) }}
+                {% endif %}
             </div>
         </div>
     </div>
 
+    <!-- JavaScript for handling ticket quantity and price calculation -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const quantitySelect = document.getElementById('pre_book_event_quantity');
+            // Sélectionne le champ de quantité généré par Symfony
+            const quantityInput = document.querySelector('input[data-input-counter]');
+            const decrementButton = quantityInput.previousElementSibling; // Suppose que le bouton de décrémentation est juste avant l'input
+            const incrementButton = quantityInput.nextElementSibling; // Suppose que le bouton d'incrémentation est juste après l'input
+
             const subtotalPriceElem = document.getElementById('subtotalPrice');
             const serviceFeeElem = document.getElementById('serviceFee');
             const totalPriceElem = document.getElementById('totalPrice');
@@ -110,8 +119,21 @@
             const ticketPrice = {{ event.price / 100 }};
             const serviceFee = 0.80;
 
+            // Fonction pour mettre à jour les totaux
             function updateTotals() {
-                const quantity = parseInt(quantitySelect.value);
+                let quantity = parseInt(quantityInput.value) || 0;
+                const min = parseInt(quantityInput.getAttribute('min')) || 0;
+                const max = parseInt(quantityInput.getAttribute('max')) || Infinity;
+
+                // Vérifie si la quantité est hors des limites et ajuste si nécessaire
+                if (quantity < min) {
+                    quantity = min;
+                    quantityInput.value = min; // Ajuste visuellement la valeur dans le champ
+                } else if (quantity > max) {
+                    quantity = max;
+                    quantityInput.value = max; // Ajuste visuellement la valeur dans le champ
+                }
+
                 const subtotalPrice = ticketPrice * quantity;
                 const totalServiceFee = serviceFee * quantity;
                 const totalPrice = subtotalPrice + totalServiceFee;
@@ -135,12 +157,30 @@
                 }
             }
 
-            // Call updateTotals on page load to ensure everything is up to date
-            updateTotals();
+            // Écoute les changements dans le champ de quantité
+            quantityInput.addEventListener('input', updateTotals);
+            quantityInput.addEventListener('change', updateTotals);
 
-            // Update totals whenever the quantity changes
-            quantitySelect.addEventListener('change', updateTotals);
+            // Écoute les clics sur le bouton de décrémentation
+            if (decrementButton) {
+                decrementButton.addEventListener('click', function() {
+                    setTimeout(updateTotals, 0); // Utiliser un timeout pour attendre la mise à jour de la valeur
+                });
+            }
+
+            // Écoute les clics sur le bouton d'incrémentation
+            if (incrementButton) {
+                incrementButton.addEventListener('click', function() {
+                    setTimeout(updateTotals, 0); // Utiliser un timeout pour attendre la mise à jour de la valeur
+                });
+            }
+
+            // Initial update to set values correctly
+            updateTotals();
         });
     </script>
+
+
+
 
 {% endblock %}

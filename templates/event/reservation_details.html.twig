@@ -29,7 +29,10 @@
                         {{ form_row(confirmReservationForm.paymentMethod) }}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-4">Payez {{ reservation.totalAmount|price_format }}</button>
+                <div class="w-full flex flex-col gap-2">
+                    <button type="submit" class="btn btn-primary mt-4 w-full">Payez {{ reservation.totalAmount|price_format }}</button>
+                    <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="btn btn-outline w-full">Annuler</a>
+                </div>
             </div>
             <div class="stack order-first md:order-last">
                 <h2 class="h4">Résumé de la commande</h2>
