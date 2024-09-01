@@ -5,60 +5,61 @@
 {% block body %}
 
     <div class="container-box">
-        <h1 class="text-2xl/6 font-semibold mt-5 text-center">Événements à venir</h1>
-        <ul class="my-5 max-w-3xl mx-auto space-y-6 min-h-[50vh]">
-            {% for row in eventsToCome %}
-                <li class="bg-white dark:bg-zinc-950/90 rounded-lg border border-zinc-100 shadow p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex max-sm:flex-col flex-row gap-6 py-6">
-                            <div class="w-32 shrink-0">
-                                <a href="{{ path('app_event_show', {slug: row.slug}) }}">
-                                    <img src="{{ vich_uploader_asset(row, 'imageFile') }}" alt="{{ row.slug }}-logo"
-                                         class="aspect-[3/2] rounded-lg shadow">
-                                </a>
-                            </div>
-                            <div class="space-y-1.5">
-                                <div class="text-base/6 font-medium">
-                                    <a data-headlessui-state="" href="{{ path('app_event_show', {slug: row.slug}) }}">
-                                        {{ row.name }}
-                                    </a>
+        <div class="relative isolate px-6 pt-14 lg:px-8">
+            <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+                <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-900 to-primary-200 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+            </div>
+            <div class="mx-auto max-w-2xl py-14 sm:py-16 lg:py-20">
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">Gérez vos événements avec simplicité</h1>
+                    <p class="mt-6 text-lg leading-8 text-zinc-600">TicketLy facilite la gestion de vos événements et optimise la vente de tickets. Simplifiez les inscriptions et augmentez vos ventes grâce à nos outils intuitifs.</p>
+                    <div class="mt-10 flex items-center justify-center gap-x-6">
+                        <a href="#" class="btn btn-md btn-primary">Commencez maintenant</a>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+                <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-blue-100 to-blue-300 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+            </div>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-950/90 py-10 -mx-6 sm:-mx-8 lg:-mx-10 px-6 sm:px-8 lg:px-10">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-2xl/6 font-semibold mt-5 text-center">Événements à venir</h1>
+                {% for event in eventsToCome %}
+                    {% set reverse = loop.index is odd %}
+                    <div class="flex flex-col justify-center items-center gap-y-6 mt-6 sm:mt-8 border border-zinc-200 dark:border-zinc-900/50 bg-white dark:bg-zinc-900/90">
+                        <div class="grid grid-cols-1 md:grid-cols-2">
+                            {% if reverse %}
+                                <img src="{{ vich_uploader_asset(event, 'imageFile') }}"
+                                     class="w-full h-full object-cover object-center md:order-none order-1"
+                                     alt="{{ event.name }}">
+                                <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
+                                    <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
+                                    <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
+                                    <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
+                                    <div class="flex items-center justify-center gap-x-4">
+                                        <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
+                                    </div>
                                 </div>
-                                <div class="text-xs/6 text-zinc-500">
-                                    <span>{{ event_duration(row.startDate, row.endDate) }}</span>
-                                </div>
-                                <div class="text-xs/6 text-zinc-600">
-                                    {{ row.location }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            {% if row.isExpired %}
-                                <span class="max-sm:hidden inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-red-400/20 text-red-700 group-data-[hover]:bg-red-400/30 dark:bg-red-400/10 dark:text-red-300 dark:group-data-[hover]:bg-red-400/15">Hors vente</span>
                             {% else %}
-                                <span class="max-sm:hidden inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">En vente</span>
+                                <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
+                                    <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
+                                    <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
+                                    <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
+                                    <div class="flex items-center justify-center gap-x-4">
+                                        <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
+                                    </div>
+                                </div>
+                                <img src="{{ vich_uploader_asset(event, 'imageFile') }}"
+                                     class="w-full h-full object-cover object-center md:order-none order-1"
+                                     alt="{{ event.name }}">
                             {% endif %}
                         </div>
                     </div>
-                    <div class="flex flex-col justify-between mt-4">
-                        <div class="text-xs/6 text-zinc-600">
-                            Plus que {{ row.startDate|countdown('days') }} pour vous inscrire
-                        </div>
-                        <div class="text-xs/6 text-zinc-600">
-                            <span>{{ row.price|price_format }}</span>
-                        </div>
-                        <div class="text-xs/6 text-red-600">
-                            <span>Plus que {{ row.getRemainingSpaces }} places disponibles</span>/{{ row.maxSpace }}
-                        </div>
-
-                        <div class="flex items-center gap-4 mt-4">
-                            <a href="{{ path('app_event_show', {slug: row.slug}) }}" class="text-xs/6 text-primary-600 hover:text-primary-700 dark:text-lime-300 dark:hover:text-lime-400
-                            border border-primary-600 hover:border-primary-700 hover:bg-primary-50 rounded px-3 py-1.5">Voir
-                                l'événement</a>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 

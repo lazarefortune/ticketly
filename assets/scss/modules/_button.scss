@@ -2,7 +2,7 @@
 .btn {
   @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border shadow-sm
   focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 cursor-pointer;
-  @apply px-5 py-2 text-sm font-medium;
+  @apply px-5 py-2 text-sm ;
   //@apply px-4 py-1.5 text-sm font-medium;
 
   & > i {
