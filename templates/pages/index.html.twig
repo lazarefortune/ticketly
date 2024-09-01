@@ -25,43 +25,52 @@
 
         <div class="bg-zinc-50 dark:bg-zinc-950/90 py-10 -mx-6 sm:-mx-8 lg:-mx-10 px-6 sm:px-8 lg:px-10">
             <div class="max-w-4xl mx-auto">
-                <h1 class="text-2xl/6 font-semibold mt-5 text-center">Événements à venir</h1>
-                {% for event in eventsToCome %}
-                    {% set reverse = loop.index is odd %}
-                    <div class="flex flex-col justify-center items-center gap-y-6 mt-6 sm:mt-8 border border-zinc-200 dark:border-zinc-900/50 bg-white dark:bg-zinc-900/90">
-                        <div class="grid grid-cols-1 md:grid-cols-2">
-                            {% if reverse %}
-                                <img src="{{ event|event_image('imageFile') }}"
-                                     class="w-full h-full object-cover object-center md:order-none order-1"
-                                     alt="{{ event.name }}">
-                                <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
-                                    <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
-                                    <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
-                                    <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
-                                    <div class="flex items-center justify-center gap-x-4">
-                                        <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
-                                    <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
-                                    <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
-                                    <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
-                                    <div class="flex items-center justify-center gap-x-4">
-                                        <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
-                                    </div>
-                                </div>
-                                <img src="{{ event|event_image('imageFile') }}"
-                                     class="w-full h-full object-cover object-center md:order-none order-1"
-                                     alt="{{ event.name }}">
-                            {% endif %}
+                <h1 class="text-2xl font-semibold mt-5 text-center">Événements à venir</h1>
+
+                {% if eventsToCome is empty %}
+                    <div class="mt-6 text-center text-zinc-600 dark:text-zinc-400">
+                        <p class="text-lg">Aucun événement à venir pour le moment.</p>
+                        <p class="mt-2">Revenez plus tard pour découvrir les prochains événements, ou explorez d'autres sections de notre site !</p>
+                        <div class="mt-4">
+                            <a href="#" class="btn btn-md btn-outline">Voir les autres événements</a>
                         </div>
                     </div>
-                {% endfor %}
+                {% else %}
+                    {% for event in eventsToCome %}
+                        {% set reverse = loop.index is odd %}
+                        <div class="flex flex-col justify-center items-center gap-y-6 mt-6 sm:mt-8 border border-zinc-200 dark:border-zinc-900/50 bg-white dark:bg-zinc-900/90">
+                            <div class="grid grid-cols-1 md:grid-cols-2">
+                                {% if reverse %}
+                                    <img src="{{ event|event_image('imageFile') }}"
+                                         class="w-full h-full object-cover object-center md:order-none order-1"
+                                         alt="{{ event.name }}">
+                                    <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
+                                        <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
+                                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
+                                        <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
+                                        <div class="flex items-center justify-center gap-x-4">
+                                            <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
+                                        <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
+                                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
+                                        <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
+                                        <div class="flex items-center justify-center gap-x-4">
+                                            <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
+                                        </div>
+                                    </div>
+                                    <img src="{{ event|event_image('imageFile') }}"
+                                         class="w-full h-full object-cover object-center md:order-none order-1"
+                                         alt="{{ event.name }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
 
-
 {% endblock %}
-
