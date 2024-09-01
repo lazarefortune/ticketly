@@ -23,25 +23,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const incrementButton = document.getElementById('increment-button');
-    const decrementButton = document.getElementById('decrement-button');
-    const inputField = document.getElementById('quantity-input');
-
-    incrementButton.addEventListener('click', function() {
-        let currentValue = parseInt(inputField.value) || 0;
-        let maxValue = parseInt(inputField.getAttribute('max'));
-        if (currentValue < maxValue) {
-            inputField.value = currentValue + 1;
-        }
-    });
-
-    decrementButton.addEventListener('click', function() {
-        let currentValue = parseInt(inputField.value) || 0;
-        let minValue = parseInt(inputField.getAttribute('min'));
-        if (currentValue > minValue) {
-            inputField.value = currentValue - 1;
-        }
-    });
-});
