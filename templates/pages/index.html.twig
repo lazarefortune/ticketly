@@ -31,7 +31,7 @@
                     <div class="flex flex-col justify-center items-center gap-y-6 mt-6 sm:mt-8 border border-zinc-200 dark:border-zinc-900/50 bg-white dark:bg-zinc-900/90">
                         <div class="grid grid-cols-1 md:grid-cols-2">
                             {% if reverse %}
-                                <img src="{{ vich_uploader_asset(event, 'imageFile') }}"
+                                <img src="{{ event|event_image('imageFile') }}"
                                      class="w-full h-full object-cover object-center md:order-none order-1"
                                      alt="{{ event.name }}">
                                 <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
@@ -51,7 +51,7 @@
                                         <a href="{{ path('app_event_show', {slug: event.slug}) }}" class="btn btn-md btn-primary">Acheter des billets</a>
                                     </div>
                                 </div>
-                                <img src="{{ vich_uploader_asset(event, 'imageFile') }}"
+                                <img src="{{ event|event_image('imageFile') }}"
                                      class="w-full h-full object-cover object-center md:order-none order-1"
                                      alt="{{ event.name }}">
                             {% endif %}
