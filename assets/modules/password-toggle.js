@@ -2,11 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const togglePasswordButtons = document.querySelectorAll('.password-toggle-button');
 
     if (!togglePasswordButtons.length) {
-        return
+        return;
     }
 
     togglePasswordButtons.forEach(button => {
         button.addEventListener('click', (event) => {
+            event.preventDefault();
+
             const passwordField = event.currentTarget.closest('.relative').querySelector('input[type="password"], input[type="text"]');
             const iconEye = event.currentTarget.querySelector('.icon-eye');
             const iconEyeOff = event.currentTarget.querySelector('.icon-eye-off');
@@ -20,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconEye.classList.remove('hidden');
                 iconEyeOff.classList.add('hidden');
             }
+
+            passwordField.focus();
         });
     });
 });
