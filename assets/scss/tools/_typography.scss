@@ -169,5 +169,11 @@ h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 }
 
 .link {
-  @apply text-blue-600 hover:text-blue-700 underline-hover-effect;
+  @apply text-blue-500;
+}
+
+@media (min-width: 768px) {
+  .link {
+    @apply text-blue-600 hover:text-blue-700 underline-hover-effect;
+  }
 }

@@ -47,7 +47,7 @@
   // ↓ import here
   [type='checkbox'],
   [type='radio'] {
-    @apply h-5 w-5 cursor-pointer rounded border border-gray-300 bg-gray-50 text-primary-600 hover:bg-gray-100 focus:ring-primary-500 focus:ring-1
+    @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1
     dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0
     dark:focus:bg-transparent dark:focus:ring-offset-gray-900 dark:focus:ring-1 dark:focus:border-primary-300
     dark:hover:bg-transparent dark:hover:border-primary-500
