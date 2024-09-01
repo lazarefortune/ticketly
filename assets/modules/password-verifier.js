@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sélectionner le champ de mot de passe
     const passwordInput = document.querySelector('.password-verifier');
 
+    if (!passwordInput) {
+        return;
+    }
+
     // Sélectionner la div contenant les critères de validation
     const criteriaDiv = document.querySelector('.password-criteria');
 
