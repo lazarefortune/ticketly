@@ -33,6 +33,13 @@
   ;
 }
 
+.btn-light {
+  @apply bg-white text-gray-600 border-gray-300
+  hover:bg-gray-50 hover:text-gray-700 hover:border-gray-400
+  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 disabled:cursor-not-allowed
+  ;
+}
+
 .btn-success {
   @apply bg-green-600 text-white border-green-600
   hover:bg-green-700 hover:border-green-700

@@ -16,14 +16,22 @@ class EventRepository extends AbstractRepository
         parent::__construct( $registry, Event::class );
     }
 
-    public function findNext() : array
+    /**
+     * Return the next events online to come
+     * @return array<Event>
+     */
+    public function findNext( int $limit = 0 ) : array
     {
-        return $this->createQueryBuilder( 'e' )
+        $query = $this->createQueryBuilder( 'e' )
             ->andWhere( 'e.startDate > :now' )
+            ->andWhere( 'e.isActive = true' )
             ->setParameter( 'now', new \DateTime() )
-            ->orderBy( 'e.startDate', 'ASC' )
-            ->setMaxResults( 5 )
-            ->getQuery()
-            ->getResult();
+            ->orderBy( 'e.startDate', 'ASC' );
+
+        if( $limit > 0 ) {
+            $query->setMaxResults( $limit );
+        }
+
+        return $query->getQuery()->getResult();
     }
 }

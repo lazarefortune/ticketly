@@ -143,6 +143,9 @@ class EventController extends AbstractController
             $reservation->setName( $data['name'] );
             $reservation->setEmail( $data['email'] );
             $reservation->setPhoneNumber( $data['phoneNumber'] );
+            if ( $this->getUser() ) {
+                $reservation->setUser( $this->getUser() );
+            }
 
             $this->em->flush();
 

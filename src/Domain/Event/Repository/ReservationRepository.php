@@ -2,6 +2,7 @@
 
 namespace App\Domain\Event\Repository;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\Reservation;
 use App\Domain\Event\Service\ReservationCleanupService;
@@ -57,5 +58,31 @@ class ReservationRepository extends AbstractRepository implements CleanableRepos
         } catch ( NoResultException|NonUniqueResultException $e ) {
             return 0;
         }
+    }
+
+    public function findByUser( User $user ): array
+    {
+        return $this->createQueryBuilder( 'r' )
+            ->andWhere( 'r.user = :user' )
+            ->setParameter( 'user', $user )
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Search reservations by reservation number when user is empty or user is the owner
+     * @param User $user
+     * @param string $reservationNumber
+     * @return array
+     */
+    public function searchByReservationNumber( User $user, string $reservationNumber ): array
+    {
+        return $this->createQueryBuilder( 'r' )
+            ->andWhere( 'r.reservationNumber = :reservationNumber' )
+            ->andWhere( 'r.user = :user OR r.user IS NULL' )
+            ->setParameter( 'reservationNumber', $reservationNumber )
+            ->setParameter( 'user', $user )
+            ->getQuery()
+            ->getResult();
     }
 }

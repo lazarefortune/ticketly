@@ -68,9 +68,9 @@
             {% endif %}
             {% if app.user %}
             <li>
-                <a href=""  class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-0">
+                <a href="{{ path('app_my_reservation_index') }}"  class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-0">
                     {{ icon('calendar-days', 20) }}
-                    <span>Mes évènements</span>
+                    <span>Mes réservations</span>
                 </a>
             </li>
             <li>
@@ -86,12 +86,12 @@
     <ul class="header-side hidden lg:flex">
         <li class="flex items-center gap-1 relative">
             {% if app.user %}
-                <a href="" class="header__menu__link mr-4">
+                <a href="{{ path('app_my_reservation_index') }}" class="header__menu__link mr-4">
                     {{ icon('calendar-days') }}
-                    <span class="underline-hover-effect">Mes évènements</span>
+                    <span class="underline-hover-effect">Mes réservations</span>
                 </a>
                 <button
-                    class="dropdown-user-button flex items-center p-2 md:px-4 md:py-2 gap-2
+                    class="dropdown-user-button flex items-center p-2 md:px-4 md:py-2 gap-2 min-w-32 border
                     bg-white hover:bg-primary-100 hover:text-primary-900
                     dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
                     aria-controls="dropdown-user">

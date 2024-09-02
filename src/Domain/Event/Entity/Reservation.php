@@ -2,6 +2,7 @@
 
 namespace App\Domain\Event\Entity;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\Payment\Entity\Payment;
 use DateTimeInterface;
@@ -29,6 +30,10 @@ class Reservation
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $user = null;
 
     #[ORM\Column(type: 'integer')]
     private int $quantity;
@@ -127,6 +132,17 @@ class Reservation
     public function getEvent(): ?Event
     {
         return $this->event;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
     }
 
     public function getQuantity(): int
