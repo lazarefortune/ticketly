@@ -6,7 +6,6 @@ use App\Domain\Auth\Entity\EmailVerification;
 use App\Domain\Auth\Entity\PasswordReset;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Entity\Reservation;
-use App\Domain\Tag\Entity\Tag;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -44,7 +43,6 @@ class CleanCommand extends Command
         $this->clean( $io, PasswordReset::class, 'password reset requests' );
         $this->clean( $io, EmailVerification::class, 'email verification requests' );
         $this->clean( $io, Reservation::class, 'expired reservations');
-        $this->clean( $io, Tag::class, 'unused tags' );
 
 
         return Command::SUCCESS;

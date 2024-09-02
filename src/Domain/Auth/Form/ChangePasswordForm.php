@@ -17,7 +17,7 @@ class ChangePasswordForm extends AbstractType
             ->add( 'password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre',
-                'options' => ['attr' => ['class' => 'form-input-lg']],
+                'options' => ['attr' => ['class' => 'password-verifier']],
                 'required' => true,
                 'first_options' => [
                     'label' => 'Mot de passe',
