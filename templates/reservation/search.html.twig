@@ -10,7 +10,7 @@
         <div class="stack-large mt-5 mb-10 max-w-6xl mx-auto pb-12">
 
             <!-- Bouton de retour -->
-            <div class="flex items-center">
+            <div class="flex items-center mb-6">
                 <a href="{{ path('app_my_reservation_index') }}" class="flex items-center gap-2 text-sm text-zinc-900 hover:text-zinc-600">
                     {{ icon('arrow-left') }}
                     <span>Retour</span>
@@ -39,13 +39,22 @@
 
                 <!-- Section des résultats de la recherche -->
                 <div class="col-span-1 md:col-span-5">
-                    {% if reservations is empty %}
+                    {% if reservations is empty and isFormSubmitted %}
                         <!-- Message d'absence de réservations -->
                         <div class="flex justify-center items-center flex-col mt-8 md:mt-0">
                             <img src="{{ asset('images/illustrations/search-folder.svg') }}" alt="Aucune réservation" class="w-40 h-40 md:w-72 md:h-72 mb-4">
                             <div class="text-center max-w-md">
-                                <h3 class="text-lg font-semibold">Aucune réservation trouvée</h3>
+                                <h3 class="text-lg text-red-900 font-semibold">Aucune réservation trouvée</h3>
                                 <p class="text-sm text-zinc-500">Veuillez vérifier le numéro de réservation et réessayer.</p>
+                            </div>
+                        </div>
+                    {% elseif reservations is empty %}
+                        <!-- Message d'attente de recherche -->
+                        <div class="flex justify-center items-center flex-col mt-8 md:mt-0">
+                            <img src="{{ asset('images/illustrations/search.svg') }}" alt="Recherche en cours" class="w-40 h-40 md:w-72 md:h-72 mb-4">
+                            <div class="text-center max-w-md">
+                                <h3 class="text-lg font-semibold">Effectuer une recherche</h3>
+                                <p class="text-sm text-zinc-500">La recherche est exacte et sensible à la casse.</p>
                             </div>
                         </div>
                     {% else %}

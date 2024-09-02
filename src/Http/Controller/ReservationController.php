@@ -42,18 +42,21 @@ class ReservationController extends AbstractController
         $form = $this->createForm(ReservationSearchForm::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $isFormSubmitted = $form->isSubmitted();
+
+        $reservations = [];
+
+        if ($isFormSubmitted && $form->isValid()) {
             $reservations = $this->reservationRepository->searchByReservationNumber(
                 $this->getUser(),
                 $form->get('reservationNumber')->getData()
             );
-        } else {
-            $reservations = [];
         }
 
         return $this->render('reservation/search.html.twig', [
             'form' => $form->createView(),
             'reservations' => $reservations,
+            'isFormSubmitted' => $isFormSubmitted,
         ]);
     }
 
