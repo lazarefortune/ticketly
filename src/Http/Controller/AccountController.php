@@ -2,9 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Event\Repository\ReservationRepository;
-use App\Domain\History\Service\HistoryService;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
@@ -137,30 +135,29 @@ class AccountController extends AbstractController
             $data = $form->getData();
             if ( !$this->passwordHasher->isPasswordValid( $user, $data['password'] ) ) {
                 $this->addFlash( 'error', 'Impossible de supprimer votre compte, mot de passe invalide' );
-                return [$form, $this->redirectToRoute( 'app_profile' )];
+                return [$form, $this->redirectToRoute( 'app_account_profile' )];
             }
 
             try {
                 $this->deleteAccountService->deleteAccountRequest( $user, $request );
             } catch ( \LogicException $e ) {
                 $this->addFlash( 'error', $e->getMessage() );
-                return [$form, $this->redirectToRoute( 'app_profile' )];
+                return [$form, $this->redirectToRoute( 'app_account_profile' )];
             }
 
             $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été prise en compte' );
-            return [$form, $this->redirectToRoute( 'app_profile' )];
+            return [$form, $this->redirectToRoute( 'app_account_profile' )];
         }
 
         return [$form, null];
     }
 
-
-    #[Route( '/annuler-suppression-compte', name: 'cancel_account_deletion' )]
+    #[Route( '/annuler-suppression-compte', name: 'cancel_deletion' )]
     public function cancelAccountDeletion( Request $request ) : Response
     {
         $user = $this->getUserOrThrow();
         $this->deleteAccountService->cancelAccountDeletionRequest( $user );
         $this->addFlash( 'success', 'Votre demande de suppression de compte a bien été annulée' );
-        return $this->redirectToRoute( 'app_profile' );
+        return $this->redirectToRoute( 'app_account_profile' );
     }
 }

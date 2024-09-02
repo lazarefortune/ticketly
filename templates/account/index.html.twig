@@ -8,11 +8,19 @@
 
     <div class="container-box">
         <div class="stack-large mt-5 mb-10 max-w-6xl mx-auto border-b border-gray-900/10 pb-12">
+            {% if app.user.deletedAt %}
+                <div class="flex items-center gap-x-3 bg-red-100 p-4 rounded">
+                    <div class="">
+                        <p class="text-red-950 font-semibold mb-1">Vous avez demandé la suppression de votre compte.</p>
+                        <p class="text-red-700 text-sm">Il vous reste <span class="font-semibold">{{ app.user.deletedAt|countdown }}</span> pour annuler cette action.</p>
+                    </div>
+                </div>
+            {% endif %}
+
             {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
             <div>
                 <h2 class="text-base font-semibold">Mes informations</h2>
                 <p class="text-sm text-zinc-500 mb-4">Vérifiez et mettez à jour vos informations personnelles ci-dessous.</p>
-
 
                 <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4">
                     <div class="md:col-span-full">
@@ -72,46 +80,56 @@
             </div>
         </div>
 
-        <div class="stack-large mb-10 max-w-6xl mx-auto">
+        <div id="delete-account" class="stack-large mb-10 max-w-6xl mx-auto">
             <div class="pb-12">
-                <h2 class="text-base font-semibold">Suppression de compte</h2>
-                <p class="text-sm text-zinc-500 mb-4">La suppression de votre compte est définitive. Vous disposez de 7 jours pour changer d'avis.</p>
+                {% if app.user.deletedAt %}
+                    <h2 class="text-base text-red-800 font-semibold">Annuler la suppression de compte</h2>
+                    <p class="text-sm text-zinc-800 mb-4">
+                        Vous avez demandé la suppression de votre compte. Il vous reste <span class="font-semibold">{{ app.user.deletedAt|countdown }}</span> pour annuler cette action.</p>
 
-                <button class="btn btn-light-danger2" data-modal-id="deleteAccountModal">
-                    {{ icon('trash') }}
-                    <span>Supprimer mon compte</span>
-                </button>
+                    <a href="{{ path('app_account_cancel_deletion') }}" class="btn btn-primary">
+                        {{ icon('x') }}
+                        <span>Rétablir mon compte</span>
+                    </a>
+                {% else %}
+                    <h2 class="text-base text-red-800 font-semibold">Suppression de compte</h2>
+                    <p class="text-sm text-zinc-500 mb-4">La suppression de votre compte est définitive. Vous disposez de 7 jours pour changer d'avis.</p>
 
-                <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
-                    <section class="modal-box">
-                        <header>Confirmer la suppression</header>
-                        <button data-dismiss aria-label="Close" class="modal-close">
-                            {{ icon('x') }}
-                        </button>
+                    <button class="btn btn-light-danger2" data-modal-id="deleteAccountModal">
+                        {{ icon('trash') }}
+                        <span>Supprimer mon compte</span>
+                    </button>
 
-                        <div class="stack">
-                            <p class="text-red-900">Attention : Vous êtes sur le point de supprimer votre compte.</p>
-                            <p class="text-zinc-500">Cette action est irréversible et entraînera la perte définitive de toutes vos données.</p>
-                            <p class="text-zinc-500">
-                                Pour confirmer la suppression, veuillez saisir votre mot de passe. Le compte sera automatiquement supprimé dans un délai de 7 jours.
-                            </p>
+                    <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                        <section class="modal-box">
+                            <header>Confirmer la suppression</header>
+                            <button data-dismiss aria-label="Close" class="modal-close">
+                                {{ icon('x') }}
+                            </button>
 
-                            {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+                            <div class="stack">
+                                <p class="text-red-900">Attention : Vous êtes sur le point de supprimer votre compte.</p>
+                                <p class="text-zinc-500">Cette action est irréversible et entraînera la perte définitive de toutes vos données.</p>
+                                <p class="text-zinc-500">
+                                    Pour confirmer la suppression, veuillez saisir votre mot de passe. Le compte sera automatiquement supprimé dans un délai de 7 jours.
+                                </p>
 
-                            {{ form_row(formDeleteAccount.password) }}
+                                {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
 
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-light-danger">
-                                    {{ icon('trash') }}
-                                    <span>Confirmer la suppression</span>
-                                </button>
+                                {{ form_row(formDeleteAccount.password) }}
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-light-danger">
+                                        {{ icon('trash') }}
+                                        <span>Confirmer la suppression</span>
+                                    </button>
+                                </div>
+                                {{ form_end(formDeleteAccount) }}
                             </div>
-                            {{ form_end(formDeleteAccount) }}
-                        </div>
 
-                    </section>
-                </modal-dialog>
-
+                        </section>
+                    </modal-dialog>
+                {% endif %}
             </div>
         </div>
 

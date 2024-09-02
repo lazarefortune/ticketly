@@ -67,7 +67,7 @@ class LoginController extends AbstractController
         ] );
     }
 
-    #[Route( path: '/mot-de-passe-oublie/{token}', name: 'reset_password', methods: ['GET', 'POST'] )]
+    #[Route( path: '/modifier-mot-de-passe/{token}', name: 'reset_password', methods: ['GET', 'POST'] )]
     public function resetPassword( Request $request, string $token ) : Response
     {
         if ( $this->getUser() ) {
