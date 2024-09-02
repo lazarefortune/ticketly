@@ -20,29 +20,17 @@ class TicketController extends AbstractController
     }
 
     #[Route('/validation/{ticketNumber?}', name: 'validation')]
-    public function validateTicket(Request $request, string $ticketNumber = null): Response
+    public function validateTicket(Request $request, ?string $ticketNumber = null): Response
     {
         $ticket = null;
 
-        if ($ticketNumber) {
+        // Retrieve ticket based on provided ticket number or search input
+        if ($ticketNumber || $request->query->has('reference')) {
+            $ticketNumber = $ticketNumber ?? $request->query->get('reference');
             $ticket = $this->em->getRepository(Ticket::class)->findOneBy(['ticketNumber' => $ticketNumber]);
-
-            if (!$ticket) {
-                $this->addFlash('danger', 'Ticket non trouvé.');
-            }
         }
 
-        // Si le formulaire de recherche est soumis
-        if ($request->isMethod('GET') && $request->query->has('reference')) {
-            $ticketNumber = $request->query->get('reference');
-            $ticket = $this->em->getRepository(Ticket::class)->findOneBy(['ticketNumber' => $ticketNumber]);
-
-            if (!$ticket) {
-                $this->addFlash('danger', 'Ticket non trouvé.');
-            }
-        }
-
-        // Si la validation manuelle est demandée
+        // Process ticket validation
         if ($request->isMethod('POST') && $ticket && $ticket->isValid() && !$ticket->isUsed()) {
             $ticket->setUsed(true);
             $this->em->flush();

@@ -53,7 +53,7 @@
                                     <p class="text-sm text-zinc-500">Réservé le {{ reservation.createdAt|date('d/m/Y à H:i') }}</p>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <a href="#" class="btn btn-light flex items-center gap-2">
+                                    <a href="{{ path('app_event_reservation_show', {reservationNumber: reservation.reservationNumber}) }}" class="btn btn-light flex items-center gap-2">
                                         {{ icon('eye', 20) }}
                                         <span>Voir détails</span>
                                     </a>
@@ -65,9 +65,9 @@
             {% endif %}
         </div>
 
+        {% if suggestedEvents is not empty %}
         <div class="stack mt-5 mb-10 max-w-6xl mx-auto pb-12 border-b border-gray-900/10">
             <!-- Section des événements suggérés -->
-            {% if suggestedEvents is not empty %}
                 <div class="">
                     <h3 class="text-base text-primary-700 font-semibold mb-4">Et si vous participiez à ces événements ?</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -88,8 +88,8 @@
                         {% endfor %}
                     </div>
                 </div>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

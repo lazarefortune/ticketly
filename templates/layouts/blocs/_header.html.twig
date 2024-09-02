@@ -36,6 +36,12 @@
                             <span>Administration</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ path('app_ticket_validation') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                            {{ icon('scan-barcode', 20) }}
+                            <span>Validation de ticket</span>
+                        </a>
+                    </li>
                 {% endif %}
                 <li>
                     <a href="{{ path('app_account_profile') }}"
@@ -116,6 +122,13 @@
                                 dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
                             {{ icon('shield' ) }}
                             <span>Administration</span>
+                        </a>
+                        <a href="{{ path('app_ticket_validation') }}"
+                           class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
+                                hover:bg-primary-100 hover:text-primary-900
+                                dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                            {{ icon('scan-barcode' ) }}
+                            <span>Validation de ticket</span>
                         </a>
                     {% endif %}
                     {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}

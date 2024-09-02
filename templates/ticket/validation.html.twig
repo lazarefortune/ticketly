@@ -1,103 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Validateur de ticket {% endblock %}
+{% block title %}Validateur de ticket{% endblock %}
 
 {% block body %}
-    <div class="container-box">
-        <div class="stack flex flex-col items-center justify-center min-h-screen">
-            <h1 class="h2 text-center mt-5">Validation de ticket</h1>
+    <div class="container-box py-10">
+        <div class="stack mb-10 max-w-6xl mx-auto pb-12">
+            {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
+            <!-- Page Title -->
+            <div>
+                <h1 class="text-xl font-semibold text-center text-gray-800">Validation de ticket</h1>
+                <p class="text-sm text-center text-gray-500">Vous pouvez vérifier la validité d'un ticket ou en valider un</p>
+            </div>
 
-            <div class="mx-auto">
-                {% include 'partials/flash.html.twig' %}
+            <!-- Ticket Search Form -->
+            <div class="w-full max-w-md mx-auto bg-white rounded p-4 border mt-6">
+                <form action="{{ path('app_ticket_validation') }}" method="get">
+                    <div class="mb-4">
+                        <label for="ticketNumber" class="block text-sm font-medium text-gray-700">Numéro de ticket</label>
+                        <input type="text" name="reference" id="ticketNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500" required
+                               placeholder="ex: TCK-240813-13VR">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">
+                        {{ icon('search', 20) }}
+                        <span>Rechercher</span>
+                    </button>
+                </form>
             </div>
 
             {% if ticket %}
-                <section class="mx-auto w-96 rounded-3xl dark:bg-dark-soft border border-slate-200 dark:border-slate-700 flex flex-col relative bg-primary-950">
-                    <div class="w-full h-full mx-auto z-10 bg-primary-900 rounded-2xl">
-                        <div class="flex flex-col">
-                            <div class="bg-white relative drop-shadow-2xl rounded-xl p-4 m-4">
-                                <div class="flex-none sm:flex">
-                                    <div class="flex-auto justify-evenly">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center my-1">
-                                                <span class="mr-3 rounded-full bg-white w-8 h-8">
-                                                    <img src="{{ asset('images/app-logo.svg') }}" alt="{{ app_name }}" class="h-8 p-1">
-                                                </span>
-                                                <h2 class="font-medium">{{ app_name }}</h2>
-                                            </div>
-                                        </div>
-                                        <div class="border-b border-dashed my-5"></div>
-                                        <div class="flex items-center">
-                                            <div class="flex flex-col">
-                                                <div class="flex-auto text-xs text-gray-400 my-1">
-                                                    <span class="mr-1 ">Référence</span>
-                                                </div>
-                                                <div class="w-full flex-none text-lg text-primary-800 font-bold leading-none">
-                                                    {{ ticket.ticketNumber ?? '--' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="border-b border-dashed my-5 pt-5"></div>
-                                        <div class="flex items-center mb-2 text-sm">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm text-gray-400">Évènement</span>
-                                                <div class="font-semibold">
-                                                    {{ ticket.event.name ?? '--' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center mb-2 text-sm">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm text-gray-400">Lieu</span>
-                                                <div class="font-semibold">
-                                                    {{ ticket.event.location ?? '--' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center mb-4">
-                                            <div class="flex flex-col text-sm">
-                                                <span class="text-gray-400">Début</span>
-                                                <div class="font-semibold">
-                                                    {{ ticket.event.startDate|date('d/m/Y') }}
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-col text-sm ml-auto">
-                                                <span class="text-gray-400">Fin</span>
-                                                <div class="font-semibold">
-                                                    {{ ticket.event.endDate|date('d/m/Y') }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="border-b border-dashed my-5 pt-5"></div>
-                                        <div class="flex flex-col py-5 justify-center items-center text-sm">
-                                            {% if ticket.isValid() and not ticket.isUsed %}
-                                                <p class="text-green-500">Ce ticket est valide et n'a pas encore été utilisé.</p>
-                                                <form action="{{ path('app_ticket_validation', {ticketNumber: ticket.ticketNumber}) }}" method="post">
-                                                    <button type="submit" class="btn-primary mt-4">Valider le ticket</button>
-                                                </form>
-                                            {% elseif ticket.isUsed %}
-                                                <p class="text-red-500">Ce ticket a déjà été validé.</p>
-                                            {% else %}
-                                                <p class="text-red-500">Ce ticket n'est plus valide.</p>
-                                            {% endif %}
-                                        </div>
+                <!-- Ticket Details Card -->
+                <div class="w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden border-t-4 border-primary-600 mt-8">
+                    <div class="p-4 md:p-6">
+                        <!-- Ticket Information Header -->
+                        <div class="flex items-center justify-between mb-4 flex-col md:flex-row gap-4">
+                            <div class="flex items-center">
+                                <img src="{{ asset('images/app-logo.svg') }}" alt="{{ app_name }}" class="h-10 w-10 rounded-full border-2 border-primary-600">
+                                <h2 class="ml-2 font-medium text-xl text-primary-900">{{ app_name }}</h2>
+                            </div>
+                            <span class="text-sm text-gray-500">Réf: {{ ticket.ticketNumber ?? '--' }}</span>
+                        </div>
+
+                        <!-- Event Details -->
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 border p-4 rounded">
+                                <p class="text-sm text-gray-500">Évènement</p>
+                                <p class="text-base font-medium text-gray-800">{{ ticket.event.name ?? '--' }}</p>
+                            </div>
+                            <div class="bg-gray-50 border p-4 rounded">
+                                <p class="text-sm text-gray-500">Lieu</p>
+                                <p class="text-base font-medium text-gray-800">{{ ticket.event.location ?? '--' }}</p>
+                            </div>
+                            <div class="bg-gray-50 border p-4 rounded">
+                                <p class="text-xs text-gray-500 mb-2">Date & Heure</p>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Début</p>
+                                        <p class="text-base font-medium text-gray-800">{{ ticket.event.startDate|date('d/m/Y H:i') }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Fin</p>
+                                        <p class="text-base font-medium text-gray-800">{{ ticket.event.endDate|date('d/m/Y H:i') }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <div class="mx-auto max-w-96 mt-4">
-                    <a href="{{ path('app_ticket_validation') }}" class="btn-primary mt-4">Rechercher un autre ticket</a>
+                        <!-- Ticket Validation Status -->
+                        <div class="mt-4">
+                            {% if ticket.isValid() and not ticket.isUsed %}
+                                <div class="bg-green-100 p-4 rounded text-center">
+                                    <p class="text-green-700 font-medium">Ce ticket est valide et n'a pas encore été utilisé.</p>
+                                </div>
+                                <form action="{{ path('app_ticket_validation', {ticketNumber: ticket.ticketNumber}) }}" method="post" class="mt-4">
+                                    <button type="submit" class="btn btn-primary w-full">Valider le ticket</button>
+                                </form>
+                            {% elseif ticket.isUsed %}
+                                <div class="bg-orange-100 p-4 rounded text-center">
+                                    <p class="text-orange-900 font-medium">Ce ticket a déjà été validé.</p>
+                                </div>
+                            {% else %}
+                                <div class="bg-red-100 p-4 rounded text-center">
+                                    <p class="text-red-900 font-medium">Ce ticket n'est plus valide.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            {% else %}
-                <div class="mx-auto max-w-96 mb-3 border p-4">
-                    <form action="{{ path('app_ticket_validation') }}" method="get">
-                        <label for="ticketNumber" class="block text-sm font-medium text-gray-700">Rechercher par numéro de ticket :</label>
-                        <input type="text" name="reference" id="ticketNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required value="{{ ticket ? ticket.ticketNumber : '' }}">
-                        <button type="submit" class="btn-primary mt-4">Rechercher</button>
-                    </form>
+
+                <!-- Search Another Ticket Button -->
+                <div class="mt-6 mx-auto">
+                    <a href="{{ path('app_ticket_validation') }}" class="btn btn-secondary">Réinitialiser la recherche</a>
+                </div>
+            {% elseif app.request.query.has('reference') %}
+                <!-- No Ticket Found Message -->
+                <div class="flex flex-col items-center mt-8">
+                    <img src="{{ asset('images/illustrations/empty-folder.svg') }}" alt="Aucun ticket trouvé" class="w-40 h-40 md:w-72 md:h-72 mb-4">
+                    <div class="text-center max-w-md">
+                        <h3 class="text-lg font-semibold">Aucun ticket trouvé</h3>
+                        <p class="text-sm text-gray-500">Veuillez vérifier le numéro de ticket et réessayer.</p>
+                    </div>
                 </div>
             {% endif %}
         </div>
