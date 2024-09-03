@@ -85,4 +85,17 @@ class ReservationRepository extends AbstractRepository implements CleanableRepos
             ->getQuery()
             ->getResult();
     }
+
+    public function searchByReservationDetails(User $user, string $reservationNumber, string $email): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.reservationNumber = :reservationNumber')
+            ->andWhere('r.email = :email')
+            ->andWhere('r.user = :user OR r.user IS NULL')
+            ->setParameter('reservationNumber', $reservationNumber)
+            ->setParameter('email', $email)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 }

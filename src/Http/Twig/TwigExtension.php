@@ -38,6 +38,7 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'date_diff', [$this, 'dateDiff'] ),
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
             new TwigFilter( 'truncate', [$this, 'truncate'] ),
+            new TwigFilter('obfuscate_email', [$this, 'obfuscateEmail']),
         ];
     }
 
@@ -51,6 +52,18 @@ class TwigExtension extends AbstractExtension
 
         return $text . $ending;
 
+    }
+
+    public function obfuscateEmail(string $email): string
+    {
+        // Sépare l'email en deux parties : avant et après le "@".
+        [$user, $domain] = explode('@', $email);
+
+        // Masque partiellement le nom d'utilisateur et le domaine.
+        $userObfuscated = substr($user, 0, 1) . str_repeat('*', max(0, strlen($user) - 2)) . substr($user, -1);
+        $domainObfuscated = substr($domain, 0, 1) . str_repeat('*', max(0, strpos($domain, '.') - 2)) . substr($domain, strpos($domain, '.'));
+
+        return $userObfuscated . '@' . $domainObfuscated;
     }
 
     public function formatPrice( $value ) : string

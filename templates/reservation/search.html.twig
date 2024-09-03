@@ -28,6 +28,10 @@
 
                         {{ form_start(form) }}
                         {{ form_row(form.reservationNumber, {'attr': {'placeholder': 'ex: RSV-D945E77E', 'class': 'w-full p-2 border border-gray-300 rounded-md'}}) }}
+                        <div class="mt-2">
+                            {{ form_row(form.email) }}
+                            <p class="text-sm text-primary-500">Renseignez l'adresse email utilisée lors de la réservation.</p>
+                        </div>
 
                         <button type="submit" class="btn btn-primary w-full flex items-center justify-center mt-4">
                             {{ icon('search', 20) }}
@@ -63,7 +67,7 @@
                             <h3 class="text-lg text-primary-700 font-semibold mb-4">{{ reservations|length }} réservation(s) trouvée(s)</h3>
                             <ul class="grid grid-cols-1 gap-6">
                                 {% for reservation in reservations %}
-                                    <li class="p-4 bg-white shadow-md rounded-lg flex flex-col justify-between">
+                                    <li class="p-4 border bg-white shadow-md rounded-lg flex flex-col justify-between">
                                         <div>
                                             <h4 class="text-md font-semibold mb-2">{{ reservation.event.name }}</h4>
                                             <p class="text-sm text-zinc-500 mb-4">Réservé le {{ reservation.createdAt|date('d/m/Y à H:i') }}</p>

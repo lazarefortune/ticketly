@@ -2,10 +2,10 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Repository\EventRepository;
 use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\Reservation\Form\ReservationSearchForm;
+use App\Infrastructure\Mailing\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,13 +43,13 @@ class ReservationController extends AbstractController
         $form->handleRequest($request);
 
         $isFormSubmitted = $form->isSubmitted();
-
         $reservations = [];
 
         if ($isFormSubmitted && $form->isValid()) {
-            $reservations = $this->reservationRepository->searchByReservationNumber(
+            $reservations = $this->reservationRepository->searchByReservationDetails(
                 $this->getUser(),
-                $form->get('reservationNumber')->getData()
+                $form->get('reservationNumber')->getData(),
+                $form->get('email')->getData()
             );
         }
 
@@ -61,7 +61,7 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/ajouter/{id}', name: 'add_to_account', methods: ['POST'])]
-    public function addToAccount(int $id) : Response
+    public function addToAccount(int $id, MailService $mailService) : Response
     {
         $reservation = $this->reservationRepository->find($id);
 

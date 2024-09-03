@@ -21,6 +21,10 @@ class ReservationSearchForm extends AbstractType
                     new NotBlank(),
                     new Length(['min' => 3]),
                 ],
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'Adresse email',
+                'required' => true,
             ]);
     }
 
