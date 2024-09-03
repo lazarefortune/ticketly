@@ -27,7 +27,7 @@
                         <p class="text-sm text-zinc-500 mb-4">Entrez le numéro de réservation reçu par email pour le lier à votre compte.</p>
 
                         {{ form_start(form) }}
-                        {{ form_row(form.reservationNumber, {'attr': {'placeholder': 'ex: RSV-D945E77E', 'class': 'w-full p-2 border border-gray-300 rounded-md'}}) }}
+                        {{ form_row(form.reservationNumber, {'attr': {'placeholder': 'ex: RSV-D945E77E'}}) }}
                         <div class="mt-2">
                             {{ form_row(form.email) }}
                             <p class="text-sm text-primary-500">Renseignez l'adresse email utilisée lors de la réservation.</p>
