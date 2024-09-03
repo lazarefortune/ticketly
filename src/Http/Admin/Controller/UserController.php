@@ -3,7 +3,11 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
+use App\Domain\Profile\Event\Unverified\AccountVerificationRequestEvent;
 use App\Http\Admin\Data\Crud\UserCrudData;
+use App\Http\Admin\Data\Crud\UserEditData;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -18,7 +22,11 @@ class UserController extends CrudController
     protected string $searchField = 'name';
     protected string $entity = User::class;
     protected string $routePrefix = 'admin_users';
-    protected array $events = [];
+    protected array $events = [
+        'update' => null,
+        'delete' => null,
+        'create' => UserRegistrationCompletedEvent::class,
+    ];
 
     #[Route( path: '/', name: 'index', methods: ['GET'] )]
     public function index() : Response
@@ -48,7 +56,7 @@ class UserController extends CrudController
     #[Route( path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'] )]
     public function edit( User $user ) : Response
     {
-        $data = new UserCrudData( $user );
+        $data = new UserEditData( $user );
         return $this->crudEdit( $data );
     }
 
@@ -70,5 +78,17 @@ class UserController extends CrudController
     public function ajaxDelete( User $user ) : Response
     {
         return $this->crudAjaxDelete( $user );
+    }
+
+    #[Route( path: '/{id<\d+>}/resend-verification-email', name: 'resend_verification_email', methods: ['GET'] )]
+    public function resendVerificationEmail( User $user, EventDispatcherInterface $dispatcher ) : Response
+    {
+        $this->denyAccessUnlessGranted( 'ROLE_SUPER_ADMIN' );
+
+        $dispatcher->dispatch( new AccountVerificationRequestEvent( $user ) );
+
+        $this->addFlash( 'success', 'Email de vérification envoyé' );
+
+        return $this->redirectToRoute( 'admin_users_index');
     }
 }

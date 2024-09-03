@@ -4,6 +4,7 @@ parameters:
   sender_email: '%env(SENDER_EMAIL)%'
   contact_email: '%env(CONTACT_EMAIL)%'
   app.name: '%env(APP_NAME)%'
+  app.email.support: '%env(APP_EMAIL_SUPPORT)%'
   download_path:    '%kernel.project_dir%/downloads'
   videos_path:      '%download_path%/videos'
   sources_path:     '%download_path%/sources'

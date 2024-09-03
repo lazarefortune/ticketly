@@ -2,9 +2,10 @@
 
 namespace App\Domain\Profile\Service;
 
-use App\Domain\Auth\Entity\User;
 use App\Domain\Account\Service\AuthService;
-use App\Domain\Profile\Event\UserDeleteRequestEvent;
+use App\Domain\Auth\Entity\User;
+use App\Domain\Profile\Event\Delete\UserDeleteRequestEvent;
+use App\Domain\Profile\Event\Delete\UserRequestDeleteSuccessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -21,6 +22,8 @@ class DeleteAccountService
 
     public function deleteAccount( User $user ) : void
     {
+       # $this->dispatcher->dispatch( new UserRequestDeleteSuccessEvent( $user ) );
+
         $this->em->remove( $user );
         $this->em->flush();
     }

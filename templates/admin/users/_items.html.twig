@@ -70,11 +70,16 @@
                     <ajax-delete class="btn-icon"
                             target="tr"
                                  url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                        {{ icon('trash') }}
+                        {{ icon('ban') }}
                     </ajax-delete>
                     <a href="{{ path('app_home', { '_switch_user': row.email }) }}" class="btn-icon">
                         {{ icon('joystick') }}
                     </a>
+                    {% if not row.isVerified %}
+                        <a href="{{ path('admin_users_resend_verification_email', {id: row.id}) }}" class="btn-icon">
+                            {{ icon('mail') }}
+                        </a>
+                    {% endif %}
                 </tr>
         {% endfor %}
         </tbody>

@@ -4,7 +4,7 @@ namespace App\Domain\Profile\Subscriber;
 
 use App\Domain\Auth\Event\RequestEmailChangeEvent;
 use App\Domain\Profile\Event\PasswordChangeSuccessEvent;
-use App\Domain\Profile\Event\UserUnverifiedRemoveEvent;
+use App\Domain\Profile\Event\Unverified\DeleteUnverifiedUserSuccessEvent;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
@@ -21,7 +21,6 @@ class ProfileSubscriber implements EventSubscriberInterface
         return [
             RequestEmailChangeEvent::class => 'onEmailChangeRequest',
             PasswordChangeSuccessEvent::class => 'onPasswordChanged',
-            UserUnverifiedRemoveEvent::class => 'onUserUnverifiedRemove',
         ];
     }
 
@@ -54,7 +53,7 @@ class ProfileSubscriber implements EventSubscriberInterface
         $this->mailService->send( $email );
     }
 
-    public function onUserUnverifiedRemove( UserUnverifiedRemoveEvent $event ) : void
+    public function onUserUnverifiedRemove( DeleteUnverifiedUserSuccessEvent $event ) : void
     {
         $user = $event->getUser();
 
@@ -67,4 +66,5 @@ class ProfileSubscriber implements EventSubscriberInterface
 
         $this->mailService->send( $email );
     }
+
 }

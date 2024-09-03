@@ -30,11 +30,57 @@
     </div>
 
     <div class="mt-6">
-        {% include 'admin/users/_form.html.twig' with {
-            form: form,
-            button_label: 'Enregistrer',
-            button_back_to_list: false
-        } %}
+        {{ form_start(form) }}
+        <div class="stack">
+            <!-- user details in entity -->
+            <div class="grid grid-cols-8 gap-4">
+                <div class="col-span-full md:col-span-4">
+                    <p class="text-sm text-gray-500">Informations de l'utilisateur</p>
+                    <p>{{ entity.fullname }}</p>
+                </div>
+
+                {% if entity.dateOfBirthday %}
+                    <div class="col-span-full md:col-span-4">
+                        <p class="text-sm text-gray-500">Date de naissance</p>
+                        <p>{{ entity.dateOfBirthday|date('d/m/Y') }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="col-span-full md:col-span-4">
+                    <p class="text-sm text-gray-500">Adresse email</p>
+                    <p>{{ entity.email }}</p>
+                </div>
+
+                {% if entity.phone %}
+                    <div class="col-span-full md:col-span-4">
+                        <p class="text-sm text-gray-500">Téléphone</p>
+                        <p>{{ entity.phone }}</p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="stack">
+                <div class="grid2 mt-3">
+                    {{ form_row(form.roles, {
+                        'label': 'Définissez le(s) rôle(s) de l\'utilisateur',
+                        'label_attr': {
+                            'class': 'label'
+                        }
+                    }) }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    {{ icon('save') }}
+                    <span>
+                        {{ button_label|default('Enregistrer') }}
+                    </span>
+                </button>
+            </div>
+        </div>
+        {{ form_end(form) }}
     </div>
 
 

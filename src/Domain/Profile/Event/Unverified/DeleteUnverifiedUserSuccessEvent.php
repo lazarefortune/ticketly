@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Domain\Profile\Event;
+namespace App\Domain\Profile\Event\Unverified;
 
 use App\Domain\Auth\Entity\User;
-use Symfony\Contracts\EventDispatcher\Event;
 
-class UserUnverifiedRemoveEvent extends Event
+class DeleteUnverifiedUserSuccessEvent
 {
     public function __construct(
-        public User $user,
+        private readonly User $user,
     )
     {
     }

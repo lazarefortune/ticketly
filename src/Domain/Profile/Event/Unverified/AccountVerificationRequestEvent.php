@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Domain\Profile\Event;
+namespace App\Domain\Profile\Event\Unverified;
 
 use App\Domain\Auth\Entity\User;
 
-class UserDeleteRequestEvent
+class AccountVerificationRequestEvent
 {
+    public const NAME = 'account.verification.request';
+
     public function __construct(
         private readonly User $user,
     )

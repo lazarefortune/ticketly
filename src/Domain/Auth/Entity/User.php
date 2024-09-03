@@ -20,8 +20,17 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[UniqueEntity( fields: ['email'], message: 'There is already an account with this email' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const DAYS_FOR_PREVENT_DELETE_UNVERIFIED_USER = 4;
     public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
+    public const DAYS_FOR_PREVENT_DELETE_USER = 3;
     public const DAYS_BEFORE_DELETION = 5;
+
+    public const DELETE_REASON = [
+        'REQUESTED' => 'user-request',
+        'SPAM' => 'email-unverified',
+        'FAKE' => 'fake-account',
+        'OTHER' => 'other-reason',
+    ];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

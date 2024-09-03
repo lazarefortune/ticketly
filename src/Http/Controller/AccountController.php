@@ -146,6 +146,7 @@ class AccountController extends AbstractController
             }
 
             $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été prise en compte' );
+
             return [$form, $this->redirectToRoute( 'app_account_profile' )];
         }
 

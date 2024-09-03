@@ -3,7 +3,10 @@
 namespace App\Domain\Auth\Repository;
 
 use App\Domain\Auth\Entity\User;
-use App\Domain\Profile\Event\UserUnverifiedRemoveEvent;
+use App\Domain\Profile\Event\Delete\PreviousUserDeleteRequestEvent;
+use App\Domain\Profile\Event\Delete\UserRequestDeleteSuccessEvent;
+use App\Domain\Profile\Event\Unverified\DeleteUnverifiedUserSuccessEvent;
+use App\Domain\Profile\Event\Unverified\PreviousDeleteUnverifiedUserEvent;
 use App\Domain\Profile\Service\DeleteAccountService;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -98,23 +101,44 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function removeAllUnverifiedAccount() : int
     {
-        $date = new \DateTime();
-        $date->modify( '-' . User::DAYS_BEFORE_DELETE_UNVERIFIED_USER . ' days' );
+        $currentDate = new \DateTime();
 
-        // get all user with unverified email and created before few days
-        $users = $this->createQueryBuilder( 'u' )
-            ->andWhere( 'u.roles LIKE :role' )
-            ->andWhere( 'u.createdAt < :date' )
-            ->andWhere( 'u.isVerified = false' )
-            ->setParameter( 'date', $date )
-            ->setParameter( 'role', '%ROLE_USER%' )
+        // Date de suppression des utilisateurs non vérifiés
+        $deletionDate = (clone $currentDate)->modify('-' . User::DAYS_BEFORE_DELETE_UNVERIFIED_USER . ' days');
+
+        // Récupère les utilisateurs non vérifiés qui doivent être supprimés
+        $usersToDelete = $this->createQueryBuilder('u')
+            ->andWhere('u.roles LIKE :role')
+            ->andWhere('u.createdAt < :deletionDate')
+            ->andWhere('u.isVerified = false')
+            ->setParameter('deletionDate', $deletionDate)
+            ->setParameter('role', '%ROLE_USER%')
             ->getQuery()
             ->getResult();
 
+        // Envoie des notifications de suppression imminente (période d'avertissement)
+        $warningDate = (clone $currentDate)->modify('-' . User::DAYS_FOR_PREVENT_DELETE_UNVERIFIED_USER . ' days');
+
+        $usersToWarn = $this->createQueryBuilder('u')
+            ->andWhere('u.roles LIKE :role')
+            ->andWhere('u.createdAt < :warningDate')
+            ->andWhere('u.createdAt >= :deletionDate')
+            ->andWhere('u.isVerified = false')
+            ->setParameter('warningDate', $warningDate)
+            ->setParameter('deletionDate', $deletionDate)
+            ->setParameter('role', '%ROLE_USER%')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($usersToWarn as $user) {
+            $this->dispatcher->dispatch(new PreviousDeleteUnverifiedUserEvent($user));
+        }
+
+        // Supprime les utilisateurs non vérifiés dont la date de suppression est atteinte
         $count = 0;
-        foreach ( $users as $user ) {
-            $this->deleteAccountService->deleteAccount( $user );
-            $this->dispatcher->dispatch( new UserUnverifiedRemoveEvent( $user ) );
+        foreach ($usersToDelete as $user) {
+            $this->dispatcher->dispatch(new DeleteUnverifiedUserSuccessEvent($user));
+            $this->deleteAccountService->deleteAccount($user);
             $count++;
         }
 
@@ -128,21 +152,45 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function cleanUsersDeleted() : int
     {
-        $date = new \DateTime();
+        $currentDate = new \DateTime();
 
-        $users = $this->createQueryBuilder( 'u' )
-            ->andWhere( 'u.roles NOT LIKE :role' )
-            ->andWhere( 'u.deletedAt IS NOT NULL' )
-            ->andWhere( 'u.deletedAt <= :date' )
-            ->setParameter( 'date', $date )
-            ->setParameter( 'role', '%ROLE_SUPER_ADMIN%' )
+        // Date de suppression des utilisateurs ayant demandé la suppression
+        $deletionDate = $currentDate;
+
+        // Date d'avertissement (n jours avant la suppression)
+        $warningDate = (clone $currentDate)->modify('+' . User::DAYS_FOR_PREVENT_DELETE_USER . ' days');
+
+        // Récupère les utilisateurs qui doivent être avertis de la suppression imminente
+        $usersToWarn = $this->createQueryBuilder('u')
+            ->andWhere('u.deletedAt IS NOT NULL')
+            ->andWhere('u.deletedAt <= :warningDate')
+            ->andWhere('u.deletedAt > :deletionDate')
+            ->andWhere('u.roles NOT LIKE :role')
+            ->setParameter('warningDate', $warningDate)
+            ->setParameter('deletionDate', $deletionDate)
+            ->setParameter('role', '%ROLE_SUPER_ADMIN%')
             ->getQuery()
             ->getResult();
 
+        foreach ($usersToWarn as $user) {
+            $this->dispatcher->dispatch(new PreviousUserDeleteRequestEvent($user));
+        }
+
+        // Récupère les utilisateurs qui doivent être supprimés (date de suppression atteinte)
+        $usersToDelete = $this->createQueryBuilder('u')
+            ->andWhere('u.deletedAt IS NOT NULL')
+            ->andWhere('u.deletedAt <= :deletionDate')
+            ->andWhere('u.roles NOT LIKE :role')
+            ->setParameter('deletionDate', $deletionDate)
+            ->setParameter('role', '%ROLE_SUPER_ADMIN%')
+            ->getQuery()
+            ->getResult();
+
+        // Supprime les utilisateurs dont la date de suppression est atteinte
         $count = 0;
-        foreach ( $users as $user ) {
-            $this->deleteAccountService->deleteAccount( $user );
-            // TODO: Dispatch event
+        foreach ($usersToDelete as $user) {
+            $this->dispatcher->dispatch(new UserRequestDeleteSuccessEvent($user));
+            $this->deleteAccountService->deleteAccount($user);
             $count++;
         }
 
