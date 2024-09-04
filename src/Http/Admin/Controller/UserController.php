@@ -22,6 +22,7 @@ class UserController extends CrudController
     protected string $searchField = 'name';
     protected string $entity = User::class;
     protected string $routePrefix = 'admin_users';
+    protected bool $indexOnSave = false;
     protected array $events = [
         'update' => null,
         'delete' => null,
@@ -89,6 +90,6 @@ class UserController extends CrudController
 
         $this->addFlash( 'success', 'Email de vérification envoyé' );
 
-        return $this->redirectToRoute( 'admin_users_index');
+        return $this->redirectToRoute( 'admin_users_edit', ['id' => $user->getId()] );
     }
 }

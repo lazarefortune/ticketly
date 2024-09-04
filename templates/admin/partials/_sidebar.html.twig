@@ -1,6 +1,8 @@
 <aside class="sidebar -translate-x-full lg:translate-x-0" id="sidebar">
     <div class="text-left text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-        Logo here
+        <a href="{{ path('admin_home') }}" class="flex items-center w-full gap-2">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-20 h-20 rounded-full object-cover">
+        </a>
     </div>
     <nav class="sidebar--nav">
         <div>
@@ -20,7 +22,7 @@
                         <a href="{{ path('admin_users_index') }}"
                            class="sidebar--nav-item {{ menu_active('admin_user') }}">
                             {{ icon('users') }}
-                            Clients
+                            Utilisateurs
                         </a>
                     </li>
                 {% endif %}

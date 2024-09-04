@@ -6,7 +6,7 @@
                 {{ sort_by(rows, 'ID', 'row.id') }}
             </th>
             <th>
-                Avatar
+                Photo
             </th>
             <th>
                 {{ sort_by(rows, 'Nom', 'row.fullname') }}
@@ -16,9 +16,6 @@
             </th>
             <th>
                 {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
-            </th>
-            <th>
-                {{ sort_by(rows, 'Statut', 'row.isVerified') }}
             </th>
             <th>
                 Actions
@@ -40,7 +37,8 @@
                     {{ row.id }}
                 </td>
                 <td>
-                    <img class="h-8 w-8 rounded-full object-cover" src="{{ row|avatar }}"
+                    <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
+                         src="{{ row|avatar }}"
                          alt="{{ row.fullname }}">
                 </td>
                 <td class="capitalize">
@@ -53,17 +51,10 @@
                     {{ row.createdAt|date_age }}
                 </td>
                 <td>
-                    <span class="flex items-center gap-1">
-                        {% if row.isVerified %}
-                            {{ icon('badge-check', 17) }}
-                            Vérifié
-                        {% else %}
-                            {{ icon('hourglass', 17) }}
-                            Non vérifié
-                        {% endif %}
-                    </span>
-                </td>
-                <td>
+                    <a href="{{ link }}" class="btn-icon">
+                        {{ icon('arrow-right') }}
+                    </a>
+                    <!--
                     <a href="{{ path('admin_users_edit', {id: row.id}) }}" class="btn-icon">
                         {{ icon('pencil') }}
                     </a>
@@ -80,6 +71,7 @@
                             {{ icon('mail') }}
                         </a>
                     {% endif %}
+                    -->
                 </tr>
         {% endfor %}
         </tbody>
