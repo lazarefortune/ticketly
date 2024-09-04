@@ -12,72 +12,76 @@
             </a>
         </div>
 
-        <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+        <div class="mt-6">
             {{ form_start(form, { 'attr': { 'class': 'w-full' } }) }}
 
+            <!-- Section Informations Générales -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-b border-gray-200 pb-8">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Informations générales</h2>
-                    <p class="text-sm leading-6 text-gray-600">Les informations de base de l'évènement.</p>
+                    <h2 class="text-base font-semibold text-gray-900">Informations Générales</h2>
+                    <p class="text-sm text-gray-600">Détails de l'événement.</p>
                 </div>
                 <div class="col-span-2">
                     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
                         <div class="md:col-span-4">
-                            {{ form_row(form.imageFile) }}
+                            {{ form_row(form.imageFile, { 'label': 'Image' }) }}
                         </div>
                         <div class="md:col-span-4">
-                            {{ form_row(form.name) }}
+                            {{ form_row(form.name, { 'label': 'Nom' }) }}
                         </div>
                         <div class="md:col-span-4">
-                            {{ form_row(form.slug) }}
+                            {{ form_row(form.slug, { 'label': 'Slug' }) }}
                         </div>
                         <div class="md:col-span-6">
-                            {{ form_row(form.description, { 'help': 'Ce texte sera affiché sur la page de l\'évènement.' }) }}
+                            {{ form_row(form.description, { 'label': 'Description', 'help': 'Affichée sur la page de l\'événement.' }) }}
                         </div>
                         <div class="md:col-span-4">
-                            {{ form_row(form.isActive, { 'label': 'En ligne ?' }) }}
+                            {{ form_row(form.isActive, { 'label': 'En vente' }) }}
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Section Calendrier -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 border-b border-gray-200 pb-8">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Calendrier</h2>
-                    <p class="text-sm leading-6 text-gray-600">Planifiez les dates de l'évènement.</p>
+                    <h2 class="text-base font-semibold text-gray-900">Calendrier</h2>
+                    <p class="text-sm text-gray-600">Dates de l'événement.</p>
                 </div>
                 <div class="col-span-2">
                     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
                         <div class="md:col-span-3">
-                            {{ form_row(form.startDate) }}
+                            {{ form_row(form.startDate, { 'label': 'Début' }) }}
                         </div>
                         <div class="md:col-span-3">
-                            {{ form_row(form.endDate) }}
+                            {{ form_row(form.endDate, { 'label': 'Fin' }) }}
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Section Lieu -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 border-b border-gray-200 pb-8">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Lieu</h2>
-                    <p class="text-sm leading-6 text-gray-600">Indiquez le lieu de l'évènement.</p>
+                    <h2 class="text-base font-semibold text-gray-900">Lieu</h2>
+                    <p class="text-sm text-gray-600">Adresse de l'événement.</p>
                 </div>
                 <div class="col-span-2">
                     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
                         <div class="md:col-span-4">
                             <address-autocomplete input-selector=".address-input">
-                                {{ form_row(form.location, { attr: { 'class': 'address-input', 'placeholder': 'Ex: 12 rue de la République, 75001 Paris' }, 'label': 'Adresse' }) }}
+                                {{ form_row(form.location, { 'attr': { 'class': 'address-input', 'placeholder': 'Ex: 12 rue de la République, 75001 Paris' }, 'label': 'Adresse' }) }}
                             </address-autocomplete>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Section Billetterie -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 border-b border-gray-200 pb-8">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Billetterie</h2>
-                    <p class="text-sm leading-6 text-gray-600">Configurez les paramètres de la billetterie.</p>
+                    <h2 class="text-base font-semibold text-gray-900">Billetterie</h2>
+                    <p class="text-sm text-gray-600">Paramètres des billets.</p>
                 </div>
                 <div class="col-span-2">
                     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
@@ -85,15 +89,16 @@
                             {{ form_row(form.price, { 'attr': { 'placeholder': '0.00' }, 'label': 'Tarif' }) }}
                         </div>
                         <div class="md:col-span-3">
-                            {{ form_row(form.maxSpace, { 'attr': { 'placeholder': '0' }, 'label': 'Nombre de places' }) }}
+                            {{ form_row(form.maxSpace, { 'attr': { 'placeholder': '0' }, 'label': 'Places' }) }}
                         </div>
                         <div class="md:col-span-3">
-                            {{ form_row(form.endSaleDate, { 'label': 'Date de fin de vente' }) }}
+                            {{ form_row(form.endSaleDate, { 'label': 'Fin des ventes' }) }}
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Bouton Enregistrer -->
             <div class="mt-8 flex justify-end">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </div>

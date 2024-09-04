@@ -5,7 +5,7 @@
     <div class="mx-auto">
         <div>
             <a class="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
-                                      href="{{ path('admin_event_index') }}">
+                  href="{{ path('admin_event_index') }}">
                 {{ icon('chevron-left') }}
                 Évènements
             </a>
@@ -14,20 +14,10 @@
         <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
             <div class="flex flex-wrap items-center gap-6">
                 <div class="w-32 shrink-0">
-                    {% if event.image %}
-                        <a href="{{ path('admin_event_show', {id: event.id}) }}">
-                            <img class="aspect-[3/2] rounded-lg shadow" src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.slug }}-logo">
-                        </a>
-                    {% else %}
-                        <div class="aspect-[3/2] bg-zinc-950/10 dark:bg-white/10 rounded-lg shadow">
-                            <div class="flex items-center justify-center h-full text-zinc-500 dark:text-white">
-                                <svg class="w-8 h-8" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                          d="M10 12a2 2 0 100-4 2 2 0 000 4Zm0 2a4 4 0 100-8 4 4 0 000 8Zm0 2a6 6 0 100-12 6 6 0 000 12Zm-7-2a1 1 0 100-2 1 1 0 000 2Zm14 0a1 1 0 100-2 1 1 0 000 2Zm-14-2a3 3 0 100-6 3 3 0 000 6Zm14 0a3 3 0 100-6 3 3 0 000 6Zm-7-6a1 1 0 100-2 1 1 0 000 2Zm-7 0a1 1 0 100-2 1 1 0 000 2Zm14 0a1 1 0 100-2 1 1 0 000 2Z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    {% endif %}
+                    <a href="{{ path('admin_event_show', {id: event.id}) }}">
+                        <img class="rounded-lg shadow object-cover w-32 h-24"
+                             src="{{ event|event_image }}" alt="{{ event.slug }}-logo">
+                    </a>
                 </div>
                 <div>
                     <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -47,40 +37,44 @@
                             </span>
                         {% endif %}
                     </div>
-                    <div class="mt-2 text-sm/6 text-zinc-500">
-                        <div class="flex items-center">
-                            {{ icon('calendar') }}
-                            <span class="ml-2">{{ event_duration(event.startDate, event.endDate) }}</span>
-                        </div>
+                    <div class="mt-2 text-sm text-zinc-500 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                         {% if event.location %}
-                        <div class="flex items-center mt-2">
-                            {{ icon('map-pin') }}
-                            <span class="ml-2">{{ event.location }}</span>
-                        </div>
+                            <div class="col-span-full flex items-center mt-2">
+                                {{ icon('map-pin') }}
+                                <span class="ml-2">{{ event.location }}</span>
+                            </div>
                         {% endif %}
-                        <div class="flex items-center mt-2">
-                            {{ icon('coins') }}
-                            <span class="ml-2">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center">
+                                {{ icon('calendar') }}
+                                <span class="ml-2">{{ event_duration(event.startDate, event.endDate) }}</span>
+                            </div>
+                            <div class="flex items-center text-red-500">
+                                {{ icon('calendar-x-2') }}
+                                <span class="ml-2">Fin des ventes : {{ event.endSaleDate|format_datetime('medium', 'short', locale='fr') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center">
+                                {{ icon('coins') }}
+                                <span class="ml-2">
                                 {% if event.price > 0 %}
                                     {{ event.price|price_format }}
                                 {% else %}
                                     Gratuit
                                 {% endif %}
                             </span>
-                        </div>
-                        <div class="flex items-center mt-2">
-                            {{ icon('users') }}
-                            <span class="ml-2">
+                            </div>
+                            <div class="flex items-center">
+                                {{ icon('users') }}
+                                <span class="ml-2">
                                 {% if event.maxSpace > 0 %}
                                     {{ event.maxSpace }} places
                                 {% else %}
                                     Places illimitées
                                 {% endif %}
                             </span>
-                        </div>
-                        <div class="flex items-center mt-2 text-red-500">
-                            {{ icon('calendar-x-2') }}
-                            <span class="ml-2">Fin des ventes : {{ event.endSaleDate|format_datetime('medium', 'short', locale='fr') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -103,7 +97,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="mt-8 grid gap-8 sm:grid-cols-3">
+        <div class="mt-8 grid gap-6 md:gap-8 sm:grid-cols-3">
             <div>
                 <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
                 <div class="mt-6 text-sm font-normal sm:text-sm/6">Total revenue</div>
