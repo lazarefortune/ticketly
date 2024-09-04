@@ -33,10 +33,11 @@ class DeleteAccountService
         $this->ensureAccountCanBeDeleted( $user );
 
         $this->authService->logout( $request );
-        $this->dispatcher->dispatch( new UserDeleteRequestEvent( $user ) );
 
         $user->setDeletedAt( new \DateTimeImmutable( sprintf( '+%d days', User::DAYS_BEFORE_DELETION ) ) );
         $this->em->flush();
+
+        $this->dispatcher->dispatch( new UserDeleteRequestEvent( $user ) );
     }
 
     /**
