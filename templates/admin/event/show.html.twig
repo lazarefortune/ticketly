@@ -106,18 +106,18 @@
         <div class="mt-8 grid gap-8 sm:grid-cols-3">
             <div>
                 <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
-                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total revenue</div>
-                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ totalAmountIncome|price_format }}</div>
+                <div class="mt-6 text-sm font-normal sm:text-sm/6">Total revenue</div>
+                <div class="mt-3 text-lg font-medium sm:text-xl">{{ totalAmountIncome|price_format }}</div>
             </div>
             <div>
                 <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
-                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Tickets vendus</div>
-                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ nbTickets }}{% if event.maxSpace > 0 %} / {{ event.maxSpace }}{% endif %}</div>
+                <div class="mt-6 text-sm font-normal sm:text-sm/6">Tickets vendus</div>
+                <div class="mt-3 text-lg font-medium sm:text-xl">{{ nbTickets }}{% if event.maxSpace > 0 %} / {{ event.maxSpace }}{% endif %}</div>
             </div>
             <div>
                 <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
-                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Réservations</div>
-                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ nbReservations }}</div>
+                <div class="mt-6 text-sm font-normal sm:text-sm/6">Réservations</div>
+                <div class="mt-3 text-lg font-medium sm:text-xl">{{ nbReservations }}</div>
             </div>
         </div>
         <h2 class="mt-12 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">Réservations récentes</h2>
