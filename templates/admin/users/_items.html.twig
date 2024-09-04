@@ -34,44 +34,30 @@
             {% set link = path(prefix ~ '_edit', {id: row.id}) %}
             <tr>
                 <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.id }}
                 </td>
                 <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
                     <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
                          src="{{ row|avatar }}"
                          alt="{{ row.fullname }}">
                 </td>
                 <td class="capitalize">
+                    <a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.fullname }}
                 </td>
-                <td>
+                <td><a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.email }}
                 </td>
                 <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.createdAt|date_age }}
                 </td>
                 <td>
                     <a href="{{ link }}" class="btn-icon">
                         {{ icon('arrow-right') }}
                     </a>
-                    <!--
-                    <a href="{{ path('admin_users_edit', {id: row.id}) }}" class="btn-icon">
-                        {{ icon('pencil') }}
-                    </a>
-                    <ajax-delete class="btn-icon"
-                            target="tr"
-                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                        {{ icon('ban') }}
-                    </ajax-delete>
-                    <a href="{{ path('app_home', { '_switch_user': row.email }) }}" class="btn-icon">
-                        {{ icon('joystick') }}
-                    </a>
-                    {% if not row.isVerified %}
-                        <a href="{{ path('admin_users_resend_verification_email', {id: row.id}) }}" class="btn-icon">
-                            {{ icon('mail') }}
-                        </a>
-                    {% endif %}
-                    -->
                 </tr>
         {% endfor %}
         </tbody>
