@@ -1,0 +1,126 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails de la Réservation{% endblock %}
+
+{% block body %}
+    <div class="mx-auto">
+        <!-- Bouton de retour -->
+        <div class="mb-4">
+            <a href="{{ path('admin_event_show', {id: reservation.event.id}) }}" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                {{ icon('chevron-left') }}
+                Retour
+            </a>
+        </div>
+
+        <!-- Section Informations de la réservation -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Informations de la Réservation</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-sm text-gray-600">Numéro de Réservation</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.reservationNumber }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Événement</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.event.name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Quantité</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.quantity }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Prix Unitaire</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.unitPrice }} €</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Montant de la Réduction</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.discountAmount }} €</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Sous-total</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.subTotal }} €</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Frais de Service</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.serviceCharge }} €</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Montant Total</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.totalAmount }} €</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Statut</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.status == 'success' ? 'Payée' : 'En attente' }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Email</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.email }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Numéro de Téléphone</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.phoneNumber ?: '-' }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Nom</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Date d'Achat</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.buyAt ? reservation.buyAt|date('d/m/Y H:i') : '-' }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Date de Création</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.createdAt|date('d/m/Y H:i') }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Dernière Mise à Jour</p>
+                    <p class="text-md text-gray-800 font-medium">{{ reservation.updatedAt|date('d/m/Y H:i') }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Détails des Billets -->
+        <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Détails des Billets</h2>
+            {% if reservation.tickets is empty %}
+                <p class="text-md text-gray-600">Aucun billet n'est associé à cette réservation.</p>
+            {% else %}
+                <ul class="divide-y divide-gray-200">
+                    {% for ticket in reservation.tickets %}
+                        <li class="py-4">
+                            <p class="text-sm text-gray-600">Numéro de Billet</p>
+                            <p class="text-md text-gray-800 font-medium">{{ ticket.ticketNumber }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <!-- Section Paiement -->
+        <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Informations de Paiement</h2>
+            {% if reservation.payment %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm text-gray-600">Méthode de Paiement</p>
+                        <p class="text-md text-gray-800 font-medium"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Statut du Paiement</p>
+                        <p class="text-md text-gray-800 font-medium"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Montant Payé</p>
+                        <p class="text-md text-gray-800 font-medium"> €</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Date de Paiement</p>
+                        <p class="text-md text-gray-800 font-medium"></p>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-md text-gray-600">Aucune information de paiement disponible.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

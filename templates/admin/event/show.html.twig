@@ -131,27 +131,27 @@
                 {% for reservation in reservations %}
                 <tr>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.reservationNumber }}
                     </td>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.buyAt|format_datetime('medium', 'short', locale='fr') }}
                     </td>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.quantity }}
                     </td>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.name }}
                     </td>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.payment.paymentMethod }}
                     </td>
                     <td>
-                        <a class="table-cell-link" href=""></a>
+                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.totalAmount|price_format }}
                     </td>
                 </tr>
