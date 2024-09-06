@@ -1,0 +1,55 @@
+{{ form_start(form, { 'attr': { 'class': 'w-full', 'id': 'coupon-form' } }) }}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-b border-gray-200 pb-8">
+    <div>
+        <h2 class="text-base font-semibold text-gray-900">Coupon</h2>
+        <p class="text-sm text-gray-600">Informations sur le coupon</p>
+    </div>
+    <div class="col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
+            <div class="md:col-span-3">
+                {{ form_row(form.code, { 'label': 'Code' }) }}
+            </div>
+            <div class="md:col-span-4">
+                {{ form_row(form.typeCoupon, { 'label': 'Type de coupon' }) }}
+            </div>
+            <div class="md:col-span-4" id="value-coupon-target">
+                {{ form_row(form.valueCoupon, { 'label': 'Valeur' }) }}
+            </div>
+            <div class="md:col-span-4">
+                {{ form_row(form.expiresAt, { 'label': 'Date d\'expiration' }) }}
+            </div>
+            <div class="md:col-span-4">
+                {{ form_row(form.isActive, { 'label': 'Actif ?' }) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-8 flex justify-end">
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+{{ form_end(form) }}
+
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            const inputTypeCoupon = $('#coupon_form_typeCoupon');
+            const valueCouponTarget = $('#value-coupon-target');
+
+            function reloadValueCoupon() {
+                const typeCoupon = inputTypeCoupon.val();
+                let url = '{{ path('admin_coupon_change_type') }}';
+                const data = {
+                    typeCoupon: typeCoupon,
+                    _token: '{{ csrf_token('admin_coupon_change_type') }}'
+                };
+
+                $.get(url, data, function (html) {
+                    valueCouponTarget.html(html);
+                });
+            }
+
+            inputTypeCoupon.on('change', reloadValueCoupon);
+        })
+    </script>
+{% endblock %}

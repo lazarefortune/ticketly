@@ -46,10 +46,23 @@ class ConfirmReservationForm extends AbstractType
                     ],
                     'mapped' => false,
                 ] );
+
+        if (!$options['hide_coupon']) {
+            $builder->add( 'couponCode', TextType::class, [
+                'label' => 'Code de coupon',
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'placeholder' => 'Entrez votre code promo ici'
+                ]
+            ] );
+        }
     }
 
-    public function configureOptions( OptionsResolver $resolver )
+    public function configureOptions( OptionsResolver $resolver ) : void
     {
-
+        $resolver->setDefaults([
+            'hide_coupon' => false,
+        ]);
     }
 }

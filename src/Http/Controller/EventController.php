@@ -135,7 +135,16 @@ class EventController extends AbstractController
             return $this->redirectToRoute( 'app_event_reservation_show', ['reservationNumber' => $reservation->getReservationNumber()] );
         }
 
-        $confirmReservationForm = $this->createForm( ConfirmReservationForm::class );
+        if ($reservation->getCoupon()) {
+            // Si un coupon est déjà appliqué, on ne montre pas le champ du code promo
+            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class, null, [
+                'hide_coupon' => true,
+            ]);
+        } else {
+            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class);
+        }
+
+        # $confirmReservationForm = $this->createForm( ConfirmReservationForm::class );
         $confirmReservationForm->handleRequest( $request );
 
         if ( $confirmReservationForm->isSubmitted() && $confirmReservationForm->isValid() ) {

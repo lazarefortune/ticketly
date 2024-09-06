@@ -39,6 +39,7 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
             new TwigFilter( 'truncate', [$this, 'truncate'] ),
             new TwigFilter('obfuscate_email', [$this, 'obfuscateEmail']),
+            new TwigFilter('obfuscate_word', [$this, 'obfuscateWord']),
         ];
     }
 
@@ -64,6 +65,12 @@ class TwigExtension extends AbstractExtension
         $domainObfuscated = substr($domain, 0, 1) . str_repeat('*', max(0, strpos($domain, '.') - 2)) . substr($domain, strpos($domain, '.'));
 
         return $userObfuscated . '@' . $domainObfuscated;
+    }
+
+    public function obfuscateWord(string $word): string
+    {
+        // Masque partiellement le mot.
+        return substr($word, 0, 1) . str_repeat('*', max(0, strlen($word) - 2)) . substr($word, -1);
     }
 
     public function formatPrice( $value ) : string

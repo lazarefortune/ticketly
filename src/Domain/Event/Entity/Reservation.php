@@ -3,6 +3,7 @@
 namespace App\Domain\Event\Entity;
 
 use App\Domain\Auth\Entity\User;
+use App\Domain\Coupon\Entity\Coupon;
 use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\Payment\Entity\Payment;
 use DateTimeInterface;
@@ -85,6 +86,10 @@ class Reservation
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $buyAt = null;
+
+    #[ORM\ManyToOne(targetEntity: Coupon::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Coupon $coupon = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $createdAt = null;
@@ -303,6 +308,36 @@ class Reservation
         return $this;
     }
 
+    public function getCoupon(): ?Coupon
+    {
+        return $this->coupon;
+    }
+
+    public function setCoupon(?Coupon $coupon): self
+    {
+        $this->coupon = $coupon;
+        return $this;
+    }
+
+    public function applyCoupon(Coupon $coupon): self
+    {
+        if ($coupon->isActive() && new \DateTime() <= $coupon->getExpiresAt()) {
+            $this->coupon = $coupon;
+            $this->calculateAmounts();
+        }
+
+        return $this;
+    }
+
+    public function removeCoupon(): self
+    {
+        $this->coupon = null;
+        // Remettre le montant de la réduction à zéro
+        $this->discountAmount = 0;
+        $this->calculateAmounts();
+        return $this;
+    }
+
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
@@ -329,8 +364,26 @@ class Reservation
     {
         $this->subTotal = $this->calculateSubTotal();
         $this->serviceCharge = $this->calculateServiceCharge();
-        $this->totalAmount = $this->subTotal + $this->serviceCharge;
+
+        // Appliquer la réduction si un coupon est présent
+        if ($this->coupon) {
+            if ($this->coupon->getTypeCoupon() === Coupon::TYPE_PERCENTAGE) {
+                $this->discountAmount = (int)($this->subTotal * ($this->coupon->getValueCoupon() / 100));
+            } elseif ($this->coupon->getTypeCoupon() === Coupon::TYPE_FIXED) {
+                // La réduction fixe ne peut pas dépasser le sous-total
+                $this->discountAmount = min($this->coupon->getValueCoupon(), $this->subTotal);
+            }
+        }
+
+        // Calcul du montant total après application des réductions et frais de service
+        $this->totalAmount = $this->subTotal + $this->serviceCharge - $this->discountAmount;
+
+        // Empêcher que le montant total ne soit négatif
+        if ($this->totalAmount < 0) {
+            $this->totalAmount = 0;
+        }
     }
+
 
     private function calculateSubTotal(): int
     {

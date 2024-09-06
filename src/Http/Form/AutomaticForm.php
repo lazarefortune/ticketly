@@ -2,11 +2,7 @@
 
 namespace App\Http\Form;
 
-use App\Domain\Attachment\Entity\Attachment;
-use App\Domain\Attachment\Type\AttachmentType;
 use App\Domain\Auth\Entity\User;
-use App\Http\Admin\Form\ChaptersForm;
-use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\ChoiceMultipleType;
 use App\Http\Type\DateTimeType;
@@ -36,21 +32,16 @@ class AutomaticForm extends AbstractType
         'array' => ChoiceType::class,
         UploadedFile::class => FileType::class,
         User::class => UserChoiceType::class,
-        Attachment::class => AttachmentType::class,
         \DateTimeInterface::class =>  DateTimeType::class,
     ];
 
     final public const NAMES = [
         'content' => TextareaType::class,
         'description' => TextareaType::class,
-        'mainTechnologies' => TechnologyChoiceType::class,
-        'secondaryTechnologies' => TechnologyChoiceType::class,
-        'requirements' => TechnologyChoiceType::class,
-        'chapters' => ChaptersForm::class,
         'short' => TextareaType::class,
         'color' => ColorType::class,
         'links' => TextareaType::class,
-        'price' => PriceType::class
+        'price' => PriceType::class,
     ];
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
