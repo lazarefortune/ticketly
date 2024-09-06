@@ -123,7 +123,6 @@
                         <th>Date d'achat</th>
                         <th>Ticket(s)</th>
                         <th>Client</th>
-                        <th>Moyen de paiement</th>
                         <th>Montant</th>
                     </tr>
                 </thead>
@@ -145,10 +144,6 @@
                     <td>
                         <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
                         {{ reservation.name }}
-                    </td>
-                    <td>
-                        <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
-                        {{ reservation.payment }}
                     </td>
                     <td>
                         <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
