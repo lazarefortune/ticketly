@@ -48,10 +48,17 @@ class AccountSubscriber implements EventSubscriberInterface
         $newUser = $event->getNewUser();
         $oldUser = $event->getOldUser();
 
+        $homeUrl = $this->urlGenerator->generate(
+            'app_home',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
         // check if roles have changed if new roles has ROLE_ADMIN send email
         if ( !in_array( 'ROLE_ADMIN', $oldUser->getRoles() ) && in_array( 'ROLE_ADMIN', $newUser->getRoles() ) ) {
             $email = $this->mailService->createEmail( 'mails/account/admin-role-added.twig', [
-                'user' => $newUser
+                'user' => $newUser,
+                'home_url' => $homeUrl
             ] )
                 ->to( $newUser->getEmail() )
                 ->subject( 'Vous avez été promu administrateur' );
