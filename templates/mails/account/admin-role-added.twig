@@ -1,0 +1,26 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Bravo, vous avez été promu au rôle d'administrateur sur {{ app_name }}.
+
+        Un administrateur a plus de droits qu'un utilisateur classique.
+
+        Rendez-vous sur votre espace personnel pour découvrir les nouvelles fonctionnalités qui s'offrent à vous.
+
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

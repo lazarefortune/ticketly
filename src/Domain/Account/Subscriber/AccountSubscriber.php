@@ -3,6 +3,7 @@
 namespace App\Domain\Account\Subscriber;
 
 use App\Domain\Account\Event\AccountDeletedEvent;
+use App\Domain\Profile\Event\UserUpdateEvent;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,6 +21,7 @@ class AccountSubscriber implements EventSubscriberInterface
     {
         return [
             AccountDeletedEvent::NAME => 'onAccountDeleted',
+            UserUpdateEvent::NAME => 'onUserUpdate',
         ];
     }
 
@@ -39,5 +41,23 @@ class AccountSubscriber implements EventSubscriberInterface
             ->subject( 'Votre compte a été supprimé' );
 
         $this->mailService->send( $email );
+    }
+
+    public function onUserUpdate( UserUpdateEvent $event ) : void
+    {
+        $newUser = $event->getNewUser();
+        $oldUser = $event->getOldUser();
+
+        // check if roles have changed if new roles has ROLE_ADMIN send email
+        if ( !in_array( 'ROLE_ADMIN', $oldUser->getRoles() ) && in_array( 'ROLE_ADMIN', $newUser->getRoles() ) ) {
+            $email = $this->mailService->createEmail( 'mails/account/admin-role-added.twig', [
+                'user' => $newUser
+            ] )
+                ->to( $newUser->getEmail() )
+                ->subject( 'Vous avez été promu administrateur' );
+
+            $this->mailService->send( $email );
+        }
+
     }
 }
