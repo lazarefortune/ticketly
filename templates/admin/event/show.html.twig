@@ -122,11 +122,16 @@
                         <th>N° de réservation</th>
                         <th>Date d'achat</th>
                         <th>Ticket(s)</th>
-                        <th>Client</th>
+                        <th>Status</th>
                         <th>Montant</th>
                     </tr>
                 </thead>
                 <tbody>
+                {% if reservations|length == 0 %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucune réservation</td>
+                    </tr>
+                {% endif %}
                 {% for reservation in reservations %}
                 <tr>
                     <td>
@@ -143,7 +148,13 @@
                     </td>
                     <td>
                         <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
-                        {{ reservation.name }}
+                        {% if reservation.status == 'paid' %}
+                            <span class="text-green-900 bg-green-200 rounded px-2 py-1">Payé</span>
+                        {% elseif reservation.status == 'pending' %}
+                            <span class="text-orange-900 bg-orange-200 rounded px-2 py-1">En attente</span>
+                        {% elseif reservation.status == 'canceled' %}
+                            <span class="text-red-900 bg-red-200 rounded px-2 py-1">Annulé</span>
+                        {% endif %}
                     </td>
                     <td>
                         <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>

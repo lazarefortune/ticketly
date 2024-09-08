@@ -137,25 +137,22 @@ class EventController extends AbstractController
 
         if ($reservation->getCoupon()) {
             // Si un coupon est déjà appliqué, on ne montre pas le champ du code promo
-            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class, null, [
+            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class, $reservation, [
                 'hide_coupon' => true,
             ]);
         } else {
-            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class);
+            $confirmReservationForm = $this->createForm(ConfirmReservationForm::class, $reservation);
         }
 
-        # $confirmReservationForm = $this->createForm( ConfirmReservationForm::class );
         $confirmReservationForm->handleRequest( $request );
 
         if ( $confirmReservationForm->isSubmitted() && $confirmReservationForm->isValid() ) {
-            $data = $confirmReservationForm->getData();
-            $reservation->setName( $data['name'] );
-            $reservation->setEmail( $data['email'] );
-            $reservation->setPhoneNumber( $data['phoneNumber'] );
+            $newReservation = $confirmReservationForm->getData();
             if ( $this->getUser() ) {
-                $reservation->setUser( $this->getUser() );
+                $newReservation->setUser( $this->getUser() );
             }
 
+            $this->em->persist( $newReservation );
             $this->em->flush();
 
             try {

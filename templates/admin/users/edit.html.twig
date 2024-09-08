@@ -41,7 +41,7 @@
                         {{ icon('user') }}
                         <span class="text-sm text-zinc-500">Identifiant</span>
                     </div>
-                    <span class="ml-6 text-sm text-zinc-900 dark:text-zinc-400">{{ entity.id }}</span>
+                    <span class="ml-6 text-sm text-zinc-900 dark:text-zinc-400">#{{ entity.id }}</span>
                 </div>
             </div>
             <div class="col-span-1">
@@ -54,7 +54,7 @@
                         <a href="mailto:{{ entity.email }}" class="border px-2 py-1 rounded-md
                             {{ entity.isVerified ? 'border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white' :
                             'border-red-800 text-red-800 hover:bg-red-800 hover:text-white' }}">
-                            {{ entity.email }}</a>
+                            {{ entity.email|truncate(24) }}</a>
                     </span>
                 </div>
             </div>

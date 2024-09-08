@@ -21,10 +21,10 @@ class StripeApi
 {
     private StripeClient $stripe;
 
-    public function __construct(string $privateKey)
+    public function __construct( string $privateKey )
     {
-        Stripe::setApiVersion('2020-08-27');
-        $this->stripe = new StripeClient($privateKey);
+        Stripe::setApiVersion( '2020-08-27' );
+        $this->stripe = new StripeClient( $privateKey );
     }
 
     /**
@@ -33,15 +33,15 @@ class StripeApi
      * @return string Client Stripe ID
      * @throws ApiErrorException
      */
-    public function createCustomer(array $customerData): string
+    public function createCustomer( array $customerData ) : string
     {
-        $client = $this->stripe->customers->create([
+        $client = $this->stripe->customers->create( [
             'metadata' => [
                 'email' => (string)$customerData['email'] ?? "",
             ],
             'email' => $customerData['email'] ?? "",
             'name' => $customerData['name'] ?? ""
-        ]);
+        ] );
 
         return $client->id;
     }
@@ -49,64 +49,64 @@ class StripeApi
     /**
      * @throws ApiErrorException
      */
-    public function isCustomerDeleted(string $customerId): bool
+    public function isCustomerDeleted( string $customerId ) : bool
     {
-        $customer = $this->stripe->customers->retrieve($customerId);
+        $customer = $this->stripe->customers->retrieve( $customerId );
         return $customer->isDeleted();
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getCustomer(string $customerId): Customer
+    public function getCustomer( string $customerId ) : Customer
     {
-        return $this->stripe->customers->retrieve($customerId);
+        return $this->stripe->customers->retrieve( $customerId );
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getPaymentIntent(string $id): PaymentIntent
+    public function getPaymentIntent( string $id ) : PaymentIntent
     {
-        return $this->stripe->paymentIntents->retrieve($id);
+        return $this->stripe->paymentIntents->retrieve( $id );
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getSession(string $id): Session
+    public function getSession( string $id ) : Session
     {
-        return $this->stripe->checkout->sessions->retrieve($id);
+        return $this->stripe->checkout->sessions->retrieve( $id );
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getInvoice(string $invoice): Invoice
+    public function getInvoice( string $invoice ) : Invoice
     {
-        return $this->stripe->invoices->retrieve($invoice);
+        return $this->stripe->invoices->retrieve( $invoice );
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getSubscription(string $subscription): Subscription
+    public function getSubscription( string $subscription ) : Subscription
     {
-        return $this->stripe->subscriptions->retrieve($subscription);
+        return $this->stripe->subscriptions->retrieve( $subscription );
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getPlan(string $plan): Plan
+    public function getPlan( string $plan ) : Plan
     {
-        return $this->stripe->plans->retrieve($plan);
+        return $this->stripe->plans->retrieve( $plan );
     }
 
     /**
      * Creates a subscription session and returns the payment URL.
      */
-    public function createSubscriptionSession(User $user, string $url): string
+    public function createSubscriptionSession( User $user, string $url ) : string
     {
         // Implement this method to create a subscription session. Need to create Plan entity first.
         return $url;
@@ -116,14 +116,14 @@ class StripeApi
      * Crée une session de paiement et renvoie l'URL de paiement.
      * @throws ApiErrorException
      */
-    public function createPaymentSession(Payment $payment, Reservation $reservation, string $url): string
+    public function createPaymentSession( Payment $payment, Reservation $reservation, string $url ) : string
     {
-        $session = $this->stripe->checkout->sessions->create([
+        $session = $this->stripe->checkout->sessions->create( [
             'cancel_url' => $url . '?success=0',
             'success_url' => $url . '?success=1',
             'mode' => 'payment',
             'payment_method_types' => ['card'],
-            'customer' => $this->getCustomerByEmail($reservation->getEmail())->id,
+            'customer' => $this->getCustomerByEmail( $reservation->getEmail() )->id,
             'metadata' => [
                 'payment_id' => $payment->getId(),
                 'reservation_id' => $reservation->getId(),
@@ -139,14 +139,14 @@ class StripeApi
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => 'Reservation for event: ' . $reservation->getEvent()->getName(),
+                            'name' => $reservation->getEvent()->getName(),
                         ],
-                        'unit_amount' => $payment->getAmount(), // Amount in cents
+                        'unit_amount' => $payment->getAmount(),
                     ],
                     'quantity' => 1,
                 ],
             ],
-        ]);
+        ] );
 
         return $session->id;
     }
@@ -154,12 +154,12 @@ class StripeApi
     /**
      * @throws ApiErrorException
      */
-    public function getBillingUrl(User $user, string $returnUrl): string
+    public function getBillingUrl( User $user, string $returnUrl ) : string
     {
-        $session = $this->stripe->billingPortal->sessions->create([
+        $session = $this->stripe->billingPortal->sessions->create( [
             'customer' => $user->getStripeId(),
             'return_url' => $returnUrl,
-        ]);
+        ] );
 
         return $session->url;
     }
@@ -170,11 +170,11 @@ class StripeApi
      * @return Customer|null
      * @throws ApiErrorException
      */
-    public function getCustomerByEmail(string $email): ?Customer
+    public function getCustomerByEmail( string $email ) : ?Customer
     {
-        $customers = $this->stripe->customers->all(['email' => $email]);
+        $customers = $this->stripe->customers->all( ['email' => $email] );
 
-        if (count($customers->data) > 0) {
+        if ( count( $customers->data ) > 0 ) {
             return $customers->data[0];
         }
 
@@ -187,10 +187,10 @@ class StripeApi
      * @return Refund
      * @throws ApiErrorException
      */
-    public function refundCharge(string $chargeId): Refund
+    public function refundCharge( string $chargeId ) : Refund
     {
-        return $this->stripe->refunds->create([
+        return $this->stripe->refunds->create( [
             'charge' => $chargeId,
-        ]);
+        ] );
     }
 }
