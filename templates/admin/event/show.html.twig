@@ -148,12 +148,10 @@
                     </td>
                     <td>
                         <a class="table-cell-link" href="{{ path('admin_reservation_show', {reservation: reservation.id}) }}"></a>
-                        {% if reservation.status == 'paid' %}
+                        {% if reservation.status == 'success' %}
                             <span class="text-green-900 bg-green-200 rounded px-2 py-1">Payé</span>
                         {% elseif reservation.status == 'pending' %}
                             <span class="text-orange-900 bg-orange-200 rounded px-2 py-1">En attente</span>
-                        {% elseif reservation.status == 'canceled' %}
-                            <span class="text-red-900 bg-red-200 rounded px-2 py-1">Annulé</span>
                         {% endif %}
                     </td>
                     <td>

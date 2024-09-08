@@ -30,9 +30,8 @@
             <tr>
                 <th>Numéro</th>
                 <th>Évènement</th>
-                <th>Date d'achat</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th>Validation</th>
+                <th>Date d'expiration</th>
             </tr>
             </thead>
             <tbody>
@@ -44,16 +43,25 @@
             {% for ticket in tickets %}
                 <tr>
                     <td>
-                        <a href="" class="table-cell-link"></a>
                         {{ ticket.ticketNumber }}
                     </td>
                     <td>
-                        <a href="" class="table-cell-link"></a>
-                        {{ ticket.event.name }}
+                        <a href="{{ path('admin_event_show', {id: ticket.event.id}) }}" class="table-cell-link"></a>
+                        {{ ticket.event.name|truncate(25) }}
                     </td>
-                    <td>{{ ticket.buyAt|date('d/m/Y H:i') }}</td>
-                    <td>{{ ticket.reservation.email }}</td>
-                    <td><!-- Actions --></td>
+                    <td>{% if ticket.isUsed %}
+                            <span class="text-green-900 bg-green-200 rounded px-2 py-1">Utilisé</span>
+                        {% else %}
+                            <span class="text-orange-900 bg-orange-200 rounded px-2 py-1">Non utilisé</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if ticket.expiresAt < 'now' %}
+                            <span class="text-red-900 bg-red-200 rounded px-2 py-1">Expiré le {{ ticket.expiresAt|format_datetime('medium', 'short', locale='fr') }}</span>
+                        {% else %}
+                            {{ ticket.expiresAt|format_datetime('medium', 'short', locale='fr') }}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
