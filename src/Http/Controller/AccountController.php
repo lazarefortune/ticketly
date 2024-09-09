@@ -172,7 +172,7 @@ class AccountController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        if ($user->getStripeAccountId() === null) {
+        if ($user->getStripeAccountId() === null || $user->isStripeAccountCompleted() === false) {
             // Crée le lien de connexion Stripe
             $url = $this->stripeService->createAccountLink( $user );
 

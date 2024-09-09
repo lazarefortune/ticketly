@@ -91,6 +91,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $stripeAccountId = null;
 
+    #[ORM\Column( type: Types::BOOLEAN )]
+    private bool $stripeAccountCompleted = false;
+
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $country = 'FR';
 
@@ -392,6 +395,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStripeAccountId( ?string $stripeAccountId ) : static
     {
         $this->stripeAccountId = $stripeAccountId;
+
+        return $this;
+    }
+
+    public function isStripeAccountCompleted() : bool
+    {
+        return $this->stripeAccountCompleted;
+    }
+
+    public function setStripeAccountCompleted( bool $stripeAccountCompleted ) : static
+    {
+        $this->stripeAccountCompleted = $stripeAccountCompleted;
 
         return $this;
     }

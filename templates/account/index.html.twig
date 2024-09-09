@@ -7,6 +7,7 @@
     {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
     <div class="container-box">
+        <!-- profile section -->
         <div class="stack-large mt-5 mb-10 max-w-6xl mx-auto border-b border-gray-900/10 pb-12">
             {% if app.user.deletedAt %}
                 <div class="flex items-center gap-x-3 bg-red-100 p-4 rounded">
@@ -86,11 +87,22 @@
                             <span class="text-sm text-zinc-500">Connecté à Stripe</span>
                         </div>
                     </div>
-                    <a href="{{ path('app_account_stripe_dashboard') }}" class="btn btn-light" target="_blank">
-                        {{ icon('external-link') }}
-                        <span>Voir mes revenus</span>
-                    </a>
+                    {% if app.user.stripeAccountCompleted %}
+                        <a href="{{ path('app_account_stripe_dashboard') }}" class="btn btn-light" target="_blank">
+                            {{ icon('external-link') }}
+                            <span>Voir mes revenus</span>
+                        </a>
+                    {% else %}
+                        <p class="text-sm text-primary-900 mb-2">
+                            Veuillez compléter votre inscription pour recevoir vos paiements.
+                        </p>
+                        <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-primary">
+                            {{ icon('credit-card') }}
+                            <span>Terminer l'inscription Stripe</span>
+                        </a>
+                    {% endif %}
                 {% endif %}
+
             </div>
         </div>
 
@@ -160,17 +172,22 @@
                 {% endif %}
             </div>
         </div>
-
     </div>
-
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
+        <!-- Preview avatar image -->
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('user_update_form_avatarFile').addEventListener('change', function(event) {
+            const avatarInput = document.getElementById('user_update_form_avatarFile');
+
+            if (!avatarInput) {
+                return;
+            }
+
+            avatarInput.addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();

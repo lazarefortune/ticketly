@@ -6,6 +6,7 @@ use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Entity\Reservation;
 use App\Domain\Event\Entity\Ticket;
 use App\Domain\Payment\Entity\Payment;
+use Stripe\AccountLink;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
@@ -209,7 +210,26 @@ class StripeApi
         ] );
     }
 
-    public function createAccountLink( string $stripeAccountId, string $reAuthUrl, string $returnUrl ) : \Stripe\AccountLink
+    /**
+     * Create a login link for the user's Stripe dashboard.
+     * @param User $user
+     * @return \Stripe\LoginLink
+     * @throws ApiErrorException
+     */
+    public function createDashboardLink( User $user ) : \Stripe\LoginLink
+    {
+        return $this->stripe->accounts->createLoginLink( $user->getStripeAccountId() );
+    }
+
+    /**
+     * Create an account link for the user to complete their account setup.
+     * @param string $stripeAccountId
+     * @param string $reAuthUrl
+     * @param string $returnUrl
+     * @return AccountLink
+     * @throws ApiErrorException
+     */
+    public function createAccountLink( string $stripeAccountId, string $reAuthUrl, string $returnUrl ) : AccountLink
     {
         return $this->stripe->accountLinks->create( [
             'account' => $stripeAccountId,
@@ -218,11 +238,5 @@ class StripeApi
             'type' => 'account_onboarding',
         ] );
     }
-
-    public function createDashboardLink( User $user )
-    {
-        return $this->stripe->accounts->createLoginLink( $user->getStripeAccountId() );
-    }
-
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Event\PaymentFailedEvent;
 use App\Domain\Payment\Event\PaymentSuccessEvent;
@@ -19,7 +20,8 @@ class StripeWebhookController extends AbstractController
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
         ParameterBagInterface $parameterBag,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $userRepository
     )
     {
         $this->stripeWebhookSecret = $parameterBag->get('stripe_webhook_secret');
@@ -66,6 +68,10 @@ class StripeWebhookController extends AbstractController
                 $paymentId = $paymentIntent->metadata->payment_id;
                 $this->handlePaymentFailure($paymentId);
                 break;
+            case 'account.updated':
+                $account = $event->data->object;
+                $this->handleAccountUpdated($account);
+                break;
         }
 
         return new Response('Received event', 200);
@@ -88,6 +94,20 @@ class StripeWebhookController extends AbstractController
         $payment = $this->entityManager->getRepository(Payment::class)->find($paymentId);
         if ($payment && $payment->getStatus() !== Payment::STATUS_FAILED) {
             $this->eventDispatcher->dispatch(new PaymentFailedEvent($paymentId));
+        }
+    }
+
+    private function handleAccountUpdated( $account ): void
+    {
+        // Vérifie si le compte Stripe peut maintenant accepter les paiements
+        if ($account->charges_enabled) {
+            $user = $this->userRepository->findOneBy(['stripeAccountId' => $account->id]);
+
+            if ($user && !$user->isStripeAccountCompleted()) {
+                $user->setStripeAccountCompleted(true);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+            }
         }
     }
 }
