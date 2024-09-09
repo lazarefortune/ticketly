@@ -89,6 +89,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $stripeId = null;
 
     #[ORM\Column( type: Types::STRING, nullable: true )]
+    private ?string $stripeAccountId = null;
+
+    #[ORM\Column( type: Types::STRING, nullable: true )]
+    private ?string $country = 'FR';
+
+    #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $apiKey = null;
 
     public function __construct()
@@ -374,6 +380,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStripeId( ?string $stripeId ) : static
     {
         $this->stripeId = $stripeId;
+
+        return $this;
+    }
+
+    public function getStripeAccountId() : ?string
+    {
+        return $this->stripeAccountId;
+    }
+
+    public function setStripeAccountId( ?string $stripeAccountId ) : static
+    {
+        $this->stripeAccountId = $stripeAccountId;
+
+        return $this;
+    }
+
+    public function getCountry() : ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry( ?string $country ) : static
+    {
+        $this->country = $country;
 
         return $this;
     }

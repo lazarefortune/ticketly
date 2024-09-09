@@ -16,10 +16,12 @@ use Stripe\Refund;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 use Stripe\Subscription;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripeApi
 {
     private StripeClient $stripe;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct( string $privateKey )
     {
@@ -193,4 +195,34 @@ class StripeApi
             'charge' => $chargeId,
         ] );
     }
+
+    public function createAccount( User $user ) : \Stripe\Account
+    {
+        return $this->stripe->accounts->create( [
+            'type' => 'express',
+            'country' => 'FR',
+            'email' => $user->getEmail(),
+            'capabilities' => [
+                'card_payments' => ['requested' => true],
+                'transfers' => ['requested' => true],
+            ],
+        ] );
+    }
+
+    public function createAccountLink( string $stripeAccountId, string $reAuthUrl, string $returnUrl ) : \Stripe\AccountLink
+    {
+        return $this->stripe->accountLinks->create( [
+            'account' => $stripeAccountId,
+            'refresh_url' => $reAuthUrl,
+            'return_url' => $returnUrl,
+            'type' => 'account_onboarding',
+        ] );
+    }
+
+    public function createDashboardLink( User $user )
+    {
+        return $this->stripe->accounts->createLoginLink( $user->getStripeAccountId() );
+    }
+
+
 }

@@ -68,6 +68,33 @@
             {{ form_end(formProfile) }}
         </div>
 
+        <!-- stripe connect section -->
+        <div class="stack-large mb-10 max-w-6xl mx-auto">
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold">Compte Stripe</h2>
+                <p class="text-sm text-zinc-500 mb-4">Gérez vos revenus et vos paiements depuis votre compte Stripe.</p>
+
+                {% if not app.user.stripeAccountId %}
+                    <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-primary">
+                        {{ icon('credit-card') }}
+                        <span>Connecter mon compte Stripe</span>
+                    </a>
+                {% else %}
+                    <div class="flex items-center gap-x-3">
+                        <div class="flex items-center gap-x-2">
+                            <img src="{{ asset('images/logo/stripe.svg') }}" alt="Stripe" class="w-8 h-8">
+                            <span class="text-sm text-zinc-500">Connecté à Stripe</span>
+                        </div>
+                    </div>
+                    <a href="{{ path('app_account_stripe_dashboard') }}" class="btn btn-light" target="_blank">
+                        {{ icon('external-link') }}
+                        <span>Voir mes revenus</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- password section -->
         <div class="stack-large mb-10 max-w-6xl mx-auto">
             <div class="border-b border-gray-900/10 pb-12">
                 <h2 class="text-base font-semibold">Sécurité du compte</h2>
@@ -80,6 +107,7 @@
             </div>
         </div>
 
+        <!-- delete account section -->
         <div id="delete-account" class="stack-large mb-10 max-w-6xl mx-auto">
             <div class="pb-12">
                 {% if app.user.deletedAt %}

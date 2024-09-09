@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
@@ -10,7 +11,9 @@ use App\Domain\Profile\Form\DeleteAccountForm;
 use App\Domain\Profile\Form\UserUpdateForm;
 use App\Domain\Profile\Service\DeleteAccountService;
 use App\Domain\Profile\Service\ProfileService;
+use App\Infrastructure\Payment\Stripe\StripeService;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,6 +29,7 @@ class AccountController extends AbstractController
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly ReservationRepository       $reservationRepository,
+        private readonly StripeService               $stripeService,
     )
     {
     }
@@ -160,5 +164,39 @@ class AccountController extends AbstractController
         $this->deleteAccountService->cancelAccountDeletionRequest( $user );
         $this->addFlash( 'success', 'Votre demande de suppression de compte a bien été annulée' );
         return $this->redirectToRoute( 'app_account_profile' );
+    }
+
+
+    #[Route('/stripe/connect', name: 'stripe_connect')]
+    public function connect(): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if ($user->getStripeAccountId() === null) {
+            // Crée le lien de connexion Stripe
+            $url = $this->stripeService->createAccountLink( $user );
+
+            return $this->redirect($url);
+        }
+
+        // L'utilisateur a déjà un compte Stripe
+        return $this->redirectToRoute('app_account_profile');
+    }
+
+    #[Route('/stripe/dashboard', name: 'stripe_dashboard')]
+    public function stripeDashboard(): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!$user->getStripeAccountId()) {
+            $this->addFlash('error', 'Vous n\'avez pas encore connecté votre compte Stripe.');
+            return $this->redirectToRoute('account_profile');
+        }
+
+        // Crée le lien vers le tableau de bord Stripe
+        $dashboardUrl = $this->stripeService->createDashboardLink($user);
+
+        return $this->redirect($dashboardUrl);
     }
 }
