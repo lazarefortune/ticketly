@@ -4,7 +4,6 @@ namespace App\Infrastructure\Payment\Stripe;
 
 use App\Domain\Auth\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Exception\ApiErrorException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripeService

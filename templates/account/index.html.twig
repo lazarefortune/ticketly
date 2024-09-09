@@ -76,9 +76,9 @@
                 <p class="text-sm text-zinc-500 mb-4">Gérez vos revenus et vos paiements depuis votre compte Stripe.</p>
 
                 {% if not app.user.stripeAccountId %}
-                    <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-primary">
-                        {{ icon('credit-card') }}
-                        <span>Connecter mon compte Stripe</span>
+                    <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-light">
+                        {{ icon('landmark') }}
+                        <span>Lier mon compte Stripe</span>
                     </a>
                 {% else %}
                     <div class="flex items-center gap-x-3">
