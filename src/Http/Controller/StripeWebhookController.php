@@ -16,6 +16,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class StripeWebhookController extends AbstractController
 {
     private string $stripeWebhookSecret;
+    private string $stripeConnectWebhookSecret;
 
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
@@ -25,6 +26,7 @@ class StripeWebhookController extends AbstractController
     )
     {
         $this->stripeWebhookSecret = $parameterBag->get('stripe_webhook_secret');
+        $this->stripeConnectWebhookSecret = $parameterBag->get('stripe_connect_webhook_secret');
     }
 
     #[Route('/stripe/webhooks', name: 'stripe_webhook')]
@@ -32,8 +34,6 @@ class StripeWebhookController extends AbstractController
     {
         $payload = $request->getContent();
         $sig_header = $request->headers->get('Stripe-Signature');
-
-        $event = null;
 
         try {
             // Vérifiez la signature de la requête avec la clé secrète d'endpoint de votre webhook
@@ -68,6 +68,31 @@ class StripeWebhookController extends AbstractController
                 $paymentId = $paymentIntent->metadata->payment_id;
                 $this->handlePaymentFailure($paymentId);
                 break;
+        }
+
+        return new Response('Received event', 200);
+    }
+
+    #[Route('/stripe-connect/webhooks', name: 'stripe_connect_webhook')]
+    public function handleStripeConnect(Request $request): Response {
+        $payload = $request->getContent();
+        $sig_header = $request->headers->get('Stripe-Signature');
+
+        try {
+            // Vérifiez la signature de la requête avec la clé secrète d'endpoint du webhook
+            $event = \Stripe\Webhook::constructEvent(
+                $payload, $sig_header, $this->stripeConnectWebhookSecret
+            );
+        } catch (\UnexpectedValueException $e) {
+            // Signature invalide
+            return new Response('Invalid request', 400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            // Signature invalide
+            return new Response('Invalid request', 400);
+        }
+
+        // Gérez l'événement
+        switch ($event->type) {
             case 'account.updated':
                 $account = $event->data->object;
                 $this->handleAccountUpdated($account);
