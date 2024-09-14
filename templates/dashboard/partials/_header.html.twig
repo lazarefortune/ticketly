@@ -28,8 +28,8 @@
             <div class="relative">
                 <!-- user info -->
                 <button id="user-button"
-                        class="user--dropdown-button border border-slate-200 dark:border-slate-800">
-                    <img class="h-10 w-10 rounded-full object-cover" src="{{ app.user|avatar }}"
+                        class="user--dropdown-button">
+                    <img class="h-8 w-8 rounded object-cover" src="{{ app.user|avatar }}"
                          alt="{{ app.user.fullname }}">
                 </button>
                 <div id="user-dropdown"
@@ -43,7 +43,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_home') }}"
-                           class="user--dropdown-menu-item">
+                           class="user--dropdown-menu-item border border-primary-600 bg-primary-100 dark:border-slate-400 dark:bg-slate-800/50">
                             {{ icon('shield-check') }}
                             <span>Administration</span>
                         </a>

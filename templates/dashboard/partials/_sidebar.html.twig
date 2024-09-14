@@ -7,7 +7,7 @@
     <nav class="sidebar--nav">
         <div>
             <div class="sidebar--nav-title">
-                Menu Principal
+                Menu
             </div>
             <ul class="flex flex-col gap-1">
                 <li>
@@ -18,34 +18,25 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ path('dashboard_event_index') }}"
+                       class="sidebar--nav-item {{ menu_active('dashboard_event') }}">
+                        {{ icon('calendar-days') }}
+                        Évènements
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_ticket_validation') }}"
+                       class="sidebar--nav-item">
+                        {{ icon('scan-barcode' ) }}
+                        Validateur de billets
+                    </a>
+                </li>
+                <li>
                     <a href="{{ path('app_home') }}" class="sidebar--nav-item">
                         {{ icon('undo-2') }}
                         Retour au site
                     </a>
                 </li>
-            </ul>
-        </div>
-        <div>
-            <div class="sidebar--nav-title">
-                Gestion & Services
-            </div>
-            <ul class="flex flex-col gap-1">
-                {% if is_granted('ROLE_USER') %}
-                    <li>
-                        <a href="{{ path('app_ticket_validation') }}"
-                           class="sidebar--nav-item">
-                            {{ icon('scan-barcode' ) }}
-                            Validateur de billets
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard_event_index') }}"
-                           class="sidebar--nav-item {{ menu_active('dashboard_event') }}">
-                            {{ icon('calendar-days') }}
-                            Évènements
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
         </div>
     </nav>

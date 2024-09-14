@@ -47,7 +47,7 @@
                 <div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {% for reservation in reservations %}
-                            <div class="p-4 bg-white shadow-md rounded-lg flex flex-col justify-between">
+                            <div class="p-4 bg-white dark:bg-slate-900 shadow-md rounded-lg flex flex-col justify-between">
                                 <div class="mb-4">
                                     <h4 class="text-md font-semibold mb-1">{{ reservation.event.name }}</h4>
                                     <p class="text-sm text-zinc-500">Réservé le {{ reservation.createdAt|date('d/m/Y à H:i') }}</p>

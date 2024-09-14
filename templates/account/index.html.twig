@@ -38,9 +38,9 @@
 
                             <div class="flex gap-x-2">
 
-                                {{ form_label(formProfile.avatarFile, 'Charger une image', {'label_attr': {'class': 'btn btn-sm'}}) }}
+                                {{ form_label(formProfile.avatarFile, 'Charger une image', {'label_attr': {'class': 'btn btn-sm btn-light'}}) }}
                                 {{ form_widget(formProfile.avatarFile) }}
-                                <button type="button" class="btn btn-sm bg-zinc-100">
+                                <button type="button" class="btn btn-sm btn-light-danger2">
                                     Supprimer l'image
                                 </button>
                             </div>
@@ -112,7 +112,7 @@
                 <h2 class="text-base font-semibold">Sécurité du compte</h2>
                 <p class="text-sm text-zinc-500 mb-4">Changez votre mot de passe pour sécuriser votre compte.</p>
 
-                <a href="{{ path('app_account_change_password') }}" class="btn">
+                <a href="{{ path('app_account_change_password') }}" class="btn btn-light">
                     {{ icon('lock') }}
                     <span>Modifier mon mot de passe</span>
                 </a>
