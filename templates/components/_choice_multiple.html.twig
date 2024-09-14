@@ -22,4 +22,9 @@
             {% endfor %}
         </ul>
     </div>
+    {% if form.vars.errors|length > 0 %}
+        <div class="form-error">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
 </div>

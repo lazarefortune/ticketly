@@ -13,7 +13,7 @@ class DeleteAccountForm extends AbstractType
         $builder->add('password', PasswordType::class, [
             'label' => 'Votre mot de passe',
             'attr' => [
-                'class' => 'form-input-md'
+                'class' => 'form-input'
             ],
             'label_attr' => [
                 'class' => 'label'

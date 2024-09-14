@@ -8,11 +8,15 @@ use App\Domain\Profile\Event\Unverified\DeleteUnverifiedUserSuccessEvent;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProfileSubscriber implements EventSubscriberInterface
 {
 
-    public function __construct( private readonly MailService $mailService )
+    public function __construct(
+        private readonly MailService $mailService,
+        private readonly UrlGeneratorInterface $urlGenerator,
+    )
     {
     }
 
@@ -45,6 +49,7 @@ class ProfileSubscriber implements EventSubscriberInterface
 
         $email = $this->mailService->createEmail( 'mails/account/password-updated.twig', [
             'user' => $user,
+            'loginUrl' => $this->urlGenerator->generate( 'app_login', [], UrlGeneratorInterface::ABSOLUTE_URL ),
         ] )
             ->to( $user->getEmail() )
             ->subject( 'Votre mot de passe a été modifié' )

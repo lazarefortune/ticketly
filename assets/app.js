@@ -29,6 +29,8 @@ customElements.define('puzzle-challenge', PuzzleCaptcha)
 customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
+customElements.define('password-verifier', PasswordVerifier);
+
 /* Modules */
 import './modules/header.js'
 import './modules/scrollreveal.js'
@@ -37,7 +39,6 @@ import './modules/modal.js'
 import './modules/header.js'
 import './modules/hamburger.js'
 import './modules/dropdown.js'
-import './modules/password-verifier.js'
 import './modules/password-toggle.js'
 import './modules/incremental.js'
 import {registerHeaderBehavior} from "./modules/header";
@@ -50,6 +51,7 @@ import {PuzzleCaptcha} from "./elements/Captcha";
 import { ProgressTracker } from "./elements/player/ProgressTracker";
 import { AjaxDelete } from "./elements/AjaxDelete";
 import LoaderOverlay from "./elements/LoaderOverlay";
+import PasswordVerifier from "./elements/PasswordVerifier";
 
 registerHeaderBehavior()
 

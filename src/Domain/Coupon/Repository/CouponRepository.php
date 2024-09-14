@@ -15,4 +15,14 @@ class CouponRepository extends AbstractRepository
     {
         parent::__construct( $registry, Coupon::class );
     }
+
+    public function findByEventId( int $eventId ) : array
+    {
+        return $this->createQueryBuilder( 'c' )
+            ->join( 'c.event', 'e' )
+            ->where( 'e.id = :eventId' )
+            ->setParameter( 'eventId', $eventId )
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -19,7 +19,7 @@ class UpdatePasswordForm extends AbstractType
                         'class' => 'label'
                     ],
                     'attr' => [
-                        'class' => 'input'
+                        'class' => 'form-input'
                     ]
                 ] )
             ->add( 'newPassword', PasswordType::class,
@@ -29,7 +29,7 @@ class UpdatePasswordForm extends AbstractType
                         'class' => 'label'
                     ],
                     'attr' => [
-                        'class' => 'input'
+                        'class' => 'form-input'
                     ]
                 ] );
     }

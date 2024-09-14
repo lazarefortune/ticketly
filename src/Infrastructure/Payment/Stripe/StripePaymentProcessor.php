@@ -78,7 +78,7 @@ class StripePaymentProcessor implements PaymentProcessorInterface
             $session = $this->stripeApi->getSession($payment->getSessionId());
         }
 
-        // On verifie que le montant est le même
+        // On vérifie que le montant est le même
         if ($session->amount_total !== $payment->getAmount()) {
             // On créé une nouvelle session
             $url = $this->urlGenerator->generate('app_event_reservation_show', [

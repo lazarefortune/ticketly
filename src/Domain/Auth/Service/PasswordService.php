@@ -11,7 +11,6 @@ use App\Domain\Profile\Exception\TooManyPasswordResetRequestException;
 use App\Infrastructure\Security\TokenGeneratorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class PasswordService
@@ -26,6 +25,12 @@ class PasswordService
     {
     }
 
+    /**
+     * Create a password reset request and dispatch an event to send an email
+     * @param string $email
+     * @return void
+     * @throws TooManyPasswordResetRequestException
+     */
     public function forgotPasswordRequest( string $email ) : void
     {
         $user = $this->entityManager->getRepository( User::class )->findOneBy( ['email' => $email] );
@@ -53,6 +58,11 @@ class PasswordService
         }
     }
 
+    /**
+     * Get the user associated with a password reset token
+     * @param string $token
+     * @return User|null
+     */
     public function getUserByPasswordResetToken( string $token ) : ?User
     {
         $passwordReset = $this->passwordResetRepository->findOneBy( ['token' => $token] );
@@ -62,6 +72,12 @@ class PasswordService
         return null;
     }
 
+    /**
+     * Reset the password of a user
+     * @param User $user
+     * @param string $newPassword
+     * @return void
+     */
     public function resetPassword( User $user, string $newPassword ) : void
     {
         $user->setPassword( $this->userPasswordHasher->hashPassword( $user, $newPassword ) );

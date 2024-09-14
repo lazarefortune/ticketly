@@ -45,7 +45,7 @@
                                          class="w-full h-full object-cover object-center md:order-none order-1"
                                          alt="{{ event.name }}">
                                     <div class="flex flex-col justify-center items-center gap-y-4 p-10 bg-white dark:bg-zinc-800/90 text-center md:order-none order-2">
-                                        <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event.startDate|format_datetime('full', 'none', locale='fr') }}</p>
+                                        <p class="text-base text-zinc-600 dark:text-zinc-400">{{ event_duration(event.startDate, event.endDate) }}</p>
                                         <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ event.name }}</h2>
                                         <p class="hidden md:block text-sm text-zinc-600 dark:text-zinc-400">{{ event.description|length > 300 ? event.description|slice(0, 300) ~ '...' : event.description }}</p>
                                         <div class="flex items-center justify-center gap-x-4">

@@ -172,6 +172,13 @@ class AccountController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        // check if user is verified
+        if (!$user->isVerified()) {
+            $this->addFlash('error', 'Vous devez vérifier votre adresse email avant de pouvoir connecter votre compte Stripe.');
+            return $this->redirectToRoute('app_account_profile');
+        }
+
         if ($user->getStripeAccountId() === null || $user->isStripeAccountCompleted() === false) {
             // Crée le lien de connexion Stripe
             $url = $this->stripeService->createAccountLink( $user );

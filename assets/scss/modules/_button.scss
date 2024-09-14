@@ -1,9 +1,7 @@
-// Base pour tous les boutons avec taille par défaut (moyenne)
+/* Base pour tous les boutons avec taille par défaut (moyenne) */
 .btn {
-  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border shadow-sm
-  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 cursor-pointer;
-  @apply px-5 py-2 text-sm ;
-  //@apply px-4 py-1.5 text-sm font-medium;
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border shadow-sm cursor-pointer
+  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 px-5 py-2 text-sm;
 
   & > i {
     @apply inline-block leading-none;
@@ -12,7 +10,7 @@
   }
 }
 
-// Tailles des boutons
+/* Tailles des boutons */
 .btn-sm {
   @apply px-3 py-1.5 text-sm;
 }
@@ -25,196 +23,147 @@
   @apply px-7 py-3 text-lg;
 }
 
-// Variantes de boutons
+/* Variantes de boutons */
+
+/* Bouton primaire */
 .btn-primary {
-  @apply bg-primary-900 text-white border-primary-900
-  hover:bg-primary-800 hover:text-white hover:border-primary-800
-  disabled:bg-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed
-  ;
+  /* Light mode */
+  @apply bg-primary-800 text-white border-primary-800
+  hover:bg-primary-700 hover:border-primary-700 hover:text-white
+  disabled:bg-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-primary-600 dark:text-white dark:border-primary-600
+  dark:hover:bg-primary-700 dark:hover:border-primary-700 dark:hover:text-white
+  dark:disabled:bg-primary-300 dark:disabled:border-primary-300;
 }
 
+/* Bouton clair */
 .btn-light {
-  @apply bg-white text-gray-600 border-gray-300
+  /* Light mode */
+  @apply bg-white text-gray-600 border-gray-300 bg-transparent
   hover:bg-gray-50 hover:text-gray-700 hover:border-gray-400
-  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 disabled:cursor-not-allowed
-  ;
+  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-transparent dark:text-gray-200 dark:border-slate-600
+  dark:hover:bg-slate-700 dark:hover:text-white dark:hover:border-slate-500
+  dark:disabled:bg-slate-900 dark:disabled:text-gray-500 dark:disabled:border-slate-700;
 }
 
+/* Bouton succès */
 .btn-success {
+  /* Light mode */
   @apply bg-green-600 text-white border-green-600
   hover:bg-green-700 hover:border-green-700
   disabled:bg-green-200 disabled:border-green-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-green-500 dark:text-white dark:border-green-500
+  dark:hover:bg-green-400 dark:hover:border-green-400
+  dark:disabled:bg-green-300 dark:disabled:border-green-300;
 }
 
+/* Bouton danger */
 .btn-danger {
-  @apply bg-red-900 text-white border-red-900
+  /* Light mode */
+  @apply bg-red-600 text-white border-red-600
   hover:bg-red-700 hover:border-red-700
   disabled:bg-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-red-500 dark:text-white dark:border-red-500
+  dark:hover:bg-red-400 dark:hover:border-red-400
+  dark:disabled:bg-red-300 dark:disabled:border-red-300;
 }
 
+/* Bouton contour */
 .btn-outline {
+  /* Light mode */
   @apply bg-transparent text-primary-600 border-primary-600
-  hover:bg-primary-100 hover:text-primary-700 hover:border-primary-700
+  hover:bg-primary-50 hover:text-primary-700 hover:border-primary-700
   disabled:text-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-transparent dark:text-primary-400 dark:border-primary-400
+  dark:hover:bg-primary-500 dark:hover:text-white dark:hover:border-primary-500
+  dark:disabled:text-primary-300 dark:disabled:border-primary-300;
 }
 
+/* Bouton danger clair */
 .btn-light-danger {
-    @apply bg-red-50 text-red-900 border-red-200
-    hover:bg-red-100 hover:text-red-800 hover:border-red-300
-    disabled:bg-red-100 disabled:text-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
+  /* Light mode */
+  @apply bg-red-50 text-red-700 border-red-200
+  hover:bg-red-100 hover:text-red-800 hover:border-red-300
+  disabled:bg-red-100 disabled:text-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-red-900 dark:text-red-200 dark:border-red-700
+  dark:hover:bg-red-800 dark:hover:text-red-100 dark:hover:border-red-600
+  dark:disabled:bg-red-900 dark:disabled:text-red-300 dark:disabled:border-red-700;
 }
 
+/* Bouton danger clair alternatif */
 .btn-light-danger2 {
-    @apply bg-white text-red-700 border shadow-sm
-    hover:bg-red-50 hover:text-red-800 hover:border-red-300
-    disabled:bg-white disabled:text-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
+  /* Light mode */
+  @apply bg-white text-red-700 border-red-200 shadow-sm
+  hover:bg-red-50 hover:text-red-800 hover:border-red-300
+  disabled:bg-white disabled:text-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-slate-800 dark:text-red-400 dark:border-red-600
+  dark:hover:bg-red-900 dark:hover:text-red-300 dark:hover:border-red-700
+  dark:disabled:bg-slate-900 dark:disabled:text-red-500 dark:disabled:border-red-700;
 }
 
-// Boutons spécifiques
+/* Boutons spécifiques */
+
+/* Bouton icône */
 .btn-icon {
-  @apply cursor-pointer inline-flex items-center justify-center rounded-full p-2 text-xl
-  text-gray-600 hover:bg-primary-200/30 hover:text-primary-600;
+  /* Light mode */
+  @apply inline-flex items-center justify-center rounded-full p-2 text-xl cursor-pointer
+  text-gray-600 hover:bg-primary-100 hover:text-primary-600;
+
+  /* Dark mode */
+  @apply dark:text-gray-200 dark:hover:bg-primary-500/20 dark:hover:text-primary-400;
 }
 
+/* Bouton lien */
 .btn-link {
-  @apply inline-flex items-center justify-center rounded text-base
-  text-primary-600 hover:text-primary-700 cursor-pointer;
+  /* Light mode */
+  @apply inline-flex items-center justify-center rounded text-base cursor-pointer
+  text-primary-600 hover:text-primary-700;
+
+  /* Dark mode */
+  @apply dark:text-primary-400 dark:hover:text-primary-300;
 }
 
-/* Styles de base pour tous les boutons */
-
-/*
-.btn-base {
-  @apply inline-flex items-center justify-center whitespace-nowrap rounded border shadow-sm space-x-2
-  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95
-   px-3 py-2 text-base cursor-pointer gap-2
-  ;
-}
-
-.btn {
-  @apply px-7 text-base py-2.5 btn-base;
-}
-
-.btn-base > i {
-  @apply inline-block text-lg leading-none;
-}
-
-.btn-base > span {
-  @apply inline-block text-base leading-none;
-}
-
-.btn-primary {
-  @apply btn-base
-  bg-primary-700 text-white border-primary-700
-  hover:bg-primary-800 hover:text-white hover:border-primary-800
-  disabled:bg-primary-100 disabled:text-primary-400 disabled:border-primary-100 disabled:pointer-events-none
-  active:bg-primary-800 active:text-white
-  focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-  focus:ring-primary-100 focus-visible:outline-primary-600
-  dark:bg-primary-600 dark:text-white dark:border-primary-600
-  dark:hover:bg-primary-700 dark:hover:text-white dark:hover:border-primary-700
-  dark:disabled:bg-primary-950 dark:disabled:text-primary-700 dark:disabled:border-primary-950 dark:disabled:pointer-events-none
-  dark:active:bg-primary-800 dark:active:text-white
-  dark:ring-0 dark:outline-offset-0
-  ;
-}
-
-.btn-success {
-  @apply btn-base
-    bg-green-600 text-white border-green-600
-    hover:bg-green-700 hover:text-white hover:border-green-700
-    disabled:bg-green-100 disabled:text-green-400 disabled:border-green-100 disabled:pointer-events-none
-    active:bg-green-500 active:text-white
-    focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-    focus:ring-green-100 focus-visible:outline-green-600
-    dark:bg-green-700 dark:text-white dark:border-green-700
-    dark:hover:bg-green-600 dark:hover:text-white dark:hover:border-green-600
-    dark:disabled:bg-green-950 dark:disabled:text-green-700 dark:disabled:border-green-950 dark:disabled:pointer-events-none
-    dark:active:bg-green-600 dark:active:text-white
-    dark:ring-0 dark:outline-offset-0
-  ;
-}
-
-.btn-danger {
-  @apply btn-base
-    bg-red-400 text-white border-red-400
-    hover:bg-red-500 hover:text-white hover:border-red-500
-    disabled:bg-red-100 disabled:text-red-400 disabled:border-red-100 disabled:pointer-events-none
-    active:bg-red-500 active:text-white
-    focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-    focus:ring-red-100 focus-visible:outline-red-600
-    dark:bg-red-500 dark:text-white dark:border-red-500
-    dark:hover:bg-red-600 dark:hover:text-white dark:hover:border-red-600
-    dark:disabled:bg-red-950 dark:disabled:text-red-700 dark:disabled:border-red-950 dark:disabled:pointer-events-none
-    dark:active:bg-red-600 dark:active:text-white
-    dark:ring-0 dark:outline-offset-0
-  ;
-}
-
-.btn-outline-primary {
-  @apply btn-base
-  bg-transparent border-primary-700 text-primary-700
-  hover:bg-primary-100 hover:text-primary-800 hover:border-primary-800
-  focus:ring-primary-500 focus-visible:outline-primary-500
-  dark:bg-transparent dark:border-primary-500 dark:text-primary-500
-  dark:hover:bg-transparent dark:hover:text-primary-600 dark:hover:border-primary-600;
-  ;
-}
-
-.btn-icon {
-  @apply inline-flex items-center justify-center rounded-full p-2 text-xl text-gray-600 hover:bg-primary-200/30 hover:text-primary-600
-    dark:text-white dark:hover:bg-primary-500/30 dark:hover:text-white;
-  ;
-}
-
-.btn-link {
-  @apply inline-flex items-center justify-center rounded text-base text-gray-600 hover:text-primary-600 cursor-pointer
-  dark:text-white dark:hover:text-primary-300;
-}
-
+/* Liens */
 .link {
-  @apply pb-0.5 p-1.5 cursor-pointer
-  text-primary-600
-  hover:text-primary-700/75 hover:border-primary-700 hover:border-primary-700/75 hover:bg-primary-100/25 hover:border-b
-  ;
+  /* Light mode */
+  @apply pb-0.5 p-1.5 cursor-pointer text-primary-600
+  hover:text-primary-700 hover:border-primary-700 hover:bg-primary-50 hover:border-b;
+
+  /* Dark mode */
+  @apply dark:text-primary-400 dark:hover:text-primary-300 dark:hover:border-primary-300 dark:hover:bg-primary-500/20;
 }
 
+/* Style pour les liens externes */
 .link[target="_blank"]::after {
-  @apply bg-primary-700;
   content: "";
-  margin-left: .3rem;
-  margin-right: -.125rem;
   display: inline-block;
+  margin-left: 0.3rem;
+  margin-right: -0.125rem;
   width: 1rem;
   height: 1rem;
   mask-image: url(../../images/external-link-line.svg);
   mask-size: 100% 100%;
-  vertical-align: calc((.75em - 1rem) * .5);
+  vertical-align: calc((0.75em - 1rem) * 0.5);
   box-sizing: inherit;
-  //mask-size: 100% 100%;
-  //mask-repeat: no-repeat;
-  //mask-position: center;
-}
 
-// custom buttons
-.btn-light {
-  @apply border-gray-300 bg-white text-gray-600 btn-base shadow-custom hover:bg-gray-50
-  focus:ring-gray-500 focus-visible:outline-gray-500
-  dark:bg-transparent dark:text-white dark:border-slate-600 dark:hover:bg-slate-800/10 dark:hover:text-white
-  dark:hover:border-slate-400
-  ;
-}
+  /* Light mode */
+  @apply bg-primary-700;
 
-.btn-menu {
-  @apply block rounded border-transparent px-5 py-2 text-base text-white btn-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-800 active:scale-95;
+  /* Dark mode */
+  @apply dark:bg-primary-400;
 }
-
-.btn-menu-alt {
-  @apply rounded border bg-white px-5 py-2 text-base transition text-primary-600 border-primary-600 hover:bg-primary-100 hover:text-primary-600 focus:ring-primary-500 focus-visible:outline-primary-600;
-}
-
-.btn-lg {
-  @apply px-10 text-lg py-4.5 btn-base;
-}
-
-*/

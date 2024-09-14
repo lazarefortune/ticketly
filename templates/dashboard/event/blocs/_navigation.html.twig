@@ -1,0 +1,52 @@
+<nav class="mt-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+    <ul class="flex text-sm font-medium text-center whitespace-nowrap">
+        <li class="mr-2">
+            <a href="{{ path('dashboard_event_overview', {id: event.id}) }}"
+               class="nav-link
+               {{ menu_active('dashboard_event_overview') }}">
+                <span>{{ icon('home', 18) }}</span>
+                <span class="ml-2">Aperçu</span>
+            </a>
+        </li>
+        {% if is_granted('RESERVATION_VIEW', event) %}
+            <li class="mr-2">
+                <a href="{{ path('dashboard_event_reservations', {id: event.id}) }}"
+                   class="nav-link
+                   {{ menu_active('dashboard_event_reservations') }}">
+                    <span>{{ icon('ticket', 18) }}</span>
+                    <span class="ml-2">Réservations</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('EVENT_INVITE_COLLABORATOR', event) %}
+            <li class="mr-2">
+                <a href="{{ path('dashboard_event_collaborators', {id: event.id}) }}"
+                   class="nav-link
+                   {{ menu_active('dashboard_event_collaborators') }}">
+                    <span>{{ icon('users', 18) }}</span>
+                    <span class="ml-2">Collaborateurs</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('COUPON_MANAGE', event) %}
+            <li class="mr-2">
+                <a href="{{ path('dashboard_event_coupons', {id: event.id}) }}"
+                   class="nav-link
+                   {{ menu_active('dashboard_event_coupons') }}">
+                    <span>{{ icon('tag', 18) }}</span>
+                    <span class="ml-2">Coupons</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('EVENT_EDIT', event) %}
+            <li class="mr-2">
+                <a href=""
+                   class="nav-link
+                   {{ menu_active('dashboard_event_settings') }}">
+                    <span>{{ icon('settings', 18) }}</span>
+                    <span class="ml-2">Paramètres</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

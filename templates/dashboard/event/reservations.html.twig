@@ -1,0 +1,56 @@
+{% extends 'dashboard/event/event_details_base.html.twig' %}
+
+{% block event_content %}
+    <div class="table-wrapper">
+        <table class="table mt-4">
+            <thead>
+            <tr>
+                <th>N° de réservation</th>
+                <th>Date d'achat</th>
+                <th>Ticket(s)</th>
+                <th>Status</th>
+                <th>Montant</th>
+                <th>Montant reçu</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if reservations|length == 0 %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucune réservation</td>
+                </tr>
+            {% endif %}
+            {% for reservation in reservations %}
+                <tr>
+                    <td>
+                        {#                        <a class="table-cell-link" href="{{ path('dashboard_reservation_show', {reservation: reservation.id}) }}"></a>#}
+                        {{ reservation.reservationNumber }}
+                    </td>
+                    <td>
+                        {#                        <a class="table-cell-link" href="{{ path('dashboard_reservation_show', {reservation: reservation.id}) }}"></a>#}
+                        {{ reservation.buyAt|format_datetime('medium', 'short', locale='fr') }}
+                    </td>
+                    <td>
+                        {#                        <a class="table-cell-link" href="{{ path('dashboard_reservation_show', {reservation: reservation.id}) }}"></a>#}
+                        {{ reservation.quantity }}
+                    </td>
+                    <td>
+                        {#                        <a class="table-cell-link" href="{{ path('dashboard_reservation_show', {reservation: reservation.id}) }}"></a>#}
+                        {% if reservation.status == 'success' %}
+                            <span class="text-green-900 bg-green-200 rounded px-2 py-1">Payé</span>
+                        {% elseif reservation.status == 'pending' %}
+                            <span class="text-orange-900 bg-orange-200 rounded px-2 py-1">En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {#                        <a class="table-cell-link" href="{{ path('dashboard_reservation_show', {reservation: reservation.id}) }}"></a>#}
+                        {{ reservation.totalAmount|price_format }}
+                    </td>
+                    <td>
+                        {{ reservation.netIncome|price_format }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

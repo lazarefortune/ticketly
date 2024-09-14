@@ -1,0 +1,35 @@
+{% extends 'dashboard/event/event_details_base.html.twig' %}
+
+{% block event_content %}
+    <div class="mt-8 grid gap-6 md:gap-8 sm:grid-cols-1 md:grid-cols-3">
+        <div class="flex items-center border border-gray-50 bg-white dark:bg-dark-soft rounded shadow px-6 py-4">
+            <div class="p-3 text-blue-900 bg-blue-100 dark:text-blue-200 dark:bg-blue-100/20 rounded-full">
+                {{ icon('euro', 24) }}
+            </div>
+            <div class="ml-4">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total revenu</div>
+                <div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">{{ totalAmountIncome|price_format }}</div>
+            </div>
+        </div>
+        <div class="flex items-center border border-gray-50 bg-white dark:bg-dark-soft rounded shadow p-6">
+            <div class="p-3 text-green-900 bg-green-100 dark:text-green-200 dark:bg-green-100/20 rounded-full">
+                {{ icon('ticket', 24) }}
+            </div>
+            <div class="ml-4">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Tickets vendus</div>
+                <div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">
+                    {{ nbTickets }}{% if event.maxSpace > 0 %} / {{ event.maxSpace }}{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center border border-gray-50 bg-white dark:bg-dark-soft rounded shadow p-6">
+            <div class="p-3 text-yellow-900 bg-yellow-100 dark:text-yellow-200 dark:bg-yellow-100/20 rounded-full">
+                {{ icon('users', 24) }}
+            </div>
+            <div class="ml-4">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Réservations</div>
+                <div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">{{ nbReservations }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

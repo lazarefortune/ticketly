@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/evenements', name: 'event_' )]
 class EventController extends AbstractController
@@ -61,6 +62,10 @@ class EventController extends AbstractController
         ] );
         $ticketForm->handleRequest( $request );
 
+        $unitPrice = $event->getPrice();
+        $serviceChargePercentage = Reservation::SERVICE_CHARGE_PERCENTAGE; // 5% dans votre classe Reservation
+        $serviceCharge = ($unitPrice * $serviceChargePercentage) / 100;
+
         if ( $ticketForm->isSubmitted() && $ticketForm->isValid() ) {
             $quantity = (int)$ticketForm->get( 'quantity' )->getData()[ 'incremental' ];
             $remainingSpaces = $event->getRemainingSpaces();
@@ -94,20 +99,7 @@ class EventController extends AbstractController
         return $this->render( 'event/show.html.twig', [
             'event' => $event,
             'ticketForm' => $ticketForm->createView(),
-        ] );
-    }
-
-    #[Route( '/preview/{slug<[a-z0-9A-Z\-]+>}', name: 'preview', methods: ['GET', 'POST'] )]
-    public function preview( Event $event, string $slug, Request $request, SessionInterface $session ) : Response
-    {
-        if ( $event->getSlug() !== $slug ) {
-            return $this->redirectToRoute( 'event_show', [
-                'slug' => $event->getSlug(),
-            ], 301 );
-        }
-
-        return $this->render( 'event/preview.html.twig', [
-            'event' => $event
+            'serviceCharge' => $serviceCharge,
         ] );
     }
 

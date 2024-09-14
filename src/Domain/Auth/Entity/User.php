@@ -3,6 +3,8 @@
 namespace App\Domain\Auth\Entity;
 
 use App\Domain\Auth\Repository\UserRepository;
+use App\Domain\Event\Entity\Event;
+use App\Domain\Event\Entity\EventCollaborator;
 use App\Domain\Event\Entity\Reservation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -97,6 +99,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $country = 'FR';
 
+    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: Event::class)]
+    private Collection $events;
+
+    #[ORM\OneToMany(mappedBy: 'collaborator', targetEntity: EventCollaborator::class)]
+    private Collection $collaborations;
+
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $apiKey = null;
 
@@ -109,6 +117,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = new \DateTimeImmutable();
         $this->emailVerifications = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->collaborations = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -214,6 +224,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone( ?string $phone ) : self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // Set the owning side to null (unless already changed)
+            if ($event->getOrganizer() === $this) {
+                $event->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCollaborations(): Collection
+    {
+        return $this->collaborations;
+    }
+
+    public function addCollaboration(EventCollaborator $collaboration): self
+    {
+        if (!$this->collaborations->contains($collaboration)) {
+            $this->collaborations[] = $collaboration;
+            $collaboration->setCollaborator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaboration(EventCollaborator $collaboration): self
+    {
+        $this->collaborations->removeElement($collaboration);
 
         return $this;
     }

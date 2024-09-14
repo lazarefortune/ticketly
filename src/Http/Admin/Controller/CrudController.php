@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Prestation\Entity\Prestation;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Admin\Data\CrudDataInterface;
@@ -25,8 +26,9 @@ abstract class CrudController extends BaseController
     /**
      * @var class-string<E>
      */
-    protected string $entity = Prestation::class;
-    protected string $templatePath = 'prestation';
+    protected string $entity = User::class;
+    protected string $templateDirectory = 'admin';
+    protected string $templatePath = 'users';
     protected string $menuItem = '';
     protected string $routePrefix = '';
     protected string $searchField = 'name';
@@ -59,7 +61,8 @@ abstract class CrudController extends BaseController
         $this->paginator->allowSort( 'row.id', 'row.title' );
         $rows = $this->paginator->paginate( $query->getQuery() );
 
-        return $this->render( "admin/{$this->templatePath}/index.html.twig", [
+        $template = "{$this->templateDirectory}/{$this->templatePath}/index.html.twig";
+        return $this->render( $template, [
             'rows' => $rows,
             'searchable' => true,
             'menu' => $this->menuItem,
@@ -89,7 +92,8 @@ abstract class CrudController extends BaseController
             return $this->redirectAfterSave( $entity );
         }
 
-        return $this->render( "admin/{$this->templatePath}/edit.html.twig", [
+        $template = "{$this->templateDirectory}/{$this->templatePath}/edit.html.twig";
+        return $this->render( $template, [
             'form' => $form->createView(),
             'entity' => $data->getEntity(),
             'menu' => $this->menuItem,
@@ -116,7 +120,8 @@ abstract class CrudController extends BaseController
             return $this->redirectAfterSave( $entity );
         }
 
-        return $this->render( "admin/{$this->templatePath}/new.html.twig", [
+        $template = "{$this->templateDirectory}/{$this->templatePath}/new.html.twig";
+        return $this->render( $template, [
             'form' => $form->createView(),
             'entity' => $data->getEntity(),
             'menu' => $this->menuItem,
@@ -150,7 +155,8 @@ abstract class CrudController extends BaseController
 
     public function crudShow( object $entity, array $extraParams = [] ) : Response
     {
-        return $this->render( "admin/{$this->templatePath}/show.html.twig", [
+        $template = "{$this->templateDirectory}/{$this->templatePath}/show.html.twig";
+        return $this->render( $template, [
             'entity' => $entity,
             'menu' => $this->menuItem,
             ...$extraParams,

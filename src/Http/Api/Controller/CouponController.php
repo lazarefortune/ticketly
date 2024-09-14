@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-//#[IsGranted('ROLE_USER')]
 class CouponController
 {
     public function __construct(
@@ -46,6 +45,12 @@ class CouponController
             return new JsonResponse(['success' => false, 'message' => 'Réservation introuvable.']);
         }
 
+        // Vérifie que le coupon est bien applicable à l'événement de la réservation
+        $event = $reservation->getEvent();
+        if (!$coupon->getEvent() || $coupon->getEvent()->getId() !== $event->getId()) {
+            return new JsonResponse(['success' => false, 'message' => 'Ce code promo est invalide ou a expiré.']);
+        }
+
         // Appliquer le coupon et calculer les montants
         $reservation->applyCoupon($coupon);
 
@@ -72,6 +77,7 @@ class CouponController
             'couponCode' => $coupon->getCode()
         ]);
     }
+
 
     #[Route('/remove-coupon', name: 'remove_coupon', methods: ['POST'])]
     public function removeCoupon(Request $request): JsonResponse

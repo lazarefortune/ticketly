@@ -19,6 +19,9 @@ class IncrementalType extends AbstractType
                 'data-input-counter' => true,
             ],
             'label' => false,
+            'label_attr' => [
+                'class' => 'label',
+            ],
             'required' => true,
         ]);
     }

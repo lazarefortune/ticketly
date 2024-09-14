@@ -46,7 +46,7 @@ class ReservationRepository extends AbstractRepository implements CleanableRepos
     {
         try {
             $total = $this->createQueryBuilder( 'r' )
-                ->select( 'SUM(r.totalAmount)' )
+                ->select( 'SUM(r.netIncome)' )
                 ->andWhere( 'r.event = :event' )
                 ->andWhere( 'r.status = :status' )
                 ->setParameter( 'event', $event )

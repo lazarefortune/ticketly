@@ -47,5 +47,4 @@ class EventCrudData extends AutomaticCrudData
         $this->entity->setUpdatedAt( new \DateTimeImmutable() );
     }
 
-
 }

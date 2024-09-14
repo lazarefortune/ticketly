@@ -1,0 +1,33 @@
+{% extends 'blank.html.twig' %}
+
+{% block body %}
+    <div class="min-h-screen w-full justify-center grid grid-cols-8">
+        <!-- Main Form Section -->
+        <div class="col-span-full lg:col-span-3 w-full min-h-screen px-4 py-4">
+            <div class="flex justify-center items-center h-full">
+                {% block auth_content %}
+                    <!-- Content specific to login, register, reset password will be injected here -->
+                {% endblock %}
+            </div>
+        </div>
+
+        <!-- Auth Image Section -->
+        <div class="hidden lg:flex p-8 2xl:p-20 col-span-5 flex-col justify-between w-full min-h-screen auth-image-login">
+            <div class="flex justify-between flex-col gap-4">
+                <div class="flex justify-end">
+                    <a href="{{ path('app_home') }}" class="text-2xl text-white hover:text-white-soft font-medium leading-tight tracking-tight md:text-3xl mb-2">
+                        {{ app_name }}
+                    </a>
+                </div>
+            </div>
+            <div class="">
+                <p class="text-xl text-white mb-4">
+                    TicketLy nous a permis de gérer nos événements de manière efficace. Nous avons pu vendre plus de tickets et gérer les inscriptions de manière plus simple.
+                </p>
+                <p class="text-sm font-medium text-white">
+                    — Lazare Fortune, CEO de TicketLy
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

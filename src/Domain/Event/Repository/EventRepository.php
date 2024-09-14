@@ -2,8 +2,10 @@
 
 namespace App\Domain\Event\Repository;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Infrastructure\Orm\AbstractRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,7 +25,7 @@ class EventRepository extends AbstractRepository
     public function findNext( int $limit = 0 ) : array
     {
         $query = $this->createQueryBuilder( 'e' )
-            ->andWhere( 'e.startDate > :now' )
+            ->andWhere( 'e.endSaleDate > :now' )
             ->andWhere( 'e.isActive = true' )
             ->setParameter( 'now', new \DateTime() )
             ->orderBy( 'e.startDate', 'ASC' );
@@ -33,5 +35,34 @@ class EventRepository extends AbstractRepository
         }
 
         return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Return all events where the user is the organizer or collaborator
+     * @return array<Event>
+     */
+    public function findEventsByUser( User $user ) : array
+    {
+        $query = $this->createQueryBuilder( 'e' )
+            ->leftJoin( 'e.collaborators', 'c' )
+            ->where( 'e.organizer = :user OR c.collaborator = :user' )
+            ->setParameter( 'user', $user )
+            ->orderBy( 'e.startDate', 'ASC' );
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Return all events where the user is the organizer or collaborator
+     * @param User $user
+     * @return QueryBuilder
+     */
+    public function getQueryEventsByUser( User $user ) : \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder( 'e' )
+            ->leftJoin( 'e.collaborators', 'c' )
+            ->where( 'e.organizer = :user OR c.collaborator = :user' )
+            ->setParameter( 'user', $user )
+            ->orderBy( 'e.startDate', 'ASC' );
     }
 }

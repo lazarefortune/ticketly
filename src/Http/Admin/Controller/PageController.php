@@ -13,7 +13,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-#[IsGranted( 'ROLE_ADMIN' )]
+#[IsGranted('ROLE_USER')]
 class PageController extends AbstractController
 {
 

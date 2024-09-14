@@ -19,6 +19,10 @@ class ForgotPasswordForm extends AbstractType
                 'label_attr' => [
                     'class' => 'label',
                 ],
+                'attr' => [
+                    'class' => 'form-input',
+                    'autocomplete' => 'email',
+                ],
                 'constraints' => [
                     new NotBlank( [
                         'message' => 'Veuillez saisir votre adresse email',

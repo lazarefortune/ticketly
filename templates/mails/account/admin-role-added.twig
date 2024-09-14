@@ -6,23 +6,27 @@
 
     {% apply markdown_email %}
 
-        Bonjour {{ user.fullname }} !
+        Bonjour {{ user.fullname }} ! 🎉
         ===============================
 
-        Bravo, vous avez été promu au rôle d'administrateur sur {{ app_name }}.
+        Félicitations ! 🎊 Vous venez d'être promu au rôle d'**administrateur** sur **{{ app_name }}**. 🚀
 
-        Un administrateur a plus de droits qu'un utilisateur classique.
+        Ce nouveau statut vous donne accès à des fonctionnalités avancées et une plus grande liberté pour gérer et superviser les activités de la plateforme.
 
-        Rendez-vous sur votre espace personnel pour découvrir les nouvelles fonctionnalités qui s'offrent à vous.
+        En tant qu'administrateur, vous avez désormais plus de droits et responsabilités qu'un utilisateur classique.
+
+        N'attendez plus, rendez-vous sur votre espace personnel pour découvrir toutes les nouvelles options à votre disposition !
 
     {% endapply %}
 
-    {{ element.button('Accéder à mon espace personnel', home_url) }}
+    {{ element.button('⚙️ Accéder à mon espace personnel', home_url, 'primary') }}
 
     {% apply markdown_email %}
-        Cordialement,
+        Si vous avez des questions sur votre nouveau rôle ou besoin d'assistance, notre équipe est à votre disposition.
 
-        L'équipe {{ app_name }}
+        À très bientôt,
+
+        **L'équipe {{ app_name }}** 🚀
     {% endapply %}
 
 {% endblock %}

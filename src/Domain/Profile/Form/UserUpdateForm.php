@@ -20,6 +20,9 @@ class UserUpdateForm extends AbstractType
                 'label' => 'Nom complet',
                 'label_attr' => [
                     'class' => 'label'
+                ],
+                'attr' => [
+                    'class' => 'form-input'
                 ]
             ] )
             ->add( 'phone', TextType::class, [
@@ -28,11 +31,17 @@ class UserUpdateForm extends AbstractType
                 'label_attr' => [
                     'class' => 'label'
                 ],
+                'attr' => [
+                    'class' => 'form-input'
+                ]
             ] )
             ->add( 'email', EmailType::class, [
                 'label' => 'Adresse email',
                 'label_attr' => [
                     'class' => 'label'
+                ],
+                'attr' => [
+                    'class' => 'form-input'
                 ]
             ] )
             /*

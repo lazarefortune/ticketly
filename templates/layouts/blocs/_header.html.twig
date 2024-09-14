@@ -36,10 +36,12 @@
                             <span>Administration</span>
                         </a>
                     </li>
+                {% endif %}
+                {% if app.user.stripeAccountCompleted or is_granted('ROLE_ADMIN') %}
                     <li>
-                        <a href="{{ path('app_ticket_validation') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
-                            {{ icon('scan-barcode', 20) }}
-                            <span>Validation de ticket</span>
+                        <a href="{{ path('dashboard_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-900/10 dark:border-b-slate-700">
+                            {{ icon('calendar', 20) }}
+                            <span>Gérer vos évènements</span>
                         </a>
                     </li>
                 {% endif %}
@@ -58,7 +60,7 @@
                     </a>
                 </li>
                <li>
-                   <a href="{{ path('app_login') }}" class="btn btn-md w-full">
+                   <a href="{{ path('app_login') }}" class="btn btn-md btn-light w-full">
                        {{ icon('user', 20) }}
                        Se connecter
                    </a>
@@ -123,12 +125,14 @@
                             {{ icon('shield' ) }}
                             <span>Administration</span>
                         </a>
-                        <a href="{{ path('app_ticket_validation') }}"
+                    {% endif %}
+                    {% if app.user.stripeAccountCompleted or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('dashboard_home') }}"
                            class="flex items-center justify-start gap-2 rounded-md p-2 text-sm leading-6
                                 hover:bg-primary-100 hover:text-primary-900
                                 dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
-                            {{ icon('scan-barcode' ) }}
-                            <span>Validation de ticket</span>
+                            {{ icon('calendar' ) }}
+                            <span>Gérer vos évènements</span>
                         </a>
                     {% endif %}
                     {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
@@ -162,7 +166,7 @@
                     <span>Créer un compte</span>
                 </a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" class="btn btn-sm">
+                <a href="{{ path('app_login') }}" class="btn btn-sm btn-light">
                     <span>Se connecter</span>
                 </a>
             {% endif %}

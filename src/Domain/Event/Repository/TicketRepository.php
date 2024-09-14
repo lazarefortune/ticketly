@@ -2,6 +2,7 @@
 
 namespace App\Domain\Event\Repository;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\Ticket;
 use App\Infrastructure\Orm\AbstractRepository;
@@ -48,6 +49,17 @@ class TicketRepository extends AbstractRepository
         return $this->count([
             'event' => $event
         ]);
+    }
+
+    /**
+     * Check if user is organizer of the event or has a specific role
+     *
+     * @param float|bool|int|string|null $ticketNumber
+     * @param User $getUser
+     * @return void
+     */
+    public function findTicketByNumberForUser( float|bool|int|string|null $ticketNumber, User $getUser )
+    {
     }
 
 }

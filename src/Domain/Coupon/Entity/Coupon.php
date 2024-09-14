@@ -2,12 +2,14 @@
 
 namespace App\Domain\Coupon\Entity;
 
+use App\Domain\Coupon\Repository\CouponRepository;
+use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\Reservation;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: CouponRepository::class)]
 class Coupon
 {
     public const TYPE_PERCENTAGE = 'percentage';
@@ -34,7 +36,11 @@ class Coupon
     private bool $isActive = true;
 
     #[ORM\OneToMany(mappedBy: 'coupon', targetEntity: Reservation::class)]
-    private $reservations;
+    private Collection $reservations;
+
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'coupons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Event $event = null;
 
     public function __construct()
     {
@@ -101,7 +107,7 @@ class Coupon
         return $this;
     }
 
-    public function getReservations() : ArrayCollection
+    public function getReservations(): Collection
     {
         return $this->reservations;
     }
@@ -124,6 +130,18 @@ class Coupon
                 $reservation->setCoupon(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): self
+    {
+        $this->event = $event;
 
         return $this;
     }

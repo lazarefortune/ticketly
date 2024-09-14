@@ -34,7 +34,6 @@ class AuthSubscriber implements EventSubscriberInterface
         $user = $event->getUser();
 
         $this->authMailService->sendWelcomeEmail( $user );
-
     }
 
 

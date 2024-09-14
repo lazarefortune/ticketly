@@ -6,31 +6,28 @@
 
     {% apply markdown_email %}
 
-        Bonjour {{ user.fullname }} !
+        Bonjour {{ user.fullname }} ! 👋
         ===============================
 
-        Nous souhaitons vous rappeler que vous n'avez pas encore validé votre adresse email. Pour conserver votre compte, veuillez cliquer sur le bouton ci-dessous.
+        Nous avons remarqué que vous n'avez pas encore validé votre adresse email sur **{{ app_name }}**. Pour conserver votre compte et accéder à toutes nos fonctionnalités, merci de valider votre adresse en cliquant sur le bouton ci-dessous. ✨
 
     {% endapply %}
 
-    {{ element.button('Confirmer mon adresse email', signedUrl|raw ) }}
+    {{ element.button('✨ Confirmer mon adresse email ✨', signedUrl|raw ) }}
 
     {% apply markdown_email %}
-        Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email, le compte sera automatiquement supprimé.
+        Si vous n'avez pas créé de compte, vous pouvez ignorer cet email. Le compte sera automatiquement supprimé après un certain délai.
     {% endapply %}
 
     {% apply markdown_email %}
         Cordialement,
 
-        L'équipe {{ app_name }}
+        **L'équipe {{ app_name }}** 🚀
     {% endapply %}
 
     {% set email_verification_link_section %}
         {% apply markdown_email %}
-            Si le lien ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
-            [ici]({{ signedUrl|raw }})
-
-            Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+            🔒 Ce lien est sécurisé et expire dans **{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}**.
         {% endapply %}
     {% endset %}
 

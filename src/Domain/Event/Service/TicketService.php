@@ -2,65 +2,52 @@
 
 namespace App\Domain\Event\Service;
 
-use App\Domain\Event\Dto\TicketDto;
-use App\Domain\Event\Entity\Event;
+use App\Domain\Auth\Entity\User;
+use App\Domain\Event\Entity\EventCollaborator;
 use App\Domain\Event\Entity\Ticket;
 use App\Domain\Event\Repository\TicketRepository;
-use App\Domain\Payment\Entity\Payment;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
 class TicketService
 {
     public function __construct(
         private readonly TicketRepository $ticketRepository,
-        private readonly EntityManagerInterface $entityManager
     )
     {
     }
 
-    public function getEventTicketsQueryBuilder(Event $event): QueryBuilder
+    public function getTicketForUser(string $ticketNumber, User $user): ?Ticket
     {
-        return $this->ticketRepository->getEventTicketsQueryBuilder($event);
-    }
+        // Récupérer le ticket en fonction du numéro fourni
+        $ticket = $this->ticketRepository->findOneBy(['ticketNumber' => $ticketNumber]);
 
-    public function createOrUpdateTicket(TicketDto $ticketDto, Event $event): Ticket
-    {
-        $ticket = $this->ticketRepository->findTicketByEmailAndEvent($ticketDto->getEmail(), $event);
-
-        if ($ticket) {
-            return $this->handleExistingTicket($ticket, $ticketDto);
+        if (!$ticket) {
+            // Le ticket n'existe pas
+            return null;
         }
 
-        return $this->createNewTicket($ticketDto, $event);
-    }
+        $event = $ticket->getEvent();
 
-    private function handleExistingTicket(Ticket $ticket, TicketDto $ticketDto): Ticket
-    {
-        $payment = $ticket->getPayment();
-
-        if ($payment && $payment->getStatus() === Payment::STATUS_SUCCESS) {
+        // Vérifier si l'utilisateur est l'organisateur de l'événement
+        if ($event->getOrganizer() === $user) {
             return $ticket;
         }
 
-        $ticket->setName($ticketDto->getName());
-        $ticket->setPhoneNumber($ticketDto->getPhoneNumber());
-        $this->entityManager->persist($ticket);
-        $this->entityManager->flush();
+        // Vérifier si l'utilisateur est un collaborateur avec le rôle approprié
+        if ($this->userHasRole($event, $user, EventCollaborator::ROLE_TICKETS)) {
+            return $ticket;
+        }
 
-        return $ticket;
+        // L'utilisateur n'est pas autorisé à accéder au ticket
+        return null;
     }
 
-    private function createNewTicket(TicketDto $ticketDto, Event $event): Ticket
+    private function userHasRole($event, User $user, string $role): bool
     {
-        $ticket = new Ticket();
-        $ticket->setEvent($event);
-        $ticket->setName($ticketDto->getName());
-        $ticket->setEmail($ticketDto->getEmail());
-        $ticket->setPhoneNumber($ticketDto->getPhoneNumber());
-
-        $this->ticketRepository->save($ticket);
-
-        return $ticket;
+        foreach ($event->getCollaborators() as $collaborator) {
+            if ($collaborator->getCollaborator() === $user && $collaborator->hasRole($role)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

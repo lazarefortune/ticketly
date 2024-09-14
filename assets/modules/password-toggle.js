@@ -1,17 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const togglePasswordButtons = document.querySelectorAll('.password-toggle-button');
-
-    if (!togglePasswordButtons.length) {
-        return;
-    }
-
-    togglePasswordButtons.forEach(button => {
+    document.querySelectorAll('.password-toggle-button').forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
 
-            const passwordField = event.currentTarget.closest('.relative').querySelector('input[type="password"], input[type="text"]');
-            const iconEye = event.currentTarget.querySelector('.icon-eye');
-            const iconEyeOff = event.currentTarget.querySelector('.icon-eye-off');
+            const passwordField = button.closest('.relative').querySelector('input');
+            const iconEye = button.querySelector('.icon-eye');
+            const iconEyeOff = button.querySelector('.icon-eye-off');
 
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';

@@ -6,6 +6,9 @@ use App\Domain\Auth\EmailVerifier;
 use App\Domain\Auth\Entity\User;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class AuthMailService
 {
@@ -17,6 +20,15 @@ class AuthMailService
     {
     }
 
+    /**
+     * Send a welcome email to a new user
+     *
+     * @param User $user
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendWelcomeEmail( User $user ) : void
     {
         $signatureComponents = $this->emailVerifier->generateSignature( $user );
@@ -38,6 +50,15 @@ class AuthMailService
         $this->mailService->send( $email );
     }
 
+    /**
+     * Send an email to confirm the user's email address
+     *
+     * @param User $user
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendVerificationEmail( User $user ) : void
     {
         $signatureComponents = $this->emailVerifier->generateSignature( $user );
@@ -51,7 +72,7 @@ class AuthMailService
 
         $email = $this->mailService->prepareEmail(
             $user->getEmail(),
-            'Confirmez votre adresse email',
+            'Veuillez confirmer votre adresse email',
             'mails/auth/confirm-request.twig',
             $data
         );
@@ -59,6 +80,15 @@ class AuthMailService
         $this->mailService->send( $email );
     }
 
+    /**
+     * Send an email to confirm the user's email address
+     *
+     * @param User $user
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendVerificationSuccessEmail( User $user ) : void
     {
 
@@ -69,7 +99,7 @@ class AuthMailService
 
         $email = $this->mailService->prepareEmail(
             $user->getEmail(),
-            'Votre adresse email a été confirmée',
+            'Votre compte est activé',
             'mails/auth/confirm-success.twig',
             $data
         );
@@ -77,6 +107,16 @@ class AuthMailService
         $this->mailService->send( $email );
     }
 
+    /**
+     * Send an email to reset the user's password
+     *
+     * @param User $user
+     * @param string $token
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendResetPasswordEmail( User $user, string $token ) : void
     {
         $data = [
@@ -86,7 +126,7 @@ class AuthMailService
 
         $email = $this->mailService->prepareEmail(
             $user->getEmail(),
-            'Réinitialisez votre mot de passe',
+            'Réinitialisation de votre mot de passe',
             'mails/auth/reset-password.twig',
             $data
         );

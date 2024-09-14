@@ -15,7 +15,7 @@ class LoginController extends AbstractController
 {
 
     public function __construct(
-        private PasswordService $passwordService
+        private readonly PasswordService $passwordService
     )
     {
     }
@@ -48,7 +48,10 @@ class LoginController extends AbstractController
             return $this->redirectToRoute( 'app_home' );
         }
 
-        $form = $this->createForm( ForgotPasswordForm::class );
+        // si dans la requête il y a l'email on pré-rempli le formulaire
+        $email = $request->query->get( 'email' );
+
+        $form = $this->createForm( ForgotPasswordForm::class , ['email' => $email] );
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
@@ -62,7 +65,7 @@ class LoginController extends AbstractController
             $this->redirectBack( 'app_forgot_password' );
         }
 
-        return $this->render( 'auth/forgot-password.html.twig', [
+        return $this->render( 'auth/forgot_password.html.twig', [
             'form' => $form->createView(),
         ] );
     }
@@ -91,7 +94,7 @@ class LoginController extends AbstractController
             return $this->redirectToRoute( 'app_login' );
         }
 
-        return $this->render( 'auth/reset-password.html.twig', [
+        return $this->render( 'auth/reset_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ] );

@@ -1,0 +1,21 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        Vous avez été invité à collaborer à l'événement **{{ invitation.event.name }}**.
+
+        {% if invitation.event.description %}
+            {{ invitation.event.description|raw }}
+        {% endif %}
+
+    {% endapply %}
+
+    {{ e.button('Accepter l\'invitation', link) }}
+
+{% endblock %}

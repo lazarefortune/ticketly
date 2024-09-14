@@ -20,7 +20,7 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
-    public const SERVICE_CHARGE = 80; // Frais de service en centimes
+    public const SERVICE_CHARGE_PERCENTAGE = 5; // Frais de service en pourcentage
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_SUCCESS = 'success';
@@ -53,6 +53,9 @@ class Reservation
 
     #[ORM\Column(type: 'integer')]
     private int $totalAmount;
+
+    #[ORM\Column(type: 'integer')]
+    private int $netIncome;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $expiresAt;
@@ -178,6 +181,11 @@ class Reservation
     public function getTotalAmount(): int
     {
         return $this->totalAmount;
+    }
+
+    public function getNetIncome(): int
+    {
+        return $this->netIncome;
     }
 
     public function getExpiresAt(): DateTimeInterface
@@ -382,6 +390,9 @@ class Reservation
         if ($this->totalAmount < 0) {
             $this->totalAmount = 0;
         }
+
+        // Calcul du montant net que l'organisateur perçoit
+        $this->netIncome = $this->totalAmount - $this->serviceCharge;
     }
 
 
@@ -393,7 +404,6 @@ class Reservation
 
     private function calculateServiceCharge(): int
     {
-        // Calcule le total des frais de service
-        return $this->quantity * self::SERVICE_CHARGE;
+        return $this->subTotal * self::SERVICE_CHARGE_PERCENTAGE / 100;
     }
 }

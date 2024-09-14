@@ -1,3 +1,55 @@
+/* Retirer les styles par défaut */
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+textarea,
+select {
+  @apply appearance-none;
+}
+
+/* Inputs */
+.form-input {
+  @apply block w-full appearance-none rounded-md border-0 px-3 py-2.5 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm;
+  @apply dark:bg-slate-900 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-300;
+  /* readonly */
+  &[readonly] {
+      @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
+  }
+}
+
+/* Checkbox and radio */
+.form-checkbox {
+  @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1;
+  @apply dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0 dark:focus:bg-transparent dark:focus:ring-1 dark:hover:bg-transparent dark:hover:border-primary-500;
+}
+
+/* Labels */
+.label {
+  @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
+}
+
+/* Password toggle */
+.password-toggle {
+  @apply absolute inset-y-0 right-0 flex items-center pr-3;
+}
+
+/* Icon visibility toggle */
+.icon-eye,
+.icon-eye-off {
+  pointer-events: none;
+}
+
+
+/*
 @layer base {
   [type='text'],
   [type='email'],
@@ -9,80 +61,58 @@
   [type='month'],
   [type='search'],
   [type='tel'],
-  //[type='file'],
   [type='time'],
   [type='week'],
   [multiple],
   textarea,
   select {
-    @apply block w-full appearance-none rounded-md border-0 px-3 py-2.5 md:py-2 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300
-    placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm md:leading-6;
+    @apply block w-full appearance-none rounded-md border-0 px-3 py-2.5 md:py-2 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm md:leading-6;
 
-    /*
-    //@apply relative block w-full appearance-none rounded
-    //px-2.5 py-1.5 text-[16px] sm:py-1.5 sm:px-3 sm:text-base
-    //border border-slate-300
-    //focus:border-primary-600 focus:ring-0
-    //dark:focus:border-primary-300 dark:focus:ring-primary-800 dark:focus:ring-offset-primary-800
-    //text-slate-900 placeholder:text-slate-500 dark:text-white dark:border-slate-800 dark:placeholder-gray-400 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark];
-    */
-    //focus:border-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-1 focus:ring-offset-primary-200
+    // Dark mode adaptations
+    @apply dark:bg-slate-900 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-300 dark:border-0;
 
-    //@apply block w-full rounded border border-slate-300 p-3 text-base text-slate-900 placeholder-slate-300
-    //focus:border-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-1 focus:ring-offset-primary-200
-    //dark:text-white dark:border-slate-800 dark:bg-slate-900 dark:placeholder-gray-400
-    //  dark:focus:border-primary-300 dark:focus:ring-primary-800 dark:focus:ring-offset-primary-800
-    //;
+    &.disabled {
+      @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
+    }
   }
 
-  //input[type='file'] {
-  //// input file style like primary button
-  //  @apply inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-base text-gray-600 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:text-white dark:hover:bg-primary-600;
-  //}
-
-  .upload-btn-file {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-base text-gray-600 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:text-white dark:hover:bg-primary-600;
-  }
-
-  // ↓ import here
   [type='checkbox'],
   [type='radio'] {
-    @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1
-    dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0
-    dark:focus:bg-transparent dark:focus:ring-offset-gray-900 dark:focus:ring-1 dark:focus:border-primary-300
-    dark:hover:bg-transparent dark:hover:border-primary-500
-    ;
+    @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1;
+
+    // Dark mode adaptations
+    @apply dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0 dark:focus:bg-transparent dark:focus:ring-1 dark:hover:bg-transparent dark:hover:border-primary-500;
   }
-}
 
+  */
+/*
 .label {
-  @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
-}
+    @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
+  }
 
-.invalid-feedback {
-  @apply block text-sm font-medium text-red-800;
-}
+  .invalid-feedback {
+    @apply block text-sm font-medium text-red-800 dark:text-red-400;
+  }
 
-.form-error {
-  @apply block text-sm font-normal text-red-800 dark:text-red-300;
-}
+  .form-error {
+    @apply block text-sm font-normal text-red-800 dark:text-red-300;
+  }
 
-.form-help {
-  @apply block text-sm font-normal text-gray-500;
-}
+  .form-help {
+    @apply block text-sm font-normal text-gray-500 dark:text-slate-400;
+  }
 
-.form {
-  @apply mb-8 w-full space-y-4;
-}
+  .form {
+    @apply mb-8 w-full space-y-4;
+  }
 
-//select {
-//  @apply block w-full rounded border-2 border-gray-300 p-3 text-base text-gray-900 focus:border-primary-900;
-//}
+  // Password toggle visibility icon
+  .password-toggle {
+    @apply absolute inset-y-0 right-0 flex items-center pr-3;
+  }
 
-.password-toggle {
-  @apply absolute inset-y-0 right-0 flex items-center pr-3;
-}
-.icon-eye,
-.icon-eye-off {
-  pointer-events: none;
-}
+  .icon-eye,
+  .icon-eye-off {
+    pointer-events: none;
+  }
+*/

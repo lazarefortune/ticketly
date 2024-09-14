@@ -16,6 +16,12 @@ class ReservationSearchForm extends AbstractType
         $builder
             ->add('reservationNumber', TextType::class, [
                 'label' => 'Numéro de réservation',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'form-input',
+                ],
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
@@ -24,6 +30,12 @@ class ReservationSearchForm extends AbstractType
             ])
             ->add('email', TextType::class, [
                 'label' => 'Adresse email',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'form-input',
+                ],
                 'required' => true,
             ]);
     }

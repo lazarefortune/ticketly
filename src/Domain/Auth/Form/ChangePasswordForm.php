@@ -22,11 +22,13 @@ class ChangePasswordForm extends AbstractType
                 'required' => true,
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'label_attr' => ['class' => 'label']
+                    'label_attr' => ['class' => 'label'],
+                    'attr' => ['class' => 'form-input'],
                 ],
                 'second_options' => [
                     'label' => 'Répéter le mot de passe',
-                    'label_attr' => ['class' => 'label']
+                    'label_attr' => ['class' => 'label'],
+                    'attr' => ['class' => 'form-input'],
                 ],
                 'constraints' => [
                     new NotBlank( ['message' => 'Veuillez entrer un mot de passe'] ),

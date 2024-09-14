@@ -5,12 +5,12 @@
 {% block body %}
     {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-    <div class="container-box bg-white pb-20">
+    <div class="container-box bg-white dark:bg-gray-900 pb-20">
         {{ form_start(confirmReservationForm) }}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
             <div class="stack-large">
                 <div class="stack">
-                    <h2 class="h4">Informations de contact</h2>
+                    <h2 class="h4 text-gray-800 dark:text-gray-100">Informations de contact</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="col-span-2 md:col-span-1">
                             {{ form_row(confirmReservationForm.name) }}
@@ -24,26 +24,28 @@
                     </div>
                 </div>
                 <div class="stack">
-                    <h2 class="h4">Paiement</h2>
+                    <h2 class="h4 text-gray-800 dark:text-gray-100">Paiement</h2>
                     <div>
                         {{ form_row(confirmReservationForm.paymentMethod) }}
                     </div>
                 </div>
                 <div class="stack">
-                    <h2 class="h4">Code promo</h2>
+                    <h2 class="h4 text-gray-800 dark:text-gray-100">Code promo</h2>
                     <div class="coupon-container">
-                    {% if reservation.coupon %}
-                        <div class="alert alert-success">
-                            Coupon <strong>{{ reservation.coupon.code }}</strong> appliqué !
-                            <button id="remove-coupon" class="text-danger">Retirer</button>
-                        </div>
-                    {% else %}
-                        <div class="flex gap-2">
-                            {{ form_widget(confirmReservationForm.couponCode) }}
-                            <button type="button" id="apply-coupon" class="btn btn-secondary">Appliquer</button>
-                        </div>
-                        <div id="coupon-message" class="mt-2 text-sm text-red-600"></div>
-                    {% endif %}
+                        {% if reservation.coupon %}
+                            <div class="flex gap-2 items-center">
+                                <div class="border border-primary-600 bg-primary-100 dark:bg-primary-100/20 dark:text-primary-900 dark:border-primary-100/20 p-1 rounded">
+                                    <p>Vous avez appliqué un coupon</p>
+                                </div>
+                                <button id="remove-coupon" class="btn btn-sm btn-light">Retirer</button>
+                            </div>
+                        {% else %}
+                            <div class="flex gap-2">
+                                {{ form_widget(confirmReservationForm.couponCode) }}
+                                <button type="button" id="apply-coupon" class="btn btn-secondary">Appliquer</button>
+                            </div>
+                            <div id="coupon-message" class="mt-2 text-sm text-red-600 dark:text-red-400"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="w-full flex flex-col gap-2">
@@ -52,46 +54,46 @@
                 </div>
             </div>
             <div class="stack order-first md:order-last">
-                <h2 class="h4">Résumé de la commande</h2>
-                <div class="bg-primary-50 border-l-4 border-primary-400 p-4">
-                    <p class="text-primary-700">Vous avez jusqu'à {{ reservation.expiresAt|date('H:i') }} pour finaliser votre paiement.</p>
+                <h2 class="h4 text-gray-800 dark:text-gray-100">Résumé de la commande</h2>
+                <div class="bg-primary-50 dark:bg-slate-700 border-l-4 border-primary-400 dark:border-slate-400 p-4">
+                    <p class="text-primary-700 dark:text-white">Vous avez jusqu'à {{ reservation.expiresAt|date('H:i') }} pour finaliser votre paiement.</p>
                 </div>
-                <div class="stack p-4 md:p-6 bg-gray-50 shadow-md rounded">
+                <div class="stack p-4 md:p-6 bg-gray-50 dark:bg-gray-800 shadow-md dark:shadow-lg rounded">
                     <div>
-                        <p class="uppercase mb-2">{{ event.name }}</p>
-                        <div class="flex items-center gap-2 text-slate-500">
-                            {{ icon('calendar') }}
+                        <p class="uppercase mb-2 text-gray-800 dark:text-gray-100">{{ event.name }}</p>
+                        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                            {{ icon('calendar', 18, 'text-slate-500 dark:text-slate-400') }}
                             <span>{{ event_duration(event.startDate, event.endDate) }}</span>
                         </div>
-                        <div class="flex items-center gap-2 text-slate-500">
-                            {{ icon('map-pin') }}
+                        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                            {{ icon('map-pin', 18, 'text-slate-500 dark:text-slate-400') }}
                             <span>{{ event.location }}</span>
                         </div>
                     </div>
-                    <div class="border-t border-slate-200 pt-4">
-                        <p class="text-slate-500">Prix: {{ event.price|price_format }}</p>
+                    <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                        <p class="text-slate-500 dark:text-slate-400">Prix: {{ event.price|price_format }}</p>
                         <div class="flex justify-between">
-                            <p class="text-slate-500">Quantité: {{ reservation.quantity }}</p>
-                            <p>{{ reservation.subTotal|price_format }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">Quantité: {{ reservation.quantity }}</p>
+                            <p class="text-gray-800 dark:text-gray-100">{{ reservation.subTotal|price_format }}</p>
                         </div>
                     </div>
-                    <div class="border-t border-slate-200 pt-4">
+                    <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
                         <div class="flex justify-between">
-                            <p class="text-slate-500">Sous-total</p>
-                            <p id="sub-total">{{ reservation.subTotal|price_format }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">Sous-total</p>
+                            <p id="sub-total" class="text-gray-800 dark:text-gray-100">{{ reservation.subTotal|price_format }}</p>
                         </div>
                         <div class="flex justify-between">
-                            <p class="text-slate-500">Frais de service</p>
-                            <p id="service-charge">{{ reservation.serviceCharge|price_format }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">Frais de service</p>
+                            <p id="service-charge" class="text-gray-800 dark:text-gray-100">{{ reservation.serviceCharge|price_format }}</p>
                         </div>
                         <div class="flex justify-between">
-                            <p class="text-slate-500">Réduction</p>
-                            <p id="discount-amount">-{{ reservation.discountAmount|price_format }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">Réduction</p>
+                            <p id="discount-amount" class="text-gray-800 dark:text-gray-100">-{{ reservation.discountAmount|price_format }}</p>
                         </div>
                     </div>
-                    <div class="flex justify-between border-t border-slate-200 pt-4">
-                        <p class="text-lg font-medium">Total</p>
-                        <p id="total-amount" class="text-lg font-medium">{{ reservation.totalAmount|price_format }}</p>
+                    <div class="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-4">
+                        <p class="text-lg font-medium text-gray-800 dark:text-gray-100">Total</p>
+                        <p id="total-amount" class="text-lg font-medium text-gray-800 dark:text-gray-100">{{ reservation.totalAmount|price_format }}</p>
                     </div>
                 </div>
             </div>
@@ -213,9 +215,11 @@
             }
 
             couponContainer.innerHTML = `
-                <div class="alert alert-success">
-                    Coupon <strong>${couponCode}</strong> appliqué !
-                    <button id="remove-coupon" class="text-danger">Retirer</button>
+                <div class="flex gap-2 items-center">
+                    <div class="border border-primary-600 bg-primary-100 dark:bg-primary-100/20 dark:text-primary-900 dark:border-primary-100/20 p-1 rounded">
+                        <p>Vous avez appliqué un coupon</p>
+                    </div>
+                    <button id="remove-coupon" class="btn btn-sm btn-light">Retirer</button>
                 </div>
             `;
 
@@ -238,7 +242,7 @@
 
             couponContainer.innerHTML = `
         <div class="flex gap-2">
-            <input type="text" id="confirm_reservation_form_couponCode" name="confirm_reservation_form[couponCode]" placeholder="Entrez votre code promo ici" class="form-control">
+            <input type="text" id="confirm_reservation_form_couponCode" name="confirm_reservation_form[couponCode]" placeholder="Entrez votre code promo ici" class="form-input">
             <button type="button" id="apply-coupon" class="btn btn-secondary">Appliquer</button>
         </div>
         <div id="coupon-message" class="mt-2 text-sm text-red-600"></div>
@@ -349,4 +353,70 @@
         }
 
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Date d'expiration de la réservation en timestamp (secondes depuis Epoch)
+            const expiresAtTimestamp = new Date('{{ reservation.expiresAt|date('Y-m-d H:i:s') }}').getTime();
+
+            // Fonction qui affiche la modal et force le rechargement de la page
+            function showExpirationModal() {
+                // Créer et afficher une modal
+                const modal = document.createElement('div');
+                modal.innerHTML = `
+                <modal-dialog>
+                    <div class="bg-white p-4 rounded shadow-md dark:bg-gray-900 flex flex-col items-center">
+                        <h2 class="h4 mb-2">Votre réservation a expiré</h2>
+                        <p class="text-gray-500 dark:text-gray-400 mb-5">La réservation a expiré. Veuillez recharger la page pour continuer.</p>
+                        <button id="reload-page" class="btn btn-primary">Recharger la page</button>
+                    </div>
+                </modal-dialog>
+
+            `;
+                document.body.appendChild(modal);
+
+                // Ajouter un style minimal pour la modal
+                const style = document.createElement('style');
+                style.innerHTML = `
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                }
+                .modal-content {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 5px;
+                    text-align: center;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                }
+            `;
+                document.head.appendChild(style);
+
+                // Ajouter l'événement de rechargement de la page au bouton
+                document.getElementById('reload-page').addEventListener('click', function () {
+                    location.reload();
+                });
+            }
+
+            // Vérifier toutes les secondes si l'expiration est atteinte
+            const interval = setInterval(function () {
+                const now = new Date().getTime();
+                const timeRemaining = expiresAtTimestamp - now;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(interval);
+                    showExpirationModal();
+                }
+            }, 1000);
+        });
+    </script>
+
 {% endblock %}

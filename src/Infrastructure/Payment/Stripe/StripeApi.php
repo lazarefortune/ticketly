@@ -119,7 +119,7 @@ class StripeApi
      * Crée une session de paiement et renvoie l'URL de paiement.
      * @throws ApiErrorException
      */
-    public function createPaymentSession( Payment $payment, Reservation $reservation, string $url ) : string
+    public function createPaymentSessionOld( Payment $payment, Reservation $reservation, string $url ) : string
     {
         $session = $this->stripe->checkout->sessions->create( [
             'cancel_url' => $url . '?success=0',
@@ -152,6 +152,62 @@ class StripeApi
         ] );
 
         return $session->id;
+    }
+
+    /**
+     * Crée une session de paiement et renvoie l'URL de paiement.
+     * @throws ApiErrorException
+     */
+    public function createPaymentSession(Payment $payment, Reservation $reservation, string $url): string
+    {
+        $organizer = $reservation->getEvent()->getOrganizer();
+        $accountId = $organizer->getStripeAccountId();
+
+        if (!$accountId) {
+            throw new \InvalidArgumentException('Les paiements ne sont pas disponibles pour cet organisateur.');
+        }
+
+        $session = $this->stripe->checkout->sessions->create([
+            'cancel_url' => $url . '?success=0',
+            'success_url' => $url . '?success=1',
+            'mode' => 'payment',
+            'payment_method_types' => ['card'],
+            'customer' => $this->getCustomerByEmail($reservation->getEmail())->id,
+            'metadata' => [
+                'payment_id' => $payment->getId(),
+                'reservation_id' => $reservation->getId(),
+            ],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $reservation->getEvent()->getName(),
+                        ],
+                        'unit_amount' => $payment->getAmount(),
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'payment_intent_data' => [
+                'metadata' => [
+                    'payment_id' => $payment->getId(),
+                    'reservation_id' => $reservation->getId(),
+                ],
+                'application_fee_amount' => $reservation->getServiceCharge(), // Commission de la plateforme
+                'transfer_data' => [
+                    'destination' => $accountId, // Envoyer le reste au compte de l'organisateur
+                ],
+            ],
+        ]);
+
+        return $session->id;
+    }
+
+    private function calculatePlatformFee(Payment $payment): int
+    {
+        // Ici, par exemple, on prend une commission de 5% sur le montant total
+        return (int)($payment->getAmount() * 0.05);
     }
 
     /**

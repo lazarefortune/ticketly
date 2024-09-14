@@ -2,6 +2,8 @@
 
 namespace App\Domain\Event\Entity;
 
+use App\Domain\Auth\Entity\User;
+use App\Domain\Coupon\Entity\Coupon;
 use App\Domain\Event\Repository\EventRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -76,11 +78,23 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'events')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $organizer = null;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Coupon::class)]
+    private Collection $coupons;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventCollaborator::class)]
+    private Collection $collaborators;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->coupons = new ArrayCollection();
+        $this->collaborators = new ArrayCollection();
 
         if ($this->endDate !== null) {
             $this->endSaleDate = $this->endDate;
@@ -245,6 +259,55 @@ class Event
         return $this;
     }
 
+    public function getCoupons(): Collection
+    {
+        return $this->coupons;
+    }
+
+    public function addCoupon(Coupon $coupon): self
+    {
+        if (!$this->coupons->contains($coupon)) {
+            $this->coupons[] = $coupon;
+            $coupon->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoupon(Coupon $coupon): self
+    {
+        if ($this->coupons->removeElement($coupon)) {
+            // Set the owning side to null (unless already changed)
+            if ($coupon->getEvent() === $this) {
+                $coupon->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCollaborators(): Collection
+    {
+        return $this->collaborators;
+    }
+
+    public function addCollaborator(EventCollaborator $collaborator): self
+    {
+        if (!$this->collaborators->contains($collaborator)) {
+            $this->collaborators[] = $collaborator;
+            $collaborator->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaborator(EventCollaborator $collaborator): self
+    {
+        $this->collaborators->removeElement($collaborator);
+
+        return $this;
+    }
+
     public function getEndSaleDate(): ?DateTimeInterface
     {
         return $this->endSaleDate;
@@ -253,6 +316,18 @@ class Event
     public function setEndSaleDate(?DateTimeInterface $endSaleDate): self
     {
         $this->endSaleDate = $endSaleDate;
+        return $this;
+    }
+
+    public function getOrganizer(): ?User
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?User $organizer): self
+    {
+        $this->organizer = $organizer;
+
         return $this;
     }
 

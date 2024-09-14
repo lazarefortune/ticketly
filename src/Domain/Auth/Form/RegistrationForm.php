@@ -19,12 +19,20 @@ class RegistrationForm extends AbstractType
         $builder
             ->add( 'email', TextType::class, [
                 'label' => 'Email',
+                'attr' => [
+                    'autocomplete' => 'email',
+                    'class' => 'form-input',
+                ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
             ->add( 'fullname', TextType::class, [
                 'label' => 'Nom',
+                'attr' => [
+                    'autocomplete' => 'name',
+                    'class' => 'form-input',
+                ],
                 'label_attr' => [
                     'class' => 'label',
                 ]
@@ -36,6 +44,9 @@ class RegistrationForm extends AbstractType
                     ] ),
                 ],
                 'label' => false,
+                'attr' => [
+                    'class' => 'form-checkbox',
+                ],
             ] )
 //            ->add('captcha', CaptchaType::class, [
 //                'mapped' => false
@@ -43,7 +54,7 @@ class RegistrationForm extends AbstractType
             ->add( 'plainPassword', PasswordType::class, [
                 'attr' => [
                     'autocomplete' => 'new-password',
-                    'class' => 'password-verifier'
+                    'class' => 'form-input password-verifier'
                 ],
                 'label' => 'Mot de passe',
                 'label_attr' => [

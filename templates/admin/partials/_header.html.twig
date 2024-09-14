@@ -34,6 +34,18 @@
                 </button>
                 <div id="user-dropdown"
                      class="user--dropdown">
+                    {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}"
+                           class="user--dropdown-menu-item">
+                            {{ icon('monitor-x') }}
+                            <span>Arrêter le switch</span>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('dashboard_home') }}"
+                       class="user--dropdown-menu-item">
+                        {{ icon('monitor') }}
+                        <span>Dashboard</span>
+                    </a>
                     <div>
                         <a href="{{ path('app_account_profile') }}"
                            class="user--dropdown-menu-item {{ menu_active('admin_account') }}">

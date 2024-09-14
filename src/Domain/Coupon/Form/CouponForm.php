@@ -3,9 +3,12 @@
 namespace App\Domain\Coupon\Form;
 
 use App\Domain\Coupon\Entity\Coupon;
+use App\Domain\Event\Entity\Event;
+use App\Domain\Event\Repository\EventRepository;
 use App\Http\Type\PriceType;
 use App\Http\Type\SwitchType;
 use App\Validator\Unique;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -19,11 +22,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CouponForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
             ->add('code', TextType::class, [
                 'label' => 'Code du coupon',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'form-input',
+                ],
                 'required' => true,
                 'constraints' => [
                     new Assert\Length(['min' => 5]),
@@ -31,6 +41,12 @@ class CouponForm extends AbstractType
             ])
             ->add('typeCoupon', ChoiceType::class, [
                 'label' => 'Type de coupon',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'form-input',
+                ],
                 'choices' => [
                     'Pourcentage' => Coupon::TYPE_PERCENTAGE,
                     'Fixe' => Coupon::TYPE_FIXED,
@@ -43,16 +59,17 @@ class CouponForm extends AbstractType
             ])
             ->add('expiresAt', DateTimeType::class, [
                 'label' => 'Date d\'expiration',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
                 'required' => true,
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'flatpickr-datetime',
+                    'class' => 'flatpickr-datetime form-input',
                 ],
-                'label_attr' => [
-                    'class' => 'label'
-                ],
-            ]);
+            ])
+        ;
 
         // Add dynamic adjustment of 'valueCoupon' field based on 'typeCoupon'
         $builder->addEventListener(
@@ -81,13 +98,23 @@ class CouponForm extends AbstractType
         if ($typeCoupon === Coupon::TYPE_FIXED) {
             $form->add('valueCoupon', PriceType::class, [
                 'label' => 'Montant de réduction (€)',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'form-input',
+                ],
                 'required' => true,
             ]);
         } else {
             $form->add('valueCoupon', NumberType::class, [
                 'label' => 'Pourcentage de réduction (%)',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
                 'required' => true,
                 'attr' => [
+                    'class' => 'form-input',
                     'min' => 0,
                     'max' => 100,
                     'step' => 1,

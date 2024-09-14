@@ -1,0 +1,21 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="mx-auto">
+        <div class="mb-2">
+            <a class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+               href="{{ path('dashboard_event_index') }}">
+                {{ icon('chevron-left') }}
+                Évènements
+            </a>
+        </div>
+
+        {% include 'dashboard/event/blocs/_header.html.twig' %}
+
+        {% include 'dashboard/event/blocs/_navigation.html.twig' %}
+
+        <div class="event-content mt-8">
+            {% block event_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

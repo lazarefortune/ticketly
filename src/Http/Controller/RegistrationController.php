@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $user = $this->authService->registerNewUser( $form->getData() );
 
-            return $this->redirectToRoute( 'send_verification_email' );
+            return $this->redirectToRoute( 'app_send_verification_email' );
             #return $this->authenticateUser( $user, $request );
         }
 

@@ -1,7 +1,7 @@
 <aside class="sidebar -translate-x-full lg:translate-x-0" id="sidebar">
     <div class="text-left text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
         <a href="{{ path('admin_home') }}" class="flex items-center w-full gap-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-20 h-20 rounded-full object-cover">
+            Admin
         </a>
     </div>
     <nav class="sidebar--nav">
@@ -28,54 +28,10 @@
                 {% endif %}
                 <li>
                     <a href="{{ path('app_home') }}" class="sidebar--nav-item">
-                        {{ icon('app-window' ) }}
-                        Site public
+                        {{ icon('undo-2') }}
+                        Retour au site
                     </a>
                 </li>
-            </ul>
-        </div>
-        <div>
-            <div class="sidebar--nav-title">
-                Gestion & Services
-            </div>
-            <ul class="flex flex-col gap-1">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li>
-                        <a href=""
-                           class="sidebar--nav-item">
-                            {{ icon('wallet') }}
-                            Finances
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_event_index') }}"
-                           class="sidebar--nav-item {{ menu_active('admin_event') }}">
-                            {{ icon('calendar-days') }}
-                            Évènements
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_ticket_index') }}"
-                           class="sidebar--nav-item {{ menu_active('admin_ticket') }}">
-                            {{ icon('ticket') }}
-                            Tickets
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_coupon_index') }}"
-                           class="sidebar--nav-item {{ menu_active('admin_coupon') }}">
-                            {{ icon('tag') }}
-                            Coupons
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_contact_index') }}"
-                           class="sidebar--nav-item {{ menu_active('admin_contact_') }}">
-                            {{ icon('message-circle-question' ) }}
-                            Réclamations
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
         </div>
     </nav>
