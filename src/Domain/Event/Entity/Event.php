@@ -231,6 +231,7 @@ class Event
     public function setImageFile(?File $imageFile): self
     {
         $this->imageFile = $imageFile;
+        $this->updatedAt = new \DateTime();
 
         return $this;
     }

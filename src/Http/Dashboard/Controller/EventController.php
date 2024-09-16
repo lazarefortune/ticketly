@@ -71,6 +71,7 @@ class EventController extends CrudController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $event->setUpdatedAt(new \DateTime());
             $this->em->flush();
 
             $this->addFlash('success', 'L\'événement a été modifié avec succès');
