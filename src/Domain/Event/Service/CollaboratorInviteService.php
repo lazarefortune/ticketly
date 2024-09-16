@@ -41,8 +41,10 @@ class CollaboratorInviteService
 
         // Vérifier si l'utilisateur existe déjà et est collaborateur
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
-        if ($user && $event->getCollaborators()->contains($user)) {
-            throw new Exception('Cet utilisateur est déjà collaborateur de l\'événement.');
+
+        // Vérifier si l'utilisateur est déjà collaborateur
+        if ($user && $event->hasCollaborator($user)) {
+            throw new Exception('Cet utilisateur est déjà collaborateur de cet événement.');
         }
 
         // Créer une nouvelle invitation

@@ -391,4 +391,15 @@ class Event
     {
         return new \DateTime() > $this->endSaleDate;
     }
+
+    public function hasCollaborator(User $user): bool
+    {
+        /** @var EventCollaborator $collaborator */
+        foreach ($this->collaborators as $collaborator) {
+            if ($collaborator->getCollaborator() === $user) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
