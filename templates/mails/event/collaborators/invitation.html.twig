@@ -6,16 +6,28 @@
 
     {% apply markdown_email %}
 
-        ## Bonjour,
+        ## Bonjour ! 😊
 
-        Vous avez été invité à collaborer à l'événement **{{ invitation.event.name }}**.
+        Vous êtes invité(e) à collaborer à l'événement **{{ invitation.event.name }}** organisé par {{ invitation.event.organizer.fullName }} ! 🎉
 
         {% if invitation.event.description %}
-            {{ invitation.event.description|raw }}
+            {% set description = invitation.event.description|striptags %}
+            {{ description|length > 150 ? description|slice(0, 150) ~ '...' : description }}
         {% endif %}
+
+        Nous serions ravis de vous compter parmi nous. Cliquez sur le bouton ci-dessous pour accepter l'invitation !
 
     {% endapply %}
 
-    {{ e.button('Accepter l\'invitation', link) }}
+    {{ e.button('🤝 Accepter l\'invitation', link) }}
+
+    {% apply markdown_email %}
+
+        Si vous avez des questions, n'hésitez pas à nous contacter.
+
+        À très bientôt !
+        **L'équipe {{ app_name }}** ❤️
+
+    {% endapply %}
 
 {% endblock %}

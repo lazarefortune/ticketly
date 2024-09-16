@@ -22,7 +22,6 @@ class PaymentSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MailService            $mailService,
         private readonly UrlGeneratorInterface  $urlGenerator,
-        private readonly AppConfigService       $appConfigService,
         private readonly EntityManagerInterface $em,
     )
     {
@@ -112,7 +111,7 @@ class PaymentSubscriber implements EventSubscriberInterface
                 'reservation' => $reservation,
                 'reservationUrl' => $url,
             ])->to($reservation->getEmail())
-                ->subject('Merci pour votre achat !');
+                ->subject('Vos billets pour "' . $reservation->getEvent()->getName() . '" sont prêts ! 🎫 ');
 
             $this->mailService->send($email);
         }
@@ -133,6 +132,8 @@ class PaymentSubscriber implements EventSubscriberInterface
 
     public function onRefundSuccess(RefundSuccessEvent $event): void
     {
+        // TODO: Implement onRefundSuccess() method.
+        /*
         $payment = $event->getPayment();
         $ticket = $payment->getTicket();
 
@@ -150,6 +151,7 @@ class PaymentSubscriber implements EventSubscriberInterface
 
             $this->mailService->send($email);
         }
+        */
     }
 
 }

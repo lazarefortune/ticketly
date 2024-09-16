@@ -6,22 +6,31 @@
 
     {% apply markdown_email %}
 
-        ## Bonjour {{ reservation.name }},
+        ## Félicitations {{ reservation.name }} ! 🎉
 
-        Votre paiement de {{ reservation.totalAmount|price_format }} a bien été enregistré pour notre événement : <b>{{ reservation.event.name }}</b>.
+        Votre réservation pour **{{ reservation.event.name }}** a été confirmée avec succès. Nous sommes ravis de vous compter parmi nos participants.
 
-        Vous pouvez consulter votre réservation en cliquant sur le bouton ci-dessous.
+        **Détails de votre réservation :**
+
+        - **Date de l'événement :** {{ event_duration(reservation.event.startDate, reservation.event.endDate) }}
+        - **Lieu :** {{ reservation.event.location }}
+        - **Nombre de billets :** {{ reservation.quantity }}
+        - **Montant total :** {{ reservation.totalAmount|price_format }}
 
     {% endapply %}
 
-    {{ e.button('Vos billets', reservationUrl) }}
+    {{ e.button('📲 Télécharger vos billets', reservationUrl) }}
 
     {% apply markdown_email %}
 
-        Merci de votre confiance et à bientôt.
+        N'oubliez pas d'apporter vos billets le jour de l'événement. Vous pouvez y accéder à tout moment en cliquant sur le bouton ci-dessus.
+
+        Si vous avez des questions ou des besoins particuliers, n'hésitez pas à nous contacter.
+
+        À très bientôt !
+
+        **L'équipe {{ app_name }}** 😊
 
     {% endapply %}
-
-    {{ e.signature(app_name) }}
 
 {% endblock %}
