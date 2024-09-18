@@ -1,7 +1,20 @@
 <footer class="container-box">
     <div class="flex justify-between items-center gap-4 flex-col-reverse md:flex-row py-8 px-0 border-t border-slate-900/10 dark:border-slate-700">
-        <div>
-            <p class="text-sm text-slate-900 dark:text-white">© 2024 - Tous droits réservés</p>
+        <div class="flex flex-col gap-1">
+            <p class="text-sm text-center md:text-left text-slate-900 dark:text-white">Développé par <a href="https://lazarefortune.com" class="link text-sm" target="_blank">Lazare Fortune</a></p>
+            <div class="border-b border-slate-900/10 dark:border-slate-700 my-1"></div>
+            <p class="text-sm text-slate-900 dark:text-white mb-2">© 2024 - Tous droits réservés - {{ app_name }}</p>
+            <div class="flex flex-col gap-1 text-sm text-slate-900 dark:text-white">
+                <div class="text-center md:text-left">
+                    <a href="{{ path('app_cgu') }}" class="text-sm">Conditions Générales d'Utilisation</a>
+                </div>
+                <div class="text-center md:text-left">
+                    <a href="{{ path('app_mentions_legales') }}" class="text-sm">Mentions Légales</a>
+                </div>
+                <div class="text-center md:text-left">
+                    <a href="{{ path('app_politique_confidentialite') }}" class="text-sm">Politique de Confidentialité</a>
+                </div>
+            </div>
         </div>
         <div class="flex gap-4">
             <theme-switcher></theme-switcher>

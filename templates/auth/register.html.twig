@@ -79,15 +79,11 @@
                     </div>
 
                     <div class="col-span-full">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                {{ form_widget(registrationForm.agreeTerms, { 'id': 'agreeTerms' }) }}
-                            </div>
-                            <div class="ml-3 text-sm font-medium leading-6 text-slate-500 dark:text-slate-200">
-                                <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
-                                    J'accepte les <a href="{{ path('app_cgu') }}" class="link" target="_blank">conditions d'utilisation</a>
-                                </label>
-                            </div>
+                        <div class="flex items-center">
+                            {{ form_widget(registrationForm.agreeTerms, { 'id': 'agreeTerms', 'class': 'form-checkbox' }) }}
+                            <label for="agreeTerms" class="ml-2 label">
+                                J'accepte les <a href="{{ path('app_cgu') }}" class="link" target="_blank">conditions d'utilisation</a>
+                            </label>
                         </div>
                         <div class="form-error">
                             {{ form_errors(registrationForm.agreeTerms) }}

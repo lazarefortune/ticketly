@@ -6,6 +6,7 @@ twig:
   globals:
     admin_email: '%admin_email%'
     app_name: '%app.name%'
+    contact_email: '%contact_email%'
     option_service: '@App\Domain\Application\Service\OptionService'
 
 when@test:

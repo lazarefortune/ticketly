@@ -1,15 +1,66 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Politique de confidentialité
+    Politique de Confidentialité
 {% endblock %}
 
 {% block body %}
-    <div class="container-box">
-        <div class="stack">
-            <h1 class="h2">Politique de confidentialité</h1>
-            <p>La politique de confidentialité est en cours de rédaction.</p>
-        </div>
+    <div class="container-box py-12">
+        <h1 class="text-center text-3xl sm:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-12">
+            Politique de Confidentialité
+        </h1>
+
+        <section class="space-y-12">
+            <!-- 1. Responsable du Traitement -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4">1. Responsable du Traitement</h2>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Le responsable du traitement des données personnelles collectées sur le site <strong class="text-gray-800 dark:text-gray-100">ticketly.lazarefortune.com</strong> est <strong class="text-gray-800 dark:text-gray-100">Lazare Fortune</strong>.
+                </p>
+            </div>
+
+            <!-- 2. Données Collectées -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4">2. Données Collectées</h2>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Nous collectons les données personnelles suivantes :
+                </p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 dark:text-gray-300">
+                    <li><strong>Informations fournies par l'utilisateur :</strong> nom, prénom, adresse e-mail, numéro de téléphone, âge.</li>
+                    <li><strong>Données de connexion :</strong> adresses IP, données de navigation.</li>
+                </ul>
+            </div>
+
+            <!-- Continuez de la même manière pour les autres sections -->
+
+            <!-- Exemple pour la section 3 -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4">3. Finalités du Traitement</h2>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Les données collectées sont utilisées pour :
+                </p>
+                <ul class="list-disc list-inside mt-2 text-gray-600 dark:text-gray-300">
+                    <li><strong>Gestion des commandes :</strong> traitement des achats de billets.</li>
+                    <li><strong>Service client :</strong> communication avec les utilisateurs pour le suivi des commandes.</li>
+                    <li><strong>Marketing :</strong> envoi d'offres promotionnelles, si l'utilisateur y a consenti.</li>
+                    <li><strong>Amélioration du site :</strong> analyses statistiques pour améliorer nos services.</li>
+                </ul>
+            </div>
+
+            <!-- Continuez avec les autres sections en utilisant le même schéma -->
+
+            <!-- 10. Modification de la Politique de Confidentialité -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4">10. Modification de la Politique de Confidentialité</h2>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées sur cette page et, si elles sont significatives, nous vous en informerons par e-mail.
+                </p>
+            </div>
+        </section>
+
+        <!-- Date de mise à jour -->
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-12 text-center">
+            Dernière mise à jour : {{ "now"|date("d/m/Y") }}
+        </p>
     </div>
 {% endblock %}
-
