@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 /**
- * Injecte un évènement stripe dans les action d'un controller en validant la signature.
+ * Injecte un événement stripe dans les action d'un controller en validant la signature.
  */
 class StripeEventValueResolver implements ValueResolverInterface
 {

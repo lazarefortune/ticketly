@@ -5,6 +5,7 @@ namespace App\Domain\Event\Form;
 use App\Domain\Event\Entity\Event;
 use App\Http\Type\PriceType;
 use App\Http\Type\SwitchType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -42,10 +43,11 @@ class EventForm extends AbstractType
                 ],
                 'attr' => [
                     'readonly' => true,
-                    'class' => 'disabled form-input'
+                    'class' => 'form-input',
+                    'disabled' => true,
                 ],
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [
                 'label' => 'Description',
                 'label_attr' => [
                     'class' => 'label',

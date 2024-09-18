@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html.twig' %}
 
-{% block title %} Évènements {% endblock %}
+{% block title %} Événements {% endblock %}
 
 {% block body %}
 
@@ -18,7 +18,7 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li>
-                    <span>Évènements</span>
+                    <span>Événements</span>
                 </li>
             </ol>
         </nav>
@@ -26,14 +26,14 @@
 
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-sm:w-full sm:flex-1">
-            <h1 class="text-2xl/8 font-semibold text-slate-900 sm:text-xl/8 dark:text-white">Évènements</h1>
+            <h1 class="text-2xl/8 font-semibold text-slate-900 sm:text-xl/8 dark:text-white">Événements</h1>
             <div class="mt-4 flex max-w-xl gap-4">
-                <input type="search" placeholder="Rechercher un évènement" class="placeholder-slate-300 form-input">
+                <input type="search" placeholder="Rechercher un événement" class="placeholder-slate-300 form-input">
             </div>
         </div>
         <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">
             {{ icon('plus') }}
-            Créer un évènement
+            Créer un événement
         </a>
     </div>
 

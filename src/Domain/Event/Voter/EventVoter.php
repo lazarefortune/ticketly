@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class EventVoter extends Voter
 {
 
+    public const CREATE = 'EVENT_CREATE';
     public const EDIT = 'EVENT_EDIT';
     public const DELETE = 'EVENT_DELETE';
     public const VIEW = 'EVENT_VIEW';
@@ -26,7 +27,7 @@ class EventVoter extends Voter
 
     protected function supports( string $attribute, mixed $subject ) : bool
     {
-        return in_array($attribute, [self::EDIT, self::DELETE, self::VIEW, self::INVITE_COLLABORATOR])
+        return in_array($attribute, [self::CREATE, self::EDIT, self::DELETE, self::VIEW, self::INVITE_COLLABORATOR])
             && $subject instanceof Event;
     }
 
@@ -42,6 +43,7 @@ class EventVoter extends Voter
         $event = $subject;
 
         return match ( $attribute ) {
+            self::CREATE => $this->canCreate( $user ),
             self::EDIT => $this->isOrganizer( $event, $user ) || $this->hasRoles( $event, $user ,EventCollaborator::ROLE_MANAGE_EVENT ),
             self::DELETE => $this->canDelete( $event, $user ),
             self::VIEW => $this->isOrganizerOrCollaborator( $event, $user ) || $this->security->isGranted( 'ROLE_ADMIN' ),
@@ -49,6 +51,11 @@ class EventVoter extends Voter
             default => false,
         };
 
+    }
+
+    private function canCreate( User $user ) : bool
+    {
+        return $user->getStripeAccountId() !== null;
     }
 
     private function isOrganizerOrCollaborator( Event $event, User $user ) : bool

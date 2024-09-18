@@ -47,6 +47,6 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure( Request $request, AuthenticationException $exception ) : ?Response
     {
-        return new JsonResponse(['error' => 'Bad credentials'], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['error' => 'Bad credentials'   ], Response::HTTP_FORBIDDEN);
     }
 }
