@@ -6,13 +6,22 @@
             <p class="text-sm text-slate-900 dark:text-white mb-2">© 2024 - Tous droits réservés - {{ app_name }}</p>
             <div class="flex flex-col gap-1 text-sm text-slate-900 dark:text-white">
                 <div class="text-center md:text-left">
-                    <a href="{{ path('app_cgu') }}" class="text-sm">Conditions Générales d'Utilisation</a>
+                    <a href="{{ path('app_cgu') }}" class="text-sm flex items-center gap-1">
+                        {{ icon('file-text', 20) }}
+                        <span>Conditions Générales d'Utilisation</span>
+                    </a>
                 </div>
                 <div class="text-center md:text-left">
-                    <a href="{{ path('app_mentions_legales') }}" class="text-sm">Mentions Légales</a>
+                    <a href="{{ path('app_mentions_legales') }}" class="text-sm flex items-center gap-1">
+                        {{ icon('scale', 20) }}
+                        <span>Mentions Légales</span>
+                    </a>
                 </div>
                 <div class="text-center md:text-left">
-                    <a href="{{ path('app_politique_confidentialite') }}" class="text-sm">Politique de Confidentialité</a>
+                    <a href="{{ path('app_politique_confidentialite') }}" class="text-sm flex items-center gap-1">
+                        {{ icon('fingerprint', 20) }}
+                        <span>Politique de Confidentialité</span>
+                    </a>
                 </div>
             </div>
         </div>
