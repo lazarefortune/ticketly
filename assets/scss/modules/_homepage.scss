@@ -1,11 +1,9 @@
 .hero {
   @apply pt-10 pb-72 w-full bg-primary-100 dark:bg-dark-soft flex flex-col justify-center items-center overflow-hidden;
-  //@apply py-44 w-full bg-primary-100 dark:bg-dark-soft flex items-center justify-center overflow-hidden text-center md:text-left;
 }
 
 .hero__body {
   @apply relative w-full flex justify-center;
-  //@apply relative w-full text-center justify-self-center lg:w-1/2 lg:justify-self-start lg:text-start;
 }
 
 .hero__hello {
@@ -21,7 +19,7 @@
 }
 
 .hero__links{
-  @apply absolute bottom-20 right-20 hidden lg:flex flex-col space-y-3 text-slate-900 dark:text-white dark:hover:text-light-orange;
+  @apply absolute bottom-20 right-20 hidden lg:flex flex-col space-y-3 text-slate-900 dark:text-white dark:hover:text-primary-300;
 }
 
 .hero__cta {
@@ -30,19 +28,6 @@
 
 .hero__img {
   @apply hidden justify-center lg:flex lg:w-1/2;
-  //&::before {
-  //  @apply block relative rounded-full dark:bg-gradient-to-br dark:from-primary-50 dark:to-primary-800 w-96 h-96;
-  //  content: "";
-  //  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #5d21d2);
-  //  // old color : #586fad
-  //  bottom: 3px;
-  //  right: 100px;
-  //  width: 350px;
-  //  height: 350px;
-  //  position: absolute;
-  //  animation: halo 2s infinite;
-  //  z-index: -1;
-  //}
 }
 
 @keyframes halo {
@@ -70,6 +55,5 @@
   top: 0;
   z-index: 0;
   @apply bg-gradient-to-br from-primary-50 to-primary-100 dark:from-dark-soft-2 dark:to-dark-soft;
-  //background: #f6f9fc;
   clip-path: polygon(0% 23%,0% 100%,100% 77%,100% 0%);
 }

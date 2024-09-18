@@ -78,3 +78,24 @@ export function registerHeaderBehavior() {
         window.removeEventListener('scroll',scrollHandler);
     };
 }
+
+/* --- HAMBURGER --- */
+
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('header-hamburger')
+    let menu = document.getElementById('header-mobile-menu');
+    if(!hamburger || !menu ) return;
+
+    hamburger.addEventListener('click', function() {
+        menu.classList.toggle('active');
+
+        if (menu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+            hamburger.classList.add('is-open');
+        } else {
+            document.body.style.overflow = 'auto';
+            hamburger.classList.remove('is-open');
+        }
+    });
+
+})

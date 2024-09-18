@@ -1,8 +1,8 @@
-.mobile-menu {
+#header-mobile-menu {
   @apply w-full h-[calc(100vh-56px)] fixed z-[1000] top-16 left-0 bg-white dark:bg-dark-soft dark:text-white flex transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
 }
 
-.mobile-menu.active {
+#header-mobile-menu.active {
   @apply translate-x-0 opacity-100 pointer-events-auto;
 }
 
@@ -34,18 +34,18 @@
   @apply -translate-y-full;
 }
 
-#hamburger {
+#header-hamburger {
   @apply block lg:hidden text-slate-900 dark:text-white cursor-pointer;
 }
 
-#hamburger.is-open > div > span:nth-child(1) {
+#header-hamburger.is-open > div > span:nth-child(1) {
   @apply rotate-45 translate-y-0;
 }
 
-#hamburger.is-open > div > span:nth-child(2) {
+#header-hamburger.is-open > div > span:nth-child(2) {
   @apply opacity-0;
 }
 
-#hamburger.is-open > div > span:nth-child(3) {
+#header-hamburger.is-open > div > span:nth-child(3) {
   @apply -rotate-45 -translate-y-0;
 }

@@ -13,7 +13,7 @@
 // Alerts
 // ==================
 .alert {
-  @apply bg-white border border-[#e6e6e6] shadow-custom rounded flex items-center relative border-b-[3px] border-b-[#e6e6e6] text-sm text-slate-900
+  @apply bg-white border border-[#e6e6e6] shadow-soft rounded flex items-center relative border-b-[3px] border-b-[#e6e6e6] text-sm text-slate-900
         dark:bg-slate-800 dark:border dark:border-slate-700 dark:text-white dark:border-b-[3px];
   transition: 0.3s;
   margin: space(5) auto;
@@ -152,7 +152,7 @@
 
 .is-floating .alert,
 .alert.is-floating {
-  @apply shadow-custom;
+  @apply shadow-soft;
   position: fixed;
   top: 20px;
   right: 20px;

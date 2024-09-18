@@ -18,7 +18,7 @@
             </a>
         {% endif %}
 
-        <button id="hamburger" class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white">
+        <button id="header-hamburger" class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white">
             <span class="sr-only">Ouvrir le menu</span>
             <div class="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <span class="block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out -translate-y-1.5"></span>
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Menu de navigation mobile (via le hamburger) -->
-    <div class="hidden mobile-menu">
+    <div id="header-mobile-menu" class="hidden">
         <ul class="container-box mt-10">
             {% if app.user %}
                 <li>
