@@ -41,3 +41,24 @@
 /* Libs */
 @import "libs/flatpickr";
 @import "libs/select2";
+.autocomplete-container {
+  @apply relative;
+}
+
+.suggestions-list {
+  @apply absolute top-full left-0 right-0 border border-gray-300 bg-white z-50 max-h-52 overflow-y-auto hidden;
+  /* Utilisez 'hidden' par défaut */
+}
+
+.suggestions-list.show {
+  @apply block;
+}
+
+.suggestion-item {
+  @apply px-4 py-2 cursor-pointer;
+}
+
+.suggestion-item.active,
+.suggestion-item:hover {
+  @apply bg-gray-200;
+}

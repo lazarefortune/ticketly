@@ -17,7 +17,7 @@ import './modules/scrollreveal.js'
 import './modules/user-menu-button.js'
 import './modules/sidebar.js'
 import './modules/sidebar-dropdown.js'
-import './modules/api-gouv.js'
+import './modules/address-autocomplete.js'
 /* ===== Pages ===== */
 import './pages/index.js'
 

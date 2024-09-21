@@ -47,7 +47,7 @@ class EventForm extends AbstractType
                     'disabled' => true,
                 ],
             ])
-            ->add('description', CKEditorType::class, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'label_attr' => [
                     'class' => 'label',
