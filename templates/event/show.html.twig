@@ -105,19 +105,30 @@
     <!-- JavaScript pour gérer la quantité de billets et le calcul des prix -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Sélectionne le champ de quantité généré par Symfony
-            const quantityInput = document.querySelector('input[data-input-counter]');
-            const decrementButton = quantityInput.previousElementSibling; // Suppose que le bouton de décrémentation est juste avant l'input
-            const incrementButton = quantityInput.nextElementSibling; // Suppose que le bouton d'incrémentation est juste après l'input
+            // Sélectionner le composant et l'input de quantité
+            const incrementalInput = document.querySelector('incremental-input[name="{{ ticketForm.quantity.vars.full_name }}"]');
+            if (!incrementalInput) {
+                console.error('Le composant incremental-input est introuvable.');
+                return;
+            }
+            const quantityInput = incrementalInput.querySelector('.input-field');
 
+            if (!quantityInput) {
+                console.error('L\'input de quantité est introuvable dans le composant incremental-input.');
+                return;
+            }
+
+            // Sélectionner les éléments de la section Total
             const subtotalPriceElem = document.getElementById('subtotalPrice');
             const serviceFeeElem = document.getElementById('serviceFee');
             const totalPriceElem = document.getElementById('totalPrice');
             const submitButton = document.getElementById('submitButton');
             const subtotalBlock = document.getElementById('subtotalBlock');
             const serviceFeeBlock = document.getElementById('serviceFeeBlock');
-            const ticketPrice = {{ event.price / 100 }};
-            const serviceFee = {{ serviceCharge / 100 }};
+
+            // Obtenir les prix depuis les variables Twig
+            const ticketPrice = {{ (event.price / 100)|number_format(2, '.', '') }}; // Prix du billet
+            const serviceFee = {{ (serviceCharge / 100)|number_format(2, '.', '') }}; // Frais de service
 
             // Fonction pour mettre à jour les totaux
             function updateTotals() {
@@ -125,23 +136,26 @@
                 const min = parseInt(quantityInput.getAttribute('min')) || 0;
                 const max = parseInt(quantityInput.getAttribute('max')) || Infinity;
 
-                // Vérifie si la quantité est hors des limites et ajuste si nécessaire
+                // Vérifier les limites
                 if (quantity < min) {
                     quantity = min;
-                    quantityInput.value = min; // Ajuste visuellement la valeur dans le champ
+                    quantityInput.value = min;
                 } else if (quantity > max) {
                     quantity = max;
-                    quantityInput.value = max; // Ajuste visuellement la valeur dans le champ
+                    quantityInput.value = max;
                 }
 
+                // Calculer les totaux
                 const subtotalPrice = ticketPrice * quantity;
                 const totalServiceFee = serviceFee * quantity;
                 const totalPrice = subtotalPrice + totalServiceFee;
 
+                // Mettre à jour l'affichage
                 subtotalPriceElem.textContent = subtotalPrice.toFixed(2) + ' €';
                 serviceFeeElem.textContent = totalServiceFee.toFixed(2) + ' €';
                 totalPriceElem.textContent = totalPrice.toFixed(2) + ' €';
 
+                // Afficher ou masquer les blocs en fonction de la quantité
                 if (quantity > 0) {
                     subtotalBlock.classList.remove('hidden');
                     subtotalBlock.classList.add('flex');
@@ -157,25 +171,11 @@
                 }
             }
 
-            // Écoute les changements dans le champ de quantité
+            // Ajouter les écouteurs d'événements
             quantityInput.addEventListener('input', updateTotals);
             quantityInput.addEventListener('change', updateTotals);
 
-            // Écoute les clics sur le bouton de décrémentation
-            if (decrementButton) {
-                decrementButton.addEventListener('click', function() {
-                    setTimeout(updateTotals, 0); // Utiliser un timeout pour attendre la mise à jour de la valeur
-                });
-            }
-
-            // Écoute les clics sur le bouton d'incrémentation
-            if (incrementButton) {
-                incrementButton.addEventListener('click', function() {
-                    setTimeout(updateTotals, 0); // Utiliser un timeout pour attendre la mise à jour de la valeur
-                });
-            }
-
-            // Initial update to set values correctly
+            // Mise à jour initiale
             updateTotals();
         });
     </script>

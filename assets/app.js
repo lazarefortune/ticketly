@@ -30,6 +30,8 @@ customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('password-verifier', PasswordVerifier);
+customElements.define('incremental-input', IncrementalInput);
+
 
 /* Modules */
 import './modules/header.js'
@@ -39,7 +41,6 @@ import './modules/modal.js'
 import './modules/header.js'
 import './modules/dropdown.js'
 import './modules/password-toggle.js'
-import './modules/incremental.js'
 import {registerHeaderBehavior} from "./modules/header";
 import {YoutubePlayer} from "./elements/player/YoutubePlayer";
 import {TimeCountdown} from "./elements/TimeCountdown";
@@ -51,6 +52,7 @@ import { ProgressTracker } from "./elements/player/ProgressTracker";
 import { AjaxDelete } from "./elements/AjaxDelete";
 import LoaderOverlay from "./elements/LoaderOverlay";
 import PasswordVerifier from "./elements/PasswordVerifier";
+import IncrementalInput from "./elements/IncrementalInput"
 
 registerHeaderBehavior()
 

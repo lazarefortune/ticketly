@@ -1,45 +1,7 @@
-<div class="flex items-center">
-    <button type="button" class="
-        bg-zinc-100 dark:bg-zinc-700
-        hover:bg-zinc-200 dark:hover:bg-zinc-600
-        border border-zinc-300 dark:border-zinc-600
-        rounded-s-lg p-3
-        focus:ring-zinc-100 dark:focus:ring-zinc-700 focus:ring-2 focus:outline-none
-        decrement-button
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:ring-0 disabled:shadow-none
-        disabled:border-zinc-300 dark:disabled:border-zinc-600
-        disabled:hover:bg-zinc-100 dark:disabled:hover:bg-zinc-700
-        disabled:hover:text-zinc-900 dark:disabled:hover:text-white"
-            disabled>
-        <svg class="w-3 h-3 text-zinc-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-        </svg>
-    </button>
-    {{ form_widget(form.incremental, {'attr': {
-        'id': 'quantity-input',
-        'class': '
-            rounded-none
-            bg-white dark:bg-zinc-800
-            border-x-0 border-zinc-300 dark:border-zinc-600
-            text-center text-slate-900 dark:text-white
-            text-[15px]
-            focus:ring-2 focus:ring-inset focus:ring-primary-600
-            block w-12 py-2.5 md:py-2
-        '}}) }}
-    <button type="button" class="
-        bg-zinc-100 dark:bg-zinc-700
-        hover:bg-zinc-200 dark:hover:bg-zinc-600
-        border border-zinc-300 dark:border-zinc-600
-        rounded-e-lg p-3
-        focus:ring-zinc-100 dark:focus:ring-zinc-700 focus:ring-2 focus:outline-none
-        increment-button
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:ring-0 disabled:shadow-none
-        disabled:border-zinc-300 dark:disabled:border-zinc-600
-        disabled:hover:bg-zinc-100 dark:disabled:hover:bg-zinc-700
-        disabled:hover:text-zinc-900 dark:disabled:hover:text-white"
-            disabled>
-        <svg class="w-3 h-3 text-zinc-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-        </svg>
-    </button>
-</div>
+<incremental-input
+        name="{{ full_name }}"
+        min="{{ attr.min|default(0) }}"
+        max="{{ attr.max|default(99999) }}"
+        step="{{ attr.step|default(1) }}"
+        value="{{ value|default(attr.min|default(0)) }}"
+></incremental-input>

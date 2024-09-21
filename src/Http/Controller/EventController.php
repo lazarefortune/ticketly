@@ -58,7 +58,7 @@ class EventController extends AbstractController
         $this->reservationCleanupService->clearSessionReservation( $session );
 
         $ticketForm = $this->createForm( PreBookEvent::class, null, [
-            'remaining_spaces' => $event->getRemainingSpaces(),
+            'remaining_spaces' => (int)$event->getRemainingSpaces(),
         ] );
         $ticketForm->handleRequest( $request );
 
@@ -67,7 +67,7 @@ class EventController extends AbstractController
         $serviceCharge = ($unitPrice * $serviceChargePercentage) / 100;
 
         if ( $ticketForm->isSubmitted() && $ticketForm->isValid() ) {
-            $quantity = (int)$ticketForm->get( 'quantity' )->getData()[ 'incremental' ];
+            $quantity = (int)$ticketForm->getData()['quantity'];
             $remainingSpaces = $event->getRemainingSpaces();
 
             if ( $quantity > $remainingSpaces ) {

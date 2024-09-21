@@ -13,8 +13,10 @@ class PreBookEvent extends AbstractType
     {
         $builder
             ->add('quantity', IncrementalType::class, [
-                'min' => 0,
-                'max' => $options['remaining_spaces'],
+                'attr' => [
+                    'min' => 0,
+                    'max' => (int)$options['remaining_spaces'],
+                ]
             ])
         ;
     }
