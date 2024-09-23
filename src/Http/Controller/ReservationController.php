@@ -30,7 +30,7 @@ class ReservationController extends AbstractController
         $reservations = $this->reservationRepository->findByUser( $this->getUser() );
         $suggestedEvents = $this->eventRepository->findNext(5);
 
-        return $this->render('reservation/index.html.twig', [
+        return $this->render('pages/public/reservation/index.html.twig', [
             'reservations' => $reservations,
             'suggestedEvents' => $suggestedEvents,
         ]);
@@ -53,7 +53,7 @@ class ReservationController extends AbstractController
             );
         }
 
-        return $this->render('reservation/search.html.twig', [
+        return $this->render('pages/public/reservation/search.html.twig', [
             'form' => $form->createView(),
             'reservations' => $reservations,
             'isFormSubmitted' => $isFormSubmitted,

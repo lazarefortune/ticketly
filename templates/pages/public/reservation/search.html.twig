@@ -1,0 +1,95 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+    <div class="container-box">
+        <div class="stack-large mt-5 mb-10 max-w-6xl mx-auto pb-12">
+
+            <!-- Bouton de retour -->
+            <div class="flex items-center mb-6">
+                <a href="{{ path('app_my_reservation_index') }}" class="flex items-center gap-2 text-sm text-zinc-900 hover:text-zinc-600">
+                    {{ icon('arrow-left') }}
+                    <span>Retour</span>
+                </a>
+            </div>
+
+            <!-- Conteneur principal en grille pour le formulaire et les résultats -->
+            <div class="grid grid-cols-1 md:grid-cols-8 gap-2 md:gap-8">
+
+                <!-- Formulaire de recherche -->
+                <div class="col-span-1 md:col-span-3">
+                    <div class="bg-white dark:bg-slate-900 p-4 rounded shadow-md">
+                        <h2 class="text-lg font-semibold mb-2">Rechercher une réservation</h2>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-500 mb-4">Entrez le numéro de réservation reçu par email pour le lier à votre compte.</p>
+
+                        {{ form_start(form) }}
+                        {{ form_row(form.reservationNumber, {'attr': {'placeholder': 'ex: RSV-D945E77E'}}) }}
+                        <div class="mt-2">
+                            {{ form_row(form.email) }}
+                            <p class="text-sm text-primary-500 dark:text-primary-300">Renseignez l'adresse email utilisée lors de la réservation.</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-full flex items-center justify-center mt-4">
+                            {{ icon('search', 20) }}
+                            <span>Rechercher</span>
+                        </button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+                <!-- Section des résultats de la recherche -->
+                <div class="col-span-1 md:col-span-5">
+                    {% if reservations is empty and isFormSubmitted %}
+                        <!-- Message d'absence de réservations -->
+                        <div class="flex justify-center items-center flex-col mt-8 md:mt-0">
+                            <img src="{{ asset('images/illustrations/search-folder.svg') }}" alt="Aucune réservation" class="w-40 h-40 md:w-72 md:h-72 mb-4">
+                            <div class="text-center max-w-md">
+                                <h3 class="text-lg text-red-900 font-semibold">Aucune réservation trouvée</h3>
+                                <p class="text-sm text-zinc-500">Veuillez vérifier le numéro de réservation et réessayer.</p>
+                            </div>
+                        </div>
+                    {% elseif reservations is empty %}
+                        <!-- Message d'attente de recherche -->
+                        <div class="flex justify-center items-center flex-col mt-8 md:mt-0">
+                            <img src="{{ asset('images/illustrations/search.svg') }}" alt="Recherche en cours" class="w-40 h-40 md:w-72 md:h-72 mb-4">
+                            <div class="text-center max-w-md">
+                                <h3 class="text-lg font-semibold">Effectuer une recherche</h3>
+                                <p class="text-sm text-zinc-500">La recherche est exacte et sensible à la casse.</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Liste des réservations trouvées -->
+                        <div class="mt-8 md:mt-0">
+                            <h3 class="text-lg text-primary-700 font-semibold mb-4">{{ reservations|length }} réservation(s) trouvée(s)</h3>
+                            <ul class="grid grid-cols-1 gap-6">
+                                {% for reservation in reservations %}
+                                    <li class="p-4 border bg-white dark:bg-slate-900 shadow-md rounded-lg flex flex-col justify-between">
+                                        <div>
+                                            <h4 class="text-md font-semibold mb-2">{{ reservation.event.name }}</h4>
+                                            <p class="text-sm text-zinc-500 mb-4">Réservé le {{ reservation.createdAt|date('d/m/Y à H:i') }}</p>
+                                        </div>
+                                        <div class="flex flex-col md:flex-row items-center gap-2">
+                                            <a href="#" class="btn btn-light w-full md:w-auto mb-2 md:mb-0">
+                                                Voir détails
+                                            </a>
+                                            {% if reservation.user is null %}
+                                                <form action="{{ path('app_my_reservation_add_to_account', {id: reservation.id}) }}" method="post" class="w-full md:w-auto">
+                                                    <button type="submit" class="btn btn-primary w-full md:w-auto">
+                                                        Ajouter à mon compte
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

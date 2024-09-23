@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted( 'ROLE_SUPER_ADMIN' )]
 class UserController extends CrudController
 {
-
+    protected string $templateDirectory = 'pages/admin';
     protected string $templatePath = 'users';
     protected string $menuItem = 'users';
     protected string $searchField = 'name';

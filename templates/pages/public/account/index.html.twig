@@ -1,0 +1,202 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block body %}
+
+    <div class="container-box">
+        <!-- profile section -->
+        <div class="stack-large mt-5 mb-10 max-w-6xl mx-auto border-b border-gray-900/10 pb-12">
+            {% if app.user.deletedAt %}
+                <div class="flex items-center gap-x-3 bg-red-100 p-4 rounded">
+                    <div class="">
+                        <p class="text-red-950 font-semibold mb-1">Vous avez demandé la suppression de votre compte.</p>
+                        <p class="text-red-700 text-sm">Il vous reste <span class="font-semibold">{{ app.user.deletedAt|countdown }}</span> pour annuler cette action.</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
+            <div>
+                <h2 class="text-base font-semibold">Mes informations</h2>
+                <p class="text-sm text-zinc-500 mb-4">Vérifiez et mettez à jour vos informations personnelles ci-dessous.</p>
+
+                <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4">
+                    <div class="md:col-span-full">
+                        <div class="mt-2 flex flex-col md:flex-row md:justify-between md:items-center gap-x-3 gap-y-3">
+
+                            <div class="flex items-center gap-x-5">
+                                <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" id="avatar-preview"
+                                     class="w-20 h-20 rounded-full object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                                <div>
+                                    <h4 class="h4">{{ app.user.fullname }}</h4>
+                                    <p class="text-sm text-zinc-500">Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span></p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-x-2">
+
+                                {{ form_label(formProfile.avatarFile, 'Charger une image', {'label_attr': {'class': 'btn btn-sm btn-light'}}) }}
+                                {{ form_widget(formProfile.avatarFile) }}
+                                <button type="button" class="btn btn-sm btn-light-danger2">
+                                    Supprimer l'image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3">
+                        {{ form_row(formProfile.fullname) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4">
+                <div class="md:col-span-3">
+                    {{ form_row(formProfile.email) }}
+                </div>
+                <div class="md:col-span-3">
+                    {{ form_row(formProfile.phone) }}
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button type="submit" class="btn btn-primary">
+                    Enregistrer les modifications
+                </button>
+            </div>
+            {{ form_end(formProfile) }}
+        </div>
+
+        <!-- stripe connect section -->
+        <div class="stack-large mb-10 max-w-6xl mx-auto">
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold">Compte Stripe</h2>
+                <p class="text-sm text-zinc-500 mb-4">Gérez vos revenus et vos paiements depuis votre compte Stripe.</p>
+
+                {% if not app.user.stripeAccountId %}
+                    <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-light">
+                        {{ icon('landmark') }}
+                        <span>Lier mon compte Stripe</span>
+                    </a>
+                {% else %}
+                    <div class="flex items-center gap-x-3">
+                        <div class="flex items-center gap-x-2">
+                            <img src="{{ asset('images/logo/stripe.svg') }}" alt="Stripe" class="w-8 h-8">
+                            <span class="text-sm text-zinc-500">Connecté à Stripe</span>
+                        </div>
+                    </div>
+                    {% if app.user.stripeAccountCompleted %}
+                        <a href="{{ path('app_account_stripe_dashboard') }}" class="btn btn-light" target="_blank">
+                            {{ icon('external-link') }}
+                            <span>Voir mes revenus</span>
+                        </a>
+                    {% else %}
+                        <p class="text-sm text-primary-900 mb-2">
+                            Veuillez compléter votre inscription pour recevoir vos paiements.
+                        </p>
+                        <a href="{{ path('app_account_stripe_connect') }}" class="btn btn-outline">
+                            {{ icon('landmark') }}
+                            <span>Terminer l'inscription Stripe</span>
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- password section -->
+        <div class="stack-large mb-10 max-w-6xl mx-auto">
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold">Sécurité du compte</h2>
+                <p class="text-sm text-zinc-500 mb-4">Changez votre mot de passe pour sécuriser votre compte.</p>
+
+                <a href="{{ path('app_account_change_password') }}" class="btn btn-light">
+                    {{ icon('lock') }}
+                    <span>Modifier mon mot de passe</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- delete account section -->
+        <div id="delete-account" class="stack-large mb-10 max-w-6xl mx-auto">
+            <div class="pb-12">
+                {% if app.user.deletedAt %}
+                    <h2 class="text-base text-red-800 font-semibold">Annuler la suppression de compte</h2>
+                    <p class="text-sm text-zinc-800 mb-4">
+                        Vous avez demandé la suppression de votre compte. Il vous reste <span class="font-semibold">{{ app.user.deletedAt|countdown }}</span> pour annuler cette action.</p>
+
+                    <a href="{{ path('app_account_cancel_deletion') }}" class="btn btn-primary">
+                        {{ icon('x') }}
+                        <span>Rétablir mon compte</span>
+                    </a>
+                {% else %}
+                    <h2 class="text-base text-red-800 font-semibold">Suppression de compte</h2>
+                    <p class="text-sm text-zinc-500 mb-4">La suppression de votre compte est définitive. Vous disposez de 7 jours pour changer d'avis.</p>
+
+                    <button class="btn btn-light-danger2" data-modal-id="deleteAccountModal">
+                        {{ icon('trash') }}
+                        <span>Supprimer mon compte</span>
+                    </button>
+
+                    <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                        <section class="modal-box">
+                            <header>Confirmer la suppression</header>
+                            <button data-dismiss aria-label="Close" class="modal-close">
+                                {{ icon('x') }}
+                            </button>
+
+                            <div class="stack">
+                                <p class="text-red-900">Attention : Vous êtes sur le point de supprimer votre compte.</p>
+                                <p class="text-zinc-500">Cette action est irréversible et entraînera la perte définitive de toutes vos données.</p>
+                                <p class="text-zinc-500">
+                                    Pour confirmer la suppression, veuillez saisir votre mot de passe. Le compte sera automatiquement supprimé dans un délai de 7 jours.
+                                </p>
+
+                                {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+
+                                {{ form_row(formDeleteAccount.password) }}
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-light-danger">
+                                        {{ icon('trash') }}
+                                        <span>Confirmer la suppression</span>
+                                    </button>
+                                </div>
+                                {{ form_end(formDeleteAccount) }}
+                            </div>
+
+                        </section>
+                    </modal-dialog>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        <!-- Preview avatar image -->
+        document.addEventListener('DOMContentLoaded', function () {
+            const avatarInput = document.getElementById('user_update_form_avatarFile');
+
+            if (!avatarInput) {
+                return;
+            }
+
+            avatarInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgElement = document.getElementById('avatar-preview');
+                        imgElement.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

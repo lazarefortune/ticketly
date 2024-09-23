@@ -29,7 +29,7 @@ class HomeController extends AbstractController
     public function index() : Response
     {
         $eventsToCome = $this->em->getRepository( Event::class )->findNext();
-        return $this->render( 'pages/index.html.twig' , [
+        return $this->render( 'pages/public/index.html.twig' , [
             'eventsToCome' => $eventsToCome,
         ]);
     }
@@ -37,21 +37,21 @@ class HomeController extends AbstractController
     public function indexLogged( User $user ) : Response
     {
 
-        return $this->render( 'pages/index-logged.html.twig', [] );
+        return $this->render( 'pages/public/index-logged.html.twig', [] );
     }
 
 
     #[Route( '/ui', name: 'ui' )]
     public function ui() : Response
     {
-        return $this->render( 'pages/ui.html.twig' );
+        return $this->render( 'pages/public/ui.html.twig' );
     }
 
     #[Route( '/message', name: 'message' )]
     public function message() : Response
     {
         $this->addFlash( 'success', 'Votre message a bien été envoyé' );
-        return $this->render( 'pages/message.html.twig' );
+        return $this->render( 'pages/public/message.html.twig' );
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]
@@ -99,25 +99,25 @@ class HomeController extends AbstractController
     #[Route( '/installe', name: 'success_installed' )]
     public function successInstalled() : Response
     {
-        return $this->render( 'pages/success_installed.html.twig' );
+        return $this->render( 'pages/public/success_installed.html.twig' );
     }
 
     #[Route( '/conditions-generales-utilisation', name: 'cgu' )]
     public function cgu() : Response
     {
-        return $this->render( 'pages/cgu.html.twig' );
+        return $this->render( 'pages/public/cgu.html.twig' );
     }
 
     #[Route( '/mentions-legales', name: 'mentions_legales' )]
     public function legalNotice() : Response
     {
-        return $this->render( 'pages/mentions_legales.html.twig' );
+        return $this->render( 'pages/public/mentions_legales.html.twig' );
     }
 
     #[Route( '/politique-confidentialite', name: 'politique_confidentialite' )]
     public function privacyPolicy() : Response
     {
-        return $this->render( 'pages/politique_confidentialite.html.twig' );
+        return $this->render( 'pages/public/politique_confidentialite.html.twig' );
     }
 
 

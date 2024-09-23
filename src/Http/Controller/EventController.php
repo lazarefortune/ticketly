@@ -96,7 +96,7 @@ class EventController extends AbstractController
             ] );
         }
 
-        return $this->render( 'event/show.html.twig', [
+        return $this->render( 'pages/public/event/show.html.twig', [
             'event' => $event,
             'ticketForm' => $ticketForm->createView(),
             'serviceCharge' => $serviceCharge,
@@ -162,7 +162,7 @@ class EventController extends AbstractController
             }
         }
 
-        return $this->render( 'event/reservation_details.html.twig', [
+        return $this->render( 'pages/public/event/reservation_details.html.twig', [
             'event' => $event,
             'reservation' => $reservation,
             'confirmReservationForm' => $confirmReservationForm->createView(),
@@ -188,7 +188,7 @@ class EventController extends AbstractController
             ] );
         }
 
-        return $this->render( 'event/reservation_show.html.twig', [
+        return $this->render( 'pages/public/event/reservation_show.html.twig', [
             'reservation' => $reservation,
             'paymentResult' => $request->query->get( 'success' ) === '1',
         ] );

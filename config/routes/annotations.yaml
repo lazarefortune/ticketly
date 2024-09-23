@@ -4,10 +4,10 @@ admin_controllers:
   resource: ../../src/Http/Admin/Controller/
   type: attribute
 
-dashboard_controllers:
-  name_prefix: dashboard_
-  prefix: '%dashboard_prefix%'
-  resource: ../../src/Http/Dashboard/Controller/
+organizer_controllers:
+  name_prefix: organizer_
+  prefix: '%organizer_prefix%'
+  resource: ../../src/Http/Organizer/Controller/
   type: attribute
 
 api_controllers:

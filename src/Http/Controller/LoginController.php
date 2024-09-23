@@ -32,7 +32,7 @@ class LoginController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render( 'auth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error] );
+        return $this->render( 'pages/auth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error] );
     }
 
     #[Route( path: '/deconnexion', name: 'logout' )]
@@ -65,7 +65,7 @@ class LoginController extends AbstractController
             $this->redirectBack( 'app_forgot_password' );
         }
 
-        return $this->render( 'auth/forgot_password.html.twig', [
+        return $this->render( 'pages/auth/forgot_password.html.twig', [
             'form' => $form->createView(),
         ] );
     }
@@ -94,7 +94,7 @@ class LoginController extends AbstractController
             return $this->redirectToRoute( 'app_login' );
         }
 
-        return $this->render( 'auth/reset_password.html.twig', [
+        return $this->render( 'pages/auth/reset_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ] );

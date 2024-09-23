@@ -1,0 +1,48 @@
+{% extends 'layouts/dashboard/sidebar/_sidebar.html.twig' %}
+
+{% block sidebar_header %}
+        <a href="{{ path('organizer_home') }}" class="sidebar__logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="sidebar__logo-image">
+        </a>
+{% endblock %}
+
+{% block sidebar_nav %}
+    <div class="sidebar__nav-section">
+        <div class="sidebar__nav-title">Menu</div>
+        <ul class="sidebar__nav-list">
+            <li class="sidebar__nav-item">
+                <a href="{{ path('organizer_home') }}" class="sidebar__nav-link {{ menu_active('organizer_home') }}">
+                    {{ icon('monitor') }}
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('organizer_event_index') }}" class="sidebar__nav-link {{ menu_active('organizer_event') }}">
+                    {{ icon('calendar-days') }}
+                    <span>Événements</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('organizer_ticket_validation') }}" class="sidebar__nav-link {{ menu_active('organizer_ticket') }}">
+                    {{ icon('scan-barcode') }}
+                    <span>Validateur de billets</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('app_home') }}" class="sidebar__nav-link">
+                    {{ icon('undo-2') }}
+                    <span>Retour au site</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block sidebar_footer %}
+    <button class="sidebar__footer__button sidebar__footer__button--subscribe">
+        {{ icon('sparkles') }}
+        <span>S'abonner</span>
+    </button>
+{% endblock %}
+
+

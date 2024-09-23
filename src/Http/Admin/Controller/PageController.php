@@ -46,7 +46,7 @@ class PageController extends AbstractController
         $chart = $this->createMonthlyUsersChart( $monthlyUsersLastYear );
 
 
-        return $this->render( 'admin/index.html.twig', [
+        return $this->render( 'pages/admin/index.html.twig', [
             'nbUsers' => $usersCount,
             'chart' => $chart,
         ] );

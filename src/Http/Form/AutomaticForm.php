@@ -84,7 +84,7 @@ class AutomaticForm extends AbstractType
                         'class' => 'label',
                     ],
                     'attr' => [
-                        'class' => 'flatpickr-date-birthday',
+                        'class' => 'form-input flatpickr-date-birthday',
                         'data-input' => 'true'
                     ],
                 ] );
@@ -105,6 +105,12 @@ class AutomaticForm extends AbstractType
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
                     'label' => $name,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
                 ] );
             } else {
                 throw new \RuntimeException( sprintf( 'Impossible de trouver le champs associé au type %s dans %s::%s', $type->getName(), $data::class, $name ) );

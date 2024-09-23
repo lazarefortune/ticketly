@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
             #return $this->authenticateUser( $user, $request );
         }
 
-        return $this->render( 'auth/register.html.twig', [
+        return $this->render( 'pages/auth/register.html.twig', [
             'registrationForm' => $form->createView(),
         ] );
     }
@@ -98,7 +98,7 @@ class RegistrationController extends AbstractController
 
         // Ajoute un message flash et affiche la page
         $this->addFlash( $flashType, $flashMessage );
-        return $this->render( 'pages/message.html.twig' );
+        return $this->render( 'pages/public/message.html.twig' );
     }
 
 }

@@ -34,14 +34,12 @@ customElements.define('incremental-input', IncrementalInput);
 
 
 /* Modules */
-import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
-import './modules/modal.js'
-import './modules/header.js'
 import './modules/dropdown.js'
+import './modules/app/header-dropdown.js'
 import './modules/password-toggle.js'
-import {registerHeaderBehavior} from "./modules/header";
+import {registerHeaderBehavior} from "./modules/app/header";
 import {YoutubePlayer} from "./elements/player/YoutubePlayer";
 import {TimeCountdown} from "./elements/TimeCountdown";
 import {PlayButton} from "./elements/PlayButton";

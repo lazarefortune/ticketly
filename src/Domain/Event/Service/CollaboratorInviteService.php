@@ -59,7 +59,7 @@ class CollaboratorInviteService
 
         // Générer le lien d'acceptation
         $link = $this->router->generate(
-            'dashboard_collaborator_invitation_accept',
+            'organizer_collaborator_invitation_accept',
             ['token' => $invitation->getToken()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

@@ -1,44 +1,42 @@
-@import "tools/typography";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Base */
+@import "base/variables";
+@import "base/functions";
+@import "base/mixins";
 
-@import "tools/reset";
+/* Tools */
+@import "tools/animations";
 @import "tools/layout";
+@import "tools/reset";
+@import "tools/typography";
 
-/* Pages */
-@import "pages/admin/home-dashboard";
-
-/* Modules */
-@import "modules/admin/page-layout";
-@import "modules/admin/sidebar";
-@import "modules/admin/menu";
-@import "modules/admin/breadcrumb";
-@import "modules/admin/spotlight";
-@import "modules/switch";
-@import "modules/admin/sortable";
-@import "modules/admin/chapters";
-
-@import "modules/alert";
-@import "modules/address-autocomplete";
-@import "modules/dashboard/event";
-@import "modules/notification";
-@import "modules/button";
-@import "modules/form";
-@import "modules/badge";
-@import "modules/dropdown";
-@import "modules/table";
-@import "modules/card";
-@import "modules/payment-card";
-@import "modules/pagination";
-@import "modules/nav-tabs";
-@import "modules/reveal";
-@import "modules/modal";
-@import "modules/scroll-top";
-@import "modules/themeswitcher";
+/* Components */
+@import "components/index";
 
 /* Libs */
 @import "libs/flatpickr";
 @import "libs/select2";
+
+/* Modules */
+@import "modules/breadcrumb";
+@import "modules/scrollbar";
+
+@import "modules/address-autocomplete/address-autocomplete";
+@import "modules/themeswitcher/themeswitcher";
+
+/* Modules Admin */
+@import "modules/admin/page-layout";
+@import "modules/admin/sortable";
+@import "modules/admin/components/breadcrumb";
+@import "modules/admin/components/header";
+@import "modules/admin/components/sidebar";
+@import "modules/admin/components/spotlight";
+
+/* Dashboard */
+@import "modules/dashboard/event/event";
+
+/* Pages */
+@import "pages/admin/home-dashboard";

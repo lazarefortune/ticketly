@@ -57,7 +57,7 @@ class AccountController extends AbstractController
 
         $reservations = $this->reservationRepository->findBy( ['email' => $user->getEmail()], ['createdAt' => 'DESC'] );
 
-        return $this->render( 'account/index.html.twig', [
+        return $this->render( 'pages/public/account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
@@ -75,7 +75,7 @@ class AccountController extends AbstractController
             return $response;
         }
 
-        return $this->render('account/change-password.html.twig',[
+        return $this->render('pages/public/account/change-password.html.twig',[
             'formPassword' => $formPassword->createView(),
         ] );
     }

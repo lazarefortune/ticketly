@@ -186,6 +186,4 @@ class EventForm extends AbstractType
             'data_class' => Event::class,
         ] );
     }
-
-
 }

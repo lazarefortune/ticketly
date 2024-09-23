@@ -7,7 +7,7 @@ class AddressAutocomplete extends HTMLElement {
 
         // Créer la liste des suggestions
         this.suggestionsList = document.createElement('ul');
-        this.suggestionsList.className = 'suggestions-list';
+        this.suggestionsList.className = 'autocomplete-suggestions-list';
         this.suggestionsList.hidden = true;
 
         this.activeSuggestionIndex = -1;
@@ -113,7 +113,7 @@ class AddressAutocomplete extends HTMLElement {
         this.suggestions.forEach((suggestion, index) => {
             const item = document.createElement('li');
             item.textContent = suggestion;
-            item.className = 'suggestion-item';
+            item.className = 'autocomplete-suggestion-item';
             item.setAttribute('role', 'option');
             item.dataset.index = index;
 
