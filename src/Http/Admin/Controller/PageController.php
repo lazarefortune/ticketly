@@ -93,6 +93,6 @@ class PageController extends AbstractController
     #[Route( '/maintenance', name: 'maintenance', methods: ['GET'] )]
     public function maintenance() : Response
     {
-        return $this->render( 'admin/layouts/maintenance.html.twig' );
+        return $this->render( 'layouts/maintenance-admin.html.twig' );
     }
 }

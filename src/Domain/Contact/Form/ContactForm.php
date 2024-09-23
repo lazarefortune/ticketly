@@ -5,6 +5,7 @@ namespace App\Domain\Contact\Form;
 use App\Domain\Contact\Dto\ContactData;
 use App\Http\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,30 +20,37 @@ class ContactForm extends AbstractType
             ->add( 'name', TextType::class,
                 [
                     'label' => 'Nom',
-                    'attr' => [
-                        'class' => 'form-input',
-                    ],
                     'label_attr' => [
                         'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input',
                     ],
                 ] )
             ->add( 'email', EmailType::class,
                 [
                     'label' => 'Email',
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
                     'attr' => [
                         'class' => 'form-input',
                     ],
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
                 ] )
-            ->add( 'subject', TextType::class,
-                [
-                    'label' => 'C\'est à propos de ?',
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                ] )
+            ->add( 'subject', ChoiceType::class, [
+                'label' => 'C\'est à propos de ?',
+                'label_attr' => [
+                  'class' => 'label'
+                ],
+                'attr' => [
+                  'class' => 'form-input'
+                ],
+                'choices' => [
+                    'Besoin d\'assistance' => 'help',
+                    'Bug' => 'bug',
+                    'Autres' => 'others'
+                ]
+            ])
             ->add( 'message', TextareaType::class,
                 [
                     'label' => 'Votre message',
@@ -51,13 +59,14 @@ class ContactForm extends AbstractType
                     ],
                     'attr' => [
                         'rows' => 7,
+                        'class' => 'form-input'
                     ],
                 ] )
-            ->add('captcha', CaptchaType::class, [
-                'mapped' => false,
-                'help' => 'Placez la pièce du puzzle pour vérifier que vous n’êtes pas un robot',
-                'route' => 'app_captcha'
-            ])
+//            ->add('captcha', CaptchaType::class, [
+//                'mapped' => false,
+//                'help' => 'Placez la pièce du puzzle pour vérifier que vous n’êtes pas un robot',
+//                'route' => 'app_captcha'
+//            ])
         ;
     }
 

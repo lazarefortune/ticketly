@@ -28,15 +28,15 @@
 @import "modules/themeswitcher/themeswitcher";
 
 /* Modules Admin */
-@import "modules/admin/page-layout";
-@import "modules/admin/sortable";
-@import "modules/admin/components/breadcrumb";
-@import "modules/admin/components/header";
-@import "modules/admin/components/sidebar";
-@import "modules/admin/components/spotlight";
+@import "modules/dashboard/page-layout";
+@import "modules/dashboard/sortable";
+@import "modules/dashboard/components/breadcrumb";
+@import "modules/dashboard/components/header";
+@import "modules/dashboard/components/sidebar";
+@import "modules/dashboard/components/spotlight";
 
-/* Dashboard */
-@import "modules/dashboard/event/event";
+/* Organizer */
+@import "modules/organizer/event/event";
 
 /* Pages */
-@import "pages/admin/home-dashboard";
+@import "pages/dashboard/home-dashboard";
