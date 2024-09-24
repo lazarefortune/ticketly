@@ -17,51 +17,9 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class AuthService
 {
     public function __construct(
-        private readonly VerifyEmailHelperInterface  $verifyEmailHelper,
-        private readonly EntityManagerInterface      $entityManager,
         private readonly EventDispatcherInterface    $eventDispatcher,
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
     )
     {
-    }
-
-    public function registerNewUser( NewUserData $newUserData ) : User
-    {
-        $newUser = $newUserData->user
-            ->setEmail( $newUserData->email )
-            ->setFullname( $newUserData->fullname )
-            ->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $newUserData->user,
-                    $newUserData->plainPassword
-                )
-            )
-            ->setCgu( true );
-
-        $this->entityManager->persist( $newUser );
-        $this->entityManager->flush();
-
-        $userRegistrationCompletedEvent = new UserRegistrationCompletedEvent( $newUser );
-        $this->eventDispatcher->dispatch( $userRegistrationCompletedEvent, UserRegistrationCompletedEvent::NAME );
-
-        return $newUser;
-    }
-
-    /**
-     * Validate the email confirmation link, and activate the user account
-     * @param User $user
-     * @param string $uri
-     * @throws VerifyEmailExceptionInterface
-     */
-    public function confirmAccount( User $user, $uri ) : void
-    {
-        $this->verifyEmailHelper->validateEmailConfirmation( $uri, $user->getId(), $user->getEmail() );
-
-        $emailConfirmationCompletedEvent = new EmailConfirmationCompletedEvent( $user );
-        $this->eventDispatcher->dispatch( $emailConfirmationCompletedEvent, EmailConfirmationCompletedEvent::NAME );
-
-        $user->setIsVerified( true );
-        $this->entityManager->flush();
     }
 
     /**

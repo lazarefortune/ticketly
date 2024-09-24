@@ -4,6 +4,7 @@ namespace App\Domain\Profile\Service;
 
 use App\Domain\Account\Service\AuthService;
 use App\Domain\Auth\Entity\User;
+use App\Domain\Login\Service\LoginService;
 use App\Domain\Profile\Event\Delete\UserDeleteRequestEvent;
 use App\Domain\Profile\Event\Delete\UserRequestDeleteSuccessEvent;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,9 +14,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class DeleteAccountService
 {
     public function __construct(
-        private readonly AuthService              $authService,
         private readonly EventDispatcherInterface $dispatcher,
         private readonly EntityManagerInterface   $em,
+        private readonly LoginService             $loginService,
     )
     {
     }
@@ -32,7 +33,7 @@ class DeleteAccountService
     {
         $this->ensureAccountCanBeDeleted( $user );
 
-        $this->authService->logout( $request );
+        $this->loginService->logout( $request );
 
         $user->setDeletedAt( new \DateTimeImmutable( sprintf( '+%d days', User::DAYS_BEFORE_DELETION ) ) );
         $this->em->flush();

@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     {
     }
 
-    #[Route( '/', name: 'home' )]
+    #[Route( '/', name: 'home', methods: ['GET'] )]
     public function index() : Response
     {
         $eventsToCome = $this->em->getRepository( Event::class )->findNext();
@@ -41,17 +41,10 @@ class HomeController extends AbstractController
     }
 
 
-    #[Route( '/ui', name: 'ui' )]
+    #[Route( '/ui', name: 'ui', methods: ['GET'])]
     public function ui() : Response
     {
         return $this->render( 'pages/public/ui.html.twig' );
-    }
-
-    #[Route( '/message', name: 'message' )]
-    public function message() : Response
-    {
-        $this->addFlash( 'success', 'Votre message a bien été envoyé' );
-        return $this->render( 'pages/public/message.html.twig' );
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]
@@ -102,19 +95,19 @@ class HomeController extends AbstractController
         return $this->render( 'pages/public/success_installed.html.twig' );
     }
 
-    #[Route( '/conditions-generales-utilisation', name: 'cgu' )]
+    #[Route( '/conditions-generales-utilisation', name: 'cgu' , methods: ['GET'])]
     public function cgu() : Response
     {
         return $this->render( 'pages/public/cgu.html.twig' );
     }
 
-    #[Route( '/mentions-legales', name: 'mentions_legales' )]
+    #[Route( '/mentions-legales', name: 'mentions_legales' , methods: ['GET'])]
     public function legalNotice() : Response
     {
         return $this->render( 'pages/public/mentions_legales.html.twig' );
     }
 
-    #[Route( '/politique-confidentialite', name: 'politique_confidentialite' )]
+    #[Route( '/politique-confidentialite', name: 'politique_confidentialite' , methods: ['GET'])]
     public function privacyPolicy() : Response
     {
         return $this->render( 'pages/public/politique_confidentialite.html.twig' );

@@ -5,27 +5,26 @@ namespace App\Http\Controller;
 use App\Domain\Auth\Dto\NewUserData;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Auth\Form\RegistrationForm;
-use App\Domain\Auth\Repository\UserRepository;
-use App\Domain\Auth\Security\AppAuthenticator;
-use App\Domain\Account\Service\AuthService;
+use App\Domain\Login\Service\LoginService;
+use App\Domain\Registration\Service\RegistrationService;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
 
     public function __construct(
-        private readonly AuthService                $authService,
-        private readonly UserAuthenticatorInterface $userAuthenticator,
-        private readonly AppAuthenticator           $authenticator,
+        private readonly RegistrationService        $registrationService,
+        private readonly LoginService               $loginService,
     )
     {
     }
 
     #[Route( '/inscription', name: 'register' )]
-    public function register( Request $request ) : Response
+    public function registerUser( Request $request ) : Response
     {
         if ( $this->getUser() ) {
             return $this->redirectToRoute( 'app_home' );
@@ -35,10 +34,13 @@ class RegistrationController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $user = $this->authService->registerNewUser( $form->getData() );
-
-            return $this->redirectToRoute( 'app_send_verification_email' );
-            #return $this->authenticateUser( $user, $request );
+            $user = $this->registrationService->createUser( $form->getData() );
+            try {
+                return $this->loginService->authenticateUser( $user, $request );
+            } catch ( Exception $e ) {
+                $this->addFlash( 'danger', $e->getMessage() );
+                return $this->redirectToRoute( 'app_login' );
+            }
         }
 
         return $this->render( 'pages/auth/register.html.twig', [
@@ -46,59 +48,24 @@ class RegistrationController extends AbstractController
         ] );
     }
 
-    private function authenticateUser( User $user, Request $request ) : Response
-    {
-        $authenticationResponse = $this->userAuthenticator->authenticateUser(
-            $user,
-            $this->authenticator,
-            $request
-        );
-
-        if ( !$authenticationResponse instanceof Response ) {
-            throw new \Exception( "L'authentification de l'utilisateur a échoué." );
-        }
-
-        return $authenticationResponse;
-    }
-
-    #[Route( '/email/verification', name: 'send_verification_email' )]
-    public function sendEmailVerification( Request $request ) : Response
-    {
-        $user = $this->getUserOrThrow();
-        try {
-            $this->authService->sendAccountConfirmationEmail( $user );
-            $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
-        } catch ( \Exception $e ) {
-            $this->addFlash( 'error', 'Erreur lors de l\'envoi de l\'email de confirmation.' );
-        }
-
-        return $this->redirectBack( 'app_profile' );
-    }
-
     #[Route( '/email/validation', name: 'verify_email' )]
-    public function verifyUserEmail( Request $request, UserRepository $userRepository ) : Response
+    public function validateEmail( Request $request ) : Response
     {
         $userId = $request->get( 'id' );
+        $uri = $request->getUri();
 
-        // Redirection si l'utilisateur n'est pas trouvé
-        if ( !$userId || !( $user = $userRepository->find( $userId ) ) ) {
+        try {
+            $this->registrationService->validateUser( $userId , $uri );
+        } catch ( Exception $e ) {
+            $this->addFlash( 'danger', $e->getMessage() );
+            return $this->redirectToRoute( 'app_register' );
+        } catch ( VerifyEmailExceptionInterface $e ) {
+            $this->addFlash( 'danger', $e->getReason() );
             return $this->redirectToRoute( 'app_register' );
         }
 
-        // Si l'utilisateur est déjà vérifié, affiche un message
-        if ( $user->isVerified() ) {
-            $flashType = 'info';
-            $flashMessage = 'Votre adresse email a déjà été vérifiée.';
-        } else {
-            // Sinon, valide le lien et marque l'utilisateur comme vérifié
-            $this->authService->confirmAccount( $user, $request->getUri() );
-            $flashType = 'success';
-            $flashMessage = 'Votre adresse email a été vérifiée.';
-        }
-
-        // Ajoute un message flash et affiche la page
-        $this->addFlash( $flashType, $flashMessage );
-        return $this->render( 'pages/public/message.html.twig' );
+        $this->addFlash('info', 'Votre compte a été activé avec succès');
+        return $this->redirectToRoute('app_login');
     }
 
 }
