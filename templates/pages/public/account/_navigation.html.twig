@@ -1,0 +1,32 @@
+<nav class="account-navigation">
+    <ul>
+        <li>
+            <a href="{{ path('app_account_profile') }}" class="{{ menu_active('app_account_profile') }}">
+                {{ icon('user') }}
+                <span>Profil</span>
+            </a>
+        </li>
+        <!--
+        <li>
+            <a href="">
+                {{ icon('cog') }}
+                <span>Paramètres</span>
+            </a>
+        </li>
+        -->
+        <li>
+            <a href="{{ path('app_account_security') }}" class="{{ menu_active('app_account_security') }}">
+                {{ icon('key-round') }}
+                <span>Sécurité</span>
+            </a>
+        </li>
+        <!--
+        <li>
+            <a href="">
+                {{ icon('lock') }}
+                <span>Confidentialité</span>
+            </a>
+        </li>
+        -->
+    </ul>
+</nav>

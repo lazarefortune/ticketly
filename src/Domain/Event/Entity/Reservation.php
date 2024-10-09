@@ -2,7 +2,7 @@
 
 namespace App\Domain\Event\Entity;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Coupon\Entity\Coupon;
 use App\Domain\Event\Repository\ReservationRepository;
 use App\Domain\Payment\Entity\Payment;

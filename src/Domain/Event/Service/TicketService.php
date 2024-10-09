@@ -2,7 +2,7 @@
 
 namespace App\Domain\Event\Service;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\EventCollaborator;
 use App\Domain\Event\Entity\Ticket;
 use App\Domain\Event\Repository\TicketRepository;

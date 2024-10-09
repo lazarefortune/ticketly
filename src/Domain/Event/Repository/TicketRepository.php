@@ -2,12 +2,12 @@
 
 namespace App\Domain\Event\Repository;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\Ticket;
 use App\Infrastructure\Orm\AbstractRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends AbstractRepository<Ticket>

@@ -2,14 +2,12 @@
 
 namespace App\Domain\Reservation\Voter;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\EventCollaborator;
-use App\Domain\Event\Entity\Reservation;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReservationVoter extends Voter
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Form;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\ChoiceMultipleType;
 use App\Http\Type\DateTimeType;

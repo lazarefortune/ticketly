@@ -41,9 +41,12 @@
 
                     <div class="col-span-full">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        {% for flash_error in app.flashes('verify_email_error') %}
-                            <div class="alert alert-danger">{{ flash_error }}</div>
-                        {% endfor %}
+                        {% if error is defined %}
+                            <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <div class="col-span-full">
+                            {{ include('partials/flash.html.twig') }}
+                        </div>
                     </div>
 
                     <div class="col-span-full">

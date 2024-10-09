@@ -1,0 +1,31 @@
+{% extends 'pages/public/account/_layout.html.twig' %}
+
+{% block title %}Sécurité{% endblock %}
+
+{% block account_content %}
+    <div class="stack">
+        <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4 mb-4">
+            <!-- Password -->
+            <div class="md:col-span-full pb-6">
+                <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4">
+                    <div class="col-span-2">
+                        <label for="{{ formPassword.vars.id }}" class="h5">Changer de mot de passe</label>
+                    </div>
+                    <div class="col-span-4">
+                        {{ form_start(formPassword) }}
+                        <div class="grid sm:grid-cols-6 gap-x-6 gap-y-4">
+                            <div class="col-span-3">
+                                {{ form_row(formPassword.currentPassword) }}
+                            </div>
+                            <div class="col-span-3">
+                                {{ form_row(formPassword.newPassword) }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Modifier le mot de passe</button>
+                        {{ form_end(formPassword) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

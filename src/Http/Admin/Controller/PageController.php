@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Domain\Account\Service\UserService;
 use App\Http\Controller\AbstractController;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -18,7 +17,6 @@ class PageController extends AbstractController
 {
 
     public function __construct(
-        private readonly UserService           $userService,
         private readonly ChartBuilderInterface $chartBuilder,
     )
     {
@@ -30,6 +28,7 @@ class PageController extends AbstractController
     #[Route( '/', name: 'home', methods: ['GET'] )]
     public function index() : Response
     {
+        /*
         $cache = new FilesystemAdapter();
 
         $monthlyUsersLastYear = $cache->get( 'admin.users-last-year-count', function ( ItemInterface $item ) {
@@ -45,10 +44,11 @@ class PageController extends AbstractController
         # Chart monthly users
         $chart = $this->createMonthlyUsersChart( $monthlyUsersLastYear );
 
+        */
 
         return $this->render( 'pages/admin/index.html.twig', [
-            'nbUsers' => $usersCount,
-            'chart' => $chart,
+            #'nbUsers' => $usersCount,
+            #'chart' => $chart,
         ] );
     }
 
@@ -78,16 +78,6 @@ class PageController extends AbstractController
         ] );
 
         return $chart;
-    }
-
-    #[Route( '/test', name: 'test', methods: ['GET'] )]
-    public function testViewAdmin() : Response
-    {
-        $paymentUrl = "";
-        return $this->render( 'admin/test.html.twig', [
-                'paymentUrl' => $paymentUrl,
-            ]
-        );
     }
 
     #[Route( '/maintenance', name: 'maintenance', methods: ['GET'] )]

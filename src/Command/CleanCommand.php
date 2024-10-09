@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Domain\Auth\Entity\EmailVerification;
-use App\Domain\Auth\Entity\PasswordReset;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
+use App\Domain\Auth\Password\Entity\PasswordReset;
+use App\Domain\Auth\Registration\Entity\EmailVerification;
 use App\Domain\Event\Entity\Reservation;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;

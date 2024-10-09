@@ -2,7 +2,7 @@
 
 namespace App\Http\Twig;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Event;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

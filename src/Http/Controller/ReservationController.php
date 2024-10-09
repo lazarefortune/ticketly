@@ -61,7 +61,7 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/ajouter/{id}', name: 'add_to_account', methods: ['POST'])]
-    public function addToAccount(int $id, MailService $mailService) : Response
+    public function addToAccount( int $id ) : Response
     {
         $reservation = $this->reservationRepository->find($id);
 
@@ -83,4 +83,5 @@ class ReservationController extends AbstractController
 
         return $this->redirectToRoute('app_my_reservation_index');
     }
+
 }

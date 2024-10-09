@@ -1,0 +1,76 @@
+.account-navigation {
+  /* Par défaut, affichage en colonne pour la barre latérale */
+  @apply lg:w-1/4 lg:block border-r p-4;
+
+  ul {
+    /* Flex en colonne sur les écrans larges, en ligne sur mobile */
+    @apply flex flex-col lg:flex-col lg:gap-y-2;
+
+    li {
+      a {
+        @apply flex items-center gap-2 px-4 py-2 text-sm rounded hover:bg-gray-200;
+
+        &.text-danger {
+          @apply text-red-600 hover:text-red-800;
+        }
+
+        &.active {
+          @apply bg-primary-100 text-primary-900;
+        }
+      }
+    }
+  }
+
+  /* Affichage horizontal sur mobile */
+  @media (max-width: 1023px) {
+    @apply w-full border-b lg:border-b-0 lg:border-r;
+
+    ul {
+      @apply flex flex-row overflow-x-auto whitespace-nowrap;
+
+      li {
+        @apply flex-shrink-0;
+
+        a {
+          @apply px-2 py-2;
+        }
+      }
+    }
+  }
+}
+
+
+.account-content {
+  @apply w-full lg:w-3/4 lg:p-8 flex-1 p-4;
+}
+
+@media (max-width: 767px) {
+  .account-content {
+    @apply w-full;
+  }
+}
+
+
+.account-dashboard {
+  @apply flex flex-col lg:flex-row;
+
+  .dashboard-cards {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+
+    .card {
+      @apply bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-200;
+
+      h2 {
+        @apply text-xl font-semibold mb-2;
+      }
+
+      p {
+        @apply text-gray-600 mb-4;
+      }
+
+      .btn {
+        @apply inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+      }
+    }
+  }
+}

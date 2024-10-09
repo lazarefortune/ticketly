@@ -1,0 +1,14 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block body %}
+    <div class="account-dashboard">
+        {% include 'pages/public/account/_navigation.html.twig' %}
+
+        <div class="account-content">
+            {% block account_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+

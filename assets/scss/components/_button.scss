@@ -106,13 +106,13 @@
 /* Bouton danger clair alternatif */
 .btn-light-danger2 {
   /* Light mode */
-  @apply bg-white text-red-700 border-red-200 shadow-sm
-  hover:bg-red-50 hover:text-red-800 hover:border-red-300
+  @apply bg-white text-red-700 border shadow-sm
+  hover:bg-red-50 hover:text-red-800
   disabled:bg-white disabled:text-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
 
   /* Dark mode */
-  @apply dark:bg-slate-800 dark:text-red-400 dark:border-red-400
-  dark:hover:bg-red-900 dark:hover:text-red-300 dark:hover:border-red-700
+  @apply dark:bg-slate-900 dark:text-red-400 dark:border-slate-600
+  dark:hover:bg-red-700/50 dark:hover:text-red-200 dark:hover:border-red-700/50
   dark:disabled:bg-slate-900 dark:disabled:text-red-500 dark:disabled:border-red-700;
 }
 

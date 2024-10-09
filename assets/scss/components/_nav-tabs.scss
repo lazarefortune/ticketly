@@ -19,11 +19,11 @@
   overflow-y: hidden;
   //border-bottom: 2px solid #e2e8f0;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  @apply border-b-2 border-slate-200 dark:border-slate-700 bg-white text-slate-900 dark:bg-dark-soft dark:text-white;
+  @apply border-b-2 border-slate-200 dark:border-slate-700 bg-white text-base text-slate-900 dark:bg-dark-soft dark:text-white;
 }
 
 .nav-tabs-bar a {
-  @apply border-b-2 border-transparent
+  @apply border-b-2 border-transparent text-base
   text-slate-900 dark:text-white hover:text-primary-800 dark:hover:text-primary-300;
 }
 
@@ -32,20 +32,21 @@
 }
 
 .nav-tabs-bar a {
-  display: block;
-  padding: 16px;
-  font-size: 1.2em;
-  white-space: nowrap;
-  position: relative;
-  z-index: 2;
+  @apply text-base text-slate-900 dark:text-white hover:text-primary-800 dark:hover:text-primary-300;
+  @apply flex items-center justify-center gap-2 px-4 py-2 text-nowrap relative z-20;
+  //display: block;
+  //padding: 16px;
+  //white-space: nowrap;
+  //position: relative;
+  //z-index: 2;
 }
 
-.nav-tabs-bar.nav-tabs-bar-icons a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
+//.nav-tabs-bar.nav-tabs-bar-icons a {
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//  gap: 8px;
+//}
 
 
 .nav-tabs-pill {

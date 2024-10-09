@@ -11,7 +11,7 @@ alert-message {
   @include transition(all);
 
   @include spacing(margin, 5);
-  @include spacing(padding, 2);
+  @include spacing(padding, 3);
   margin-left: auto;
   margin-right: auto;
 

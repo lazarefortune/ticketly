@@ -2,7 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Contact\ContactService;
 use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;

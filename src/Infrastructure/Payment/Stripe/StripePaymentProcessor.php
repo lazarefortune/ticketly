@@ -3,12 +3,9 @@
 namespace App\Infrastructure\Payment\Stripe;
 
 use App\Domain\Event\Entity\Reservation;
-use App\Domain\Event\Entity\Ticket;
-use App\Domain\Auth\Entity\User;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\PaymentProcessorInterface;
 use App\Domain\Payment\PaymentResultUrl;
-use App\Infrastructure\Payment\Stripe\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Exception\ApiErrorException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

@@ -2,9 +2,8 @@
 
 namespace App\Infrastructure\Payment\Stripe;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Reservation;
-use App\Domain\Event\Entity\Ticket;
 use App\Domain\Payment\Entity\Payment;
 use Stripe\AccountLink;
 use Stripe\Checkout\Session;

@@ -32,6 +32,11 @@ select {
   @apply dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0 dark:focus:bg-transparent dark:focus:ring-1 dark:hover:bg-transparent dark:hover:border-primary-500;
 }
 
+/* Form error */
+.form-error {
+  @apply block text-sm text-red-600 dark:text-red-400;
+}
+
 /* Labels */
 .label {
   @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;

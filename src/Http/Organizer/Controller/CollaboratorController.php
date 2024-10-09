@@ -2,7 +2,7 @@
 
 namespace App\Http\Organizer\Controller;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\Invitation;
 use App\Domain\Event\Form\InviteCollaboratorForm;

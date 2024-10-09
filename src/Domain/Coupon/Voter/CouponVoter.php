@@ -1,7 +1,7 @@
 <?php
 namespace App\Domain\Coupon\Voter;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Event\Entity\Event;
 use App\Domain\Event\Entity\EventCollaborator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

@@ -29,6 +29,12 @@
                 </a>
             </li>
             <li class="sidebar__nav-item">
+                <a href="{{ path('organizer_payment_index') }}" class="sidebar__nav-link {{ menu_active('organizer_payment') }}">
+                    {{ icon('credit-card') }}
+                    <span>Paiements</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
                 <a href="{{ path('app_home') }}" class="sidebar__nav-link">
                     {{ icon('undo-2') }}
                     <span>Retour au site</span>

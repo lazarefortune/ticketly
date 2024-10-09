@@ -1,7 +1,7 @@
 <?php
 namespace App\Domain\Event\Entity;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]

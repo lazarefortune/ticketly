@@ -2,7 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Auth\Repository\UserRepository;
+use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Event\PaymentFailedEvent;
 use App\Domain\Payment\Event\PaymentSuccessEvent;

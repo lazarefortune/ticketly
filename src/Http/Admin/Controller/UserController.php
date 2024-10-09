@@ -2,11 +2,10 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
+use App\Domain\Auth\Core\Event\Unverified\AccountVerificationRequestEvent;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
-use App\Domain\Profile\Event\Unverified\AccountVerificationRequestEvent;
 use App\Domain\Profile\Event\UserUpdateEvent;
-use App\Domain\Profile\Form\UserUpdateForm;
 use App\Http\Admin\Data\Crud\UserCrudData;
 use App\Http\Admin\Data\Crud\UserEditData;
 use Psr\EventDispatcher\EventDispatcherInterface;

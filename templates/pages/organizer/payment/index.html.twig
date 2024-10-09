@@ -1,0 +1,61 @@
+{% extends 'layouts/organizer/base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+
+{% block body %}
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('organizer_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>Paiement</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div>
+        <h1 class="h4">Paiement</h1>
+        <p class="text-sm text-zinc-500 dark:text-zinc-500">Gérez les paiements de vos événements.</p>
+
+        <div class="mt-6">
+            {% if not app.user.stripeAccountId %}
+                <a href="{{ path('organizer_payment_stripe_connect') }}" class="btn btn-light">
+                    {{ icon('landmark') }}
+                    <span>Lier mon compte Stripe</span>
+                </a>
+            {% else %}
+                <div class="flex items-center gap-x-3">
+                    <div class="flex items-center gap-x-2">
+                        <img src="{{ asset('images/logo/stripe.svg') }}" alt="Stripe" class="w-8 h-8">
+                        <span class="text-sm text-zinc-500">Vos paiements sont gérés par Stripe</span>
+                    </div>
+                </div>
+                {% if app.user.stripeAccountCompleted %}
+                    <a href="{{ path('organizer_payment_stripe_dashboard') }}" class="btn btn-primary" target="_blank">
+                        {{ icon('external-link') }}
+                        <span>Voir mes revenus</span>
+                    </a>
+                {% else %}
+                    <p class="text-sm text-primary-900 mb-2">
+                        Veuillez compléter votre inscription pour recevoir vos paiements.
+                    </p>
+                    <a href="{{ path('organizer_payment_stripe_connect') }}" class="btn btn-outline">
+                        {{ icon('landmark') }}
+                        <span>Terminer l'inscription Stripe</span>
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
